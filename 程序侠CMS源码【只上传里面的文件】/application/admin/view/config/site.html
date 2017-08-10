@@ -1,0 +1,374 @@
+﻿{extend name="public/base" /}
+{block name="info"}
+<div class="Huialert Huialert-danger">
+    <span class="ml-10">不知如何设置？<span><a href="http://bbs.chengxuxia.com/thread-1279-1-1.html" target="_blank">点此查看教程</a></span></span>
+</div>
+{/block}
+{block name="style"}
+<style>
+    .content-box .form{border: 1px solid #e9e9e9;    padding-bottom: 20px;}
+    .content-box .tabBar{border-bottom: 1px solid #e9e9e9;}
+</style>
+{/block}
+{block name="content"}
+<div class="page-container">
+<div class="content-box">
+	<form class="form form-horizontal" action="{:url('Config/site')}" method="post" id="form">
+		<div id="tab-system" class="HuiTab">
+			<div class="tabBar cl"><span>基本设置</span><span>商品显示</span><span>上传图片</span></div>
+			<div class="tabCon">
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>站点网址：</label>
+					<div class="formControls col-xs-8 col-sm-6">
+						<input type="text" id="website-url" name="WEB_SITE_URL" placeholder="比如：http://www.chengxuxia.com" value="{$site.WEB_SITE_URL ?? ''}" class="input-text">
+					</div>
+					<div class="col-xs-3 col-sm-3"><span class="label label-success radius" style="padding:4px;">必须以http://开头，/结尾</span></div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>网站名称：</label>
+					<div class="formControls col-xs-8 col-sm-6">
+						<input type="text" id="website-title" name="WEB_SITE_NAME" placeholder="比如：程序侠" value="{$site.WEB_SITE_NAME ?? ''}" class="input-text">
+					</div>
+				</div>
+                <div class="row cl">
+                    <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>网站授权码：</label>
+                    <div class="formControls col-xs-8 col-sm-6">
+                        <input type="text" id="website-title" name="WEB_AUTH_CODE" placeholder="网站授权码" value="{$site.WEB_AUTH_CODE ?? ''}" class="input-text">
+                    </div>
+                    <div class="col-xs-3 col-sm-3"><span class="label label-success radius" style="padding:4px;">联系客服获取</span></div>
+                </div>
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-3">底部版权信息：</label>
+					<div class="formControls col-xs-8 col-sm-6">
+						<input type="text" id="website-copyright" name="WEB_SITE_COPRIGHT" placeholder="比如：&copy; 2017 chengxuxia.com" value="{$site.WEB_SITE_COPRIGHT ?? ''}" class="input-text">
+					</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-3">网站备案号：</label>
+					<div class="formControls col-xs-8 col-sm-6">
+						<input type="text" id="" name="WEB_SITE_ICP" placeholder="比如：陕ICP备00000000号" value="{$site.WEB_SITE_ICP ?? ''}" class="input-text">
+					</div>
+				</div>
+
+				<div class="row cl">
+                    <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>高佣金PID：</label>
+                    <div class="formControls col-xs-8 col-sm-6">
+                        <input type="text" id="" name="WEB_COUPON_PID" placeholder="比如：mm_0000000_00000_00000" value="{$site.WEB_COUPON_PID ?? ''}" class="input-text">
+                    </div>
+                </div>
+
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-3">淘点金代码：</label>
+					<div class="formControls col-xs-8 col-sm-6">
+						<textarea name="WEB_SITE_TDJ" class="textarea">{$site.WEB_SITE_TDJ ?? ''}</textarea>
+					</div>
+					<div class="col-xs-3 col-sm-3"><span class="label label-success radius" style="padding:4px;">按照教程从阿里妈妈后台获取</span></div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-3">统计代码：</label>
+					<div class="formControls col-xs-8 col-sm-6">
+						<textarea name="WEB_SITE_STATISTICS" class="textarea">{$site.WEB_SITE_STATISTICS ?? ''}</textarea>
+					</div>
+				</div>
+				<div class="row cl">
+					<label class="form-label col-xs-4 col-sm-3">META验证代码：</label>
+					<div class="formControls col-xs-8 col-sm-6">
+						<textarea name="WEB_SITE_META" class="textarea">{$site.WEB_SITE_META ?? ''}</textarea>
+					</div>
+					<div class="col-xs-3 col-sm-3"><span class="label label-success radius" style="padding:4px;">按照教程从阿里妈妈后台获取</span></div>
+				</div>
+				<div class="row cl">
+	                <label class="form-label col-xs-4 col-sm-3">网站状态：</label>
+	                <div class="formControls col-xs-6 col-sm-6 skin-minimal">
+	                    <div class="radio-box">
+	                        <input type="radio" name="WEB_SITE_STATUS" value="1">
+	                        <label for="status-1">启用</label>
+	                    </div>
+	                    <div class="radio-box">
+	                        <input type="radio" name="WEB_SITE_STATUS"  value="0">
+	                        <label for="status-0">关闭</label>
+	                    </div>
+	                </div>
+	                <div class="col-xs-3 col-sm-3"><span class="label label-success radius" style="padding:4px;">关闭后，网站前台不能访问</span></div>
+            	</div>
+                <div class="row cl">
+                    <label class="form-label col-xs-4 col-sm-3">开启网站缓存：</label>
+                    <div class="formControls col-xs-6 col-sm-6 skin-minimal">
+                        <div class="radio-box">
+                            <input type="radio" name="WEB_CACHE_STATUS" value="1">
+                            <label for="cache-1">启用</label>
+                        </div>
+                        <div class="radio-box">
+                            <input type="radio" name="WEB_CACHE_STATUS"  value="0">
+                            <label for="cache-0">关闭</label>
+                        </div>
+                    </div>
+                    <div class="col-xs-3 col-sm-3"><span class="label label-success radius" style="padding:4px;">开启后，可提高网站访问速度</span></div>
+                </div>
+                <div class="row cl">
+                    <label class="form-label col-xs-4 col-sm-3">开启重写模式：</label>
+                    <div class="formControls col-xs-6 col-sm-6 skin-minimal">
+                        <div class="radio-box">
+                            <input type="radio" name="WEB_SITE_REWRITE" value="1">
+                            <label for="rewrite-1">启用</label>
+                        </div>
+                        <div class="radio-box">
+                            <input type="radio" name="WEB_SITE_REWRITE" value="0">
+                            <label for="rewrite-0">关闭</label>
+                        </div>
+                    </div>
+                    <div class="col-xs-3 col-sm-3"><span class="label label-success radius" style="padding:4px;">隐藏入口index.php</span></div>
+                </div>
+
+			</div>
+            <div class="tabCon">
+                <div class="row cl">
+                    <label class="form-label col-xs-4 col-sm-3">商品模式：</label>
+                    <div class="formControls col-xs-6 col-sm-6 skin-minimal">
+                        <div class="radio-box">
+                            <input type="radio" name="GOODS_AUTO_STATUS" value="1">
+                            <label for="status-1">自动</label>
+                        </div>
+                        <div class="radio-box">
+                            <input type="radio" name="GOODS_AUTO_STATUS"  value="0">
+                            <label for="status-0">手动</label>
+                        </div>
+                    </div>
+                    <div class="col-xs-3 col-sm-3"><span class="label label-success radius" style="padding:4px;"></span></div>
+                </div>
+                <div class="row cl">
+                    <label class="form-label col-xs-4 col-sm-3">单页显示数量：</label>
+                    <div class="formControls col-xs-8 col-sm-6">
+                        <input type="text" id="website-url" name="GOODS_PAGE_SIZE" placeholder="比如：http://www.chengxuxia.com" value="{$site.GOODS_PAGE_SIZE ?? '80'}" class="input-text">
+                    </div>
+                    <div class="col-xs-3 col-sm-3"><span class="label label-success radius" style="padding:4px;">单页商品显示数量</span></div>
+                </div>
+                <div class="row cl">
+                    <label class="form-label col-xs-4 col-sm-3">店铺类型：</label>
+                    <div class="formControls col-xs-8 col-sm-6">
+                        <div class="select-box">
+                            <select name="GOODS_SHOP_TYPE" class="select">
+                                <option value="">所有</option>
+                                <option value="B">天猫</option>
+                                <option value="C">淘宝</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-xs-3 col-sm-3"><span class="Validform_checktip"></span></div>
+                </div>
+                <div class="row cl">
+                    <label class="form-label col-xs-4 col-sm-3">排序方式：</label>
+                    <div class="formControls col-xs-8 col-sm-6">
+                        <div class="select-box">
+                            <select name="GOODS_SORT_TYPE" class="select" datatype="*" nullmsg="请选择店铺类型">
+                                <option value="start_time desc">开始时间排前</option>
+                                <option value="volume desc">销量从高到低</option>
+                                <option value="discount_price asc">价格从低到高</option>
+                                <option value="coupon_price desc">券额由高到低</option>
+                                <option value="coupon_surplus asc">券剩余由低到高</option>
+                                <option value="coupon_receive desc">已领取高到低</option>
+                                <option value="rand()">随机排序</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-xs-3 col-sm-3"><span class="Validform_checktip"></span></div>
+                </div>
+                <div class="row cl">
+                    <label class="form-label col-xs-4 col-sm-3">唤醒淘宝APP：</label>
+                    <div class="formControls col-xs-6 col-sm-6 skin-minimal">
+                        <div class="radio-box">
+                            <input type="radio" name="GOODS_TAOBAO_APP" value="1">
+                            <label for="status-1">是</label>
+                        </div>
+                        <div class="radio-box">
+                            <input type="radio" name="GOODS_TAOBAO_APP"  value="0">
+                            <label for="status-0">否</label>
+                        </div>
+                    </div>
+                    <div class="col-xs-3 col-sm-3"><span class="label label-success radius" style="padding:4px;"></span></div>
+                </div>
+
+            </div>
+			<div class="tabCon">
+				<!--WEB_SITE_LOGO-->
+				<div class="row cl {$site.WEB_SITE_LOGO ? '' : 'hide'}" id="preview_site_logo">
+                    <label class="form-label col-xs-4 col-sm-3"></label>
+                    <div class="formControls col-xs-8 col-sm-6">
+                        <img  src="__ROOT__{$site.WEB_SITE_LOGO ?? ''}" id="url_site_logo"  width="100px" >
+                    </div>
+                </div>
+                <div class="row cl"> 
+                    <label class="form-label col-xs-4 col-sm-3">网站LOGO：</label>
+                    <div class="formControls col-xs-7 col-sm-6"> 
+                        <span class="form-group">
+                            <input class="input-text upload-url hide" type="text" style="width:500px"  placeholder="商品图片" name="WEB_SITE_LOGO" value="{$site.WEB_SITE_LOGO ?? ''}">                          
+                        
+                        <input type="file"  id="upload_site_logo" class="input-file">
+                        </span>
+                    </div>
+                    <div class="col-xs-3 col-sm-3"><span class="label label-success radius" style="padding:4px;">图片尺寸：210px × 50px</span></div>
+                </div>
+
+                <!--WEB_GOODS_BGIMG-->
+				<div class="row cl {$site.WEB_GOODS_BGIMG ? '' : 'hide'}" id="preview_goods_bgimg">
+                    <label class="form-label col-xs-4 col-sm-3"></label>
+                    <div class="formControls col-xs-8 col-sm-6">
+                        <img src="__ROOT__{$site.WEB_GOODS_BGIMG ?? ''}" id="url_goods_bgimg"  width="100px" >
+                    </div>
+                </div>
+                <div class="row cl"> 
+                    <label class="form-label col-xs-4 col-sm-3">商品背景图：</label>
+                    <div class="formControls col-xs-7 col-sm-6"> 
+                        <span class="form-group">
+                            <input class="input-text upload-url hide" type="text" style="width:500px"  placeholder="商品图片" name="WEB_GOODS_BGIMG" value="{$site.WEB_GOODS_BGIMG ?? ''}" >                          
+                        
+                        <input type="file"  id="upload_goods_bgimg" class="input-file">
+                        </span>
+                    </div>
+                    <div class="col-xs-3 col-sm-3"><span class="label label-success radius" style="padding:4px;">图片尺寸：285px × 285px</span></div>
+                </div>
+
+
+                <!--WEB_WEIXIN_IMG-->
+                <div class="row cl {$site.WEB_WEIXIN_IMG ? '' : 'hide'}" id="preview_weixin_img">
+                    <label class="form-label col-xs-4 col-sm-3"></label>
+                    <div class="formControls col-xs-8 col-sm-6">
+                        <img src="__ROOT__{$site.WEB_WEIXIN_IMG ?? ''}" id="url_weixin_img"  width="100px" >
+                    </div>
+                </div>
+                <div class="row cl"> 
+                    <label class="form-label col-xs-4 col-sm-3">手机二维码：</label>
+                    <div class="formControls col-xs-7 col-sm-6"> 
+                        <span class="form-group">
+                            <input class="input-text upload-url hide" type="text" style="width:500px"  placeholder="商品图片" name="WEB_WEIXIN_IMG" value="{$site.WEB_WEIXIN_IMG ?? ''}" >                          
+                        
+                        	<input type="file"  id="upload_weixin_img" class="input-file">
+                        </span>
+                    </div>
+                    <div class="col-xs-3 col-sm-3"><span class="label label-success radius" style="padding:4px;">图片尺寸：280px × 280px</span></div>
+                </div>
+				
+			</div>
+		</div>
+		<div class="row cl mt-20 mb-20">
+			<div class="col-xs-8 col-sm-6 col-xs-offset-4 col-sm-offset-3">
+				<button class="btn btn-success mr-20 radius-rounded" type="submit">&nbsp;<i class="Hui-iconfont">&#xe6a7;</i> 保存</button>
+				<button type="button" class="btn btn-default radius-rounded" onclick="layer_close();">&nbsp;<i class="Hui-iconfont">&#xe6a6;</i> 取消&nbsp;</button>
+			</div>
+		</div>
+	</form>
+</div>
+</div>
+{/block}
+{block name="script"}
+<script type="text/javascript" src="__LIB__/Validform/5.3.2/Validform.min.js"></script>
+<script type="text/javascript" src="__LIB__/uploadify/jquery.uploadify.min.js?123"></script> 
+<script type="text/javascript">
+$(function(){
+    $("[name='WEB_SITE_STATUS'][value='{$site.WEB_SITE_STATUS ?? '1'}']").attr("checked", true);
+    $("[name='WEB_CACHE_STATUS'][value='{$site.WEB_CACHE_STATUS ?? '0'}']").attr("checked", true);
+    $("[name='WEB_SITE_REWRITE'][value='{$site.WEB_SITE_REWRITE ?? '0'}']").attr("checked", true);
+    $("[name='GOODS_AUTO_STATUS'][value='{$site.GOODS_AUTO_STATUS ?? ''}']").attr("checked", true);
+    $("[name='GOODS_TAOBAO_APP'][value='{$site.GOODS_TAOBAO_APP ?? '0'}']").attr("checked", true);
+    $("select[name='GOODS_SHOP_TYPE']").find("option[value='{$site.GOODS_SHOP_TYPE ?? ''}']").attr("selected", true);
+    $("select[name='GOODS_SORT_TYPE']").find("option[value='{$site.GOODS_SORT_TYPE ?? 'start_time desc'}']").attr("selected", true);
+	$('.skin-minimal input').iCheck({
+            checkboxClass: 'icheckbox-green',
+            radioClass: 'iradio-green',
+            increaseArea: '20%'
+        });
+	$.Huitab("#tab-system .tabBar span","#tab-system .tabCon","current","click","0");
+	$("#form").Validform({
+            tiptype: 2,
+            ajaxPost: true,
+            showAllError: true,
+    });
+});
+</script>
+<script type="text/javascript">
+$("#upload_site_logo").uploadify({
+    "height"          : 30,
+    "swf"             : "__LIB__/uploadify/uploadify.swf",
+    "fileObjName"     : "image",
+    "buttonText"      : "上传图片",
+    "uploader"        : "{:url('Config/ajaxUploadImg',['position'=>'site'])}",
+    "width"           : 100,
+    'removeTimeout'	  : 1,
+    'fileTypeExts'	  : '*.jpg; *.png; *.gif;',
+    "onUploadSuccess" : uploadSiteLogo,
+    'onFallback' : function() {
+    	layer.msg('未检测到兼容版本的Flash', {icon: 2, time: 3000}); 
+    }
+});
+function uploadSiteLogo(file, data){ 
+    var data = $.parseJSON(data);
+    var src = '';
+    if(data.code){
+    	src = '__ROOT__' + data.data
+    	$("input[name=WEB_SITE_LOGO]").val(data.data);
+    	$("#preview_site_logo").removeClass('hide');
+    	$("#url_site_logo").attr('src',src);
+
+    } else { 
+        layer.msg(data.msg, {icon: 2, time: 3000}); 
+    }
+}
+
+$("#upload_goods_bgimg").uploadify({
+    "height"          : 30,
+    "swf"             : "__LIB__/uploadify/uploadify.swf",
+    "fileObjName"     : "image",
+    "buttonText"      : "上传图片",
+    "uploader"        : "{:url('Config/ajaxUploadImg',['position'=>'site'])}",
+    "width"           : 100,
+    'removeTimeout'	  : 1,
+    'fileTypeExts'	  : '*.jpg; *.png; *.gif;',
+    "onUploadSuccess" : uploadGoodsBgimg,
+    'onFallback' : function() {
+    	layer.msg('未检测到兼容版本的Flash', {icon: 2, time: 3000}); 
+    }
+});
+function uploadGoodsBgimg(file, data){ 
+    var data = $.parseJSON(data);
+    var src = '';
+    if(data.code){
+    	src = '__ROOT__' + data.data
+    	$("input[name=WEB_GOODS_BGIMG]").val(data.data);
+    	$("#preview_goods_bgimg").removeClass('hide');
+    	$("#url_goods_bgimg").attr('src',src);
+
+    } else { 
+        layer.msg(data.msg, {icon: 2, time: 3000}); 
+    }
+}
+
+$("#upload_weixin_img").uploadify({
+    "height"          : 30,
+    "swf"             : "__LIB__/uploadify/uploadify.swf",
+    "fileObjName"     : "image",
+    "buttonText"      : "上传图片",
+    "uploader"        : "{:url('Config/ajaxUploadImg',['position'=>'site'])}",
+    "width"           : 100,
+    'removeTimeout'	  : 1,
+    'fileTypeExts'	  : '*.jpg; *.png; *.gif;',
+    "onUploadSuccess" : uploadWeixinImg,
+    'onFallback' : function() {
+    	layer.msg('未检测到兼容版本的Flash', {icon: 2, time: 3000}); 
+    }
+});
+function uploadWeixinImg(file, data){ 
+    var data = $.parseJSON(data);
+    var src = '';
+    if(data.code){
+    	src = '__ROOT__' + data.data
+    	$("input[name=WEB_WEIXIN_IMG]").val(data.data);
+    	$("#preview_weixin_img").removeClass('hide');
+    	$("#url_weixin_img").attr('src',src);
+
+    } else { 
+        layer.msg(data.msg, {icon: 2, time: 3000}); 
+    }
+}
+
+</script>
+{/block}

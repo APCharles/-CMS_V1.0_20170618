@@ -1,0 +1,84 @@
+<div class="filter">
+    <form name="searchform" id='searchform' method="post" action="{:Url('SpareCollect/index')}">
+        <div class="screen-toggle" style="height: auto; overflow: visible;">
+            <div class="sort-list bg-gc cl">
+                <div class="kind"><i class="Hui-iconfont">&#xe675;</i>排序筛选</div>
+                <ul class="sort-item">
+                    <li {eq name="Request.param.sort" value="1"}class="active"{/eq} {$Request.param.sort ?? 'class="active"'} data-id ='1' ><a href="javascript:void(0);">默认排序</a></li>
+                    <li {eq name="Request.param.sort" value="2"}class="active"{/eq} data-id ='2'><a href="javascript:void(0);">优惠最多<i class="Hui-iconfont">&#xe674;</i></a></li>
+                    <li {eq name="Request.param.sort" value="3"}class="active"{/eq} data-id ='3'><a href="javascript:void(0);">销量最多<i class="Hui-iconfont">&#xe674;</i></a></li>
+                    <li {eq name="Request.param.sort" value="4"}class="active"{/eq} data-id ='4'><a href="javascript:void(0);">佣金最高<i class="Hui-iconfont">&#xe674;</i></a></li>
+                    <li {eq name="Request.param.sort" value="5"}class="active"{/eq} data-id ='5'><a href="javascript:void(0);">佣金比率最高<i class="Hui-iconfont">&#xe674;</i></a></li>
+                    <li {eq name="Request.param.sort" value="6"}class="active"{/eq} data-id ='6'><a href="javascript:void(0);">券后价最低<i class="Hui-iconfont">&#xe679;</i></a></li>                    
+                </ul>
+            </div>
+            <div class="sort-bg clearfix">
+                
+                    <input type="hidden"  id="sort" name="sort" value="{$Request.param.sort ?? ''}">
+                    <div class="sort-l">
+                        <span class="sort-head">基本要求：</span>
+                        <ul>
+                            <li>
+                                <label>选择分类：</label>
+                                <select name="cid">
+                                    <option value="">--请选择--</option>
+                                    <option value="1" {eq name="Request.param.cid" value="1"}selected="selected"{/eq}>女装</option>
+                                    <option value="2" {eq name="Request.param.cid" value="2"}selected="selected"{/eq}>男装</option>
+                                    <option value="3" {eq name="Request.param.cid" value="3"}selected="selected"{/eq}>内衣</option>
+                                    <option value="4" {eq name="Request.param.cid" value="4"}selected="selected"{/eq}>美妆</option>
+                                    <option value="5" {eq name="Request.param.cid" value="5"}selected="selected"{/eq}>配饰</option>
+                                    <option value="6" {eq name="Request.param.cid" value="6"}selected="selected"{/eq}>鞋品</option>
+                                    <option value="7" {eq name="Request.param.cid" value="7"}selected="selected"{/eq}>鞋包</option>
+                                    <option value="8" {eq name="Request.param.cid" value="8"}selected="selected"{/eq}>儿童</option>
+                                    <option value="9" {eq name="Request.param.cid" value="9"}selected="selected"{/eq}>母婴</option>
+                                    <option value="10" {eq name="Request.param.cid" value="10"}selected="selected"{/eq}>居家</option>
+                                    <option value="11" {eq name="Request.param.cid" value="11"}selected="selected"{/eq}>美食</option>
+                                    <option value="12" {eq name="Request.param.cid" value="12"}selected="selected"{/eq}>数码</option>
+                                    <option value="13" {eq name="Request.param.cid" value="13"}selected="selected"{/eq}>家电</option>
+                                    <option value="14" {eq name="Request.param.cid" value="14"}selected="selected"{/eq}>其他</option>
+                                </select>
+                            </li>
+                            <li>
+                                <label>价格：</label>
+                                <input type="text" name="price_min" class="input-text" placeholder="￥" value="{$Request.param.price_min ?? ''}"><span>元 - </span><input type="text" name="price_max"   placeholder="￥"class="input-text" value="{$Request.param.price_max ?? ''}"><span>元</span>
+                            </li>
+                            <li>
+                                <label>佣金比例：</label>
+                                <input type="text" name="commission_min" class="input-text" value="{$Request.param.commission_min ?? ''}"><span>% - </span><input type="text" name="commission_max" class="input-text" value="{$Request.param.commission_max ?? ''}"><span>%</span>
+                            </li>
+                            <li>
+                                <label>月销量：</label>
+                                <input type="text" name="volume_min" class="input-text" placeholder="0" value="{$Request.param.volume_min ?? ''}"><span>笔 - </span><input type="text" name="volume_max"   placeholder="0" class="input-text" value="{$Request.param.volume_max ?? ''}"><span>笔</span>
+  
+                            </li>
+                            
+                        </ul>
+                    </div>
+                    <div class="sort-l b-top">
+                        <span class="sort-head">采集入库：</span>
+                        <ul>
+                            <li id="cate_select">
+                                <label>入库分类：</label>
+                                <select class="cate_select mr-5" data-pid="0" data-uri="{:url('GoodsCate/ajax_getchilds')}" data-css="mr-5" data-style="" data-selected=''></select>
+                                <input type="hidden"  id="cate_id" name="cate_id" value="0">
+                            </li>
+                            
+                            <li>
+                                <label>采集页数：</label>
+                                <select name="page" class="picQuality">
+                                <?php for($i=1;$i<=100;$i++){?>
+                                    <option value="<?php echo $i; ?>" {eq name="Request.param.page" value="<?php echo $i;?>"}selected="selected"{/eq}><?php echo $i;?></option>
+
+                                <?php } ?>
+                                </select>
+                            </li>
+                            <li>
+                                <button class="btn btn-primary size-S mr-10" id="search"  type="button" ><i class="Hui-iconfont">&#xe6c9;</i> 确定筛选</button>
+                                <button type="button"  href="javascript:;" class="btn btn-success size-S" id="auto_collect" ><i class="Hui-iconfont">&#xe641;</i> 采集入库</button>
+                            </li>
+                        </ul>
+                    </div>                   
+                </form>
+            </div>
+        </div>
+    </div>

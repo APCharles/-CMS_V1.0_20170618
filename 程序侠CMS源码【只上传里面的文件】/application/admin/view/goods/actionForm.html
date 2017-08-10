@@ -1,0 +1,59 @@
+ <form name="searchform" id='searchform' method="post" action="{:Url('Goods/index')}">
+ <div class="filter">
+        <div class="screen-toggle" style="height: auto; overflow: visible;">
+            <div class="sort-list bg-gc cl">
+                <div class="kind"><i class="Hui-iconfont">&#xe675;</i>排序筛选</div>
+                <ul class="sort-item">
+                    <li data-id ='id desc' class="active"><a href="javascript:void(0);">默认排序</a></li>
+                    <li data-id ='counp_price asc'><a href="javascript:void(0);">优惠最多<i class="Hui-iconfont">&#xe674;</i></a></li>
+                    <li data-id ='volume desc'><a href="javascript:void(0);">销量最多<i class="Hui-iconfont">&#xe674;</i></a></li>
+                    <li data-id ='4'><a href="javascript:void(0);">佣金最高<i class="Hui-iconfont">&#xe674;</i></a></li>
+                    <li data-id ='5'><a href="javascript:void(0);">佣金比率最高<i class="Hui-iconfont">&#xe674;</i></a></li>
+                    <li data-id ='6'><a href="javascript:void(0);">券后价最低<i class="Hui-iconfont">&#xe679;</i></a></li>                    
+                </ul>
+            </div>
+        
+            <div class="sort-bg clearfix">
+                    <input type="hidden"  id="sort" name="order" value="{$Request.param.sort ?? 'id desc'}">
+                    <div class="sort-l">
+                        <span class="sort-head">基本要求：</span>
+                        <ul>
+                            <li>
+                                <label>价格：</label>
+                                <input type="text" name="price_min" class="input-text" placeholder="￥" value="{$Request.param.price_min ?? ''}"><span>元 - </span><input type="text" name="price_max"   placeholder="￥"class="input-text" value="{$Request.param.price_max ?? ''}"><span>元</span>
+                            </li>
+                            <li>
+                                <label>佣金比例：</label>
+                                <input type="text" name="commission_min" class="input-text" value="{$Request.param.commission_min ?? ''}"><span>% - </span><input type="text" name="commission_max" class="input-text" value="{$Request.param.commission_max ?? ''}"><span>%</span>
+                            </li>
+                            <li>
+                                <label>月销量：</label>
+                                <input type="text" name="volume_min" class="input-text" placeholder="0" value="{$Request.param.volume_min ?? ''}"><span>笔 - </span><input type="text" name="volume_max"   placeholder="0" class="input-text" value="{$Request.param.volume_max ?? ''}"><span>笔</span>
+  
+                            </li>
+                            
+                        </ul>
+                    </div>
+                    <div class="sort-l b-top">
+                        <span class="sort-head">采集入库：</span>
+                        <ul>
+                            <li id="cate_select">
+                                <label>商品分类：</label>
+                                <select class="cate_select mr-5" data-pid="0" data-uri="{:url('GoodsCate/ajax_getchilds', array('type'=>0))}" data-css="mr-5" data-style="" data-selected=''></select>
+                                <input type="hidden"  id="cate_id" name="cate_id" value="{$Request.param.cid ?? ''}">
+                            </li>
+                            <li>
+                                <label>开始时间：</label>
+                                <input type="text" class="laydate-icon input-text" style="width:160px"   id="start_time" placeholder="开始时间" name="time_min" value="<?php echo $showtime=date('Y-m-d H:i:s');?>"  datatype="*" nullmsg="请设置开始时间">
+                            </li>
+                            <li>
+                                <label>结束时间：</label>
+                                 <input type="text" class="input-text laydate-icon" style="width:160px"  id="end_time"  placeholder="结束时间" name="time_max" value="<?php echo $now = date('Y-m-d H:i:s',strtotime('next week')); ?>"  datatype="*" nullmsg="请设置结束时间">
+                            </li>
+                        </ul>
+                    </div>
+                
+            </div>
+        </div>
+</div>
+

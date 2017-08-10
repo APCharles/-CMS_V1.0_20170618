@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+    <title>{$page_seo.title}</title>
+    <meta name="keywords" content="{$page_seo.keywords}" />
+    <meta name="description" content="{$page_seo.description}" /> 
+    <link rel="stylesheet" href="__AUI__/css/amazeui.min.css">
+    <link rel="stylesheet" href="__STATIC__/css/common.css?12"> 
+    <!--[if (gte IE 9)|!(IE)]><!--> 
+	<script src="__AUI__/js/jquery.min.js"></script>
+    <script src="__AUI__/js/amazeui.lazyload.min.js"></script>
+    <script src="__STATIC__/js/base.js"></script>
+	<!--<![endif]-->
+    {block name="css"}{/block}
+    {block name="style"}{/block}
+</head>
+<body> 
+    <!--头部-->
+    {block name="header"}{/block}
+    <!--end头部-->
+
+    <!--内容-->
+    {block name="content"}{/block}
+    <!--end内容-->
+
+    <!--底部-->
+    {block name="footer"}
+	{/block}
+    <!--end底部-->
+    
+<script src="__AUI__/js/amazeui.min.js"></script>
+<script src="__STATIC__/js/clipboard.min.js"></script>
+<script>
+$(function() {
+    $("img.lazy").lazyload();
+    $('.cxx-goods-list').off('click').on('click', '.cxx-prize', function() {
+        window.location.href = $(this).attr('data-url');
+    });
+
+    var p = 1,wd = "{$Request.param.wd ?? ''}";
+    cxxia.goodList({p:p,wd:wd, type:'post', url:"{:\\think\\Request::instance()->baseUrl()}"});
+    $(window).scroll(function () {
+        var scrollTop = $(this).scrollTop();
+        var scrollHeight = $(document).height();
+        var windowHeight = $(this).height();
+        if (scrollTop + windowHeight == scrollHeight) {
+            p++;
+           setTimeout(function(){cxxia.goodList({p:p, wd:wd,type:'post', url:"{:\\think\\Request::instance()->baseUrl()}"})},1000);
+        }
+    });
+
+});
+</script>
+{block name="script"}{/block}
+<div style="display:none">{:get_config('WEB_SITE_STATISTICS')}
+{:get_config('WEB_SITE_TDJ')}
+</div>
+</body>
+</html>

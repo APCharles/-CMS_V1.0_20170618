@@ -1,0 +1,59 @@
+{extend name="public/base" /}
+{block name="content"}
+{include file='nav:actionForm' /}
+<div class="page-container">
+    <div class="content-box"> 
+        <table class="table table-border table-bordered table-hover table-bg" data-url="{:url('Nav/quickEdit')}">
+            <thead>
+            <tr class="text-c">
+                <th width="25"><input type="checkbox"></th>
+                <th width="50">{:sort_by('序号','id')}</th>
+                <th width="100">{:sort_by('导航名称','name')}</th>
+                <th width="80">别名</th>
+                <th width="">链接URL</th>
+                <th width="80">排序</th>
+                <th width="80">新窗口打开</th>
+                <th width="80">状态</th>
+                <th width="150">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {empty name="list"}
+            <tr class="table-empty">
+                <td class="text-c empty-info" colspan="11">
+                    <i class="Hui-iconfont f-30">&#xe6b5;</i> 暂无数据<br>
+                </td>
+            </tr>
+            {else /}
+            {volist name="list" id="vo"}
+            <tr class="text-c">
+                <td><input type="checkbox" name="id[]" value="{$vo.id}"></td>
+                <td>{$vo.id}</td>
+                <td><span data-type="edit" data-field="name" data-id="{$vo.id}">{$vo.name}</span></td>
+                <td><span data-type="edit" data-field="alias" data-id="{$vo.id}">{$vo.alias}</span></td>
+                <td><span data-type="edit" data-field="link" data-id="{$vo.id}">{$vo.link}</span></td>
+                <td><span data-type="edit" data-field="sort" data-id="{$vo.id}">{$vo.sort}</span></td>
+                <td>{$vo.target|show_status=$vo.id,'target'}</td>
+                <td>{$vo.status|show_status=$vo.id}</td>
+                <td class="f-14"> 
+                    <span data-toggle="tooltip" data-placement="top" data-title="编辑导航" onclick="layer_open('编辑导航','{:url(\'Nav/edit\', [\'id\' => $vo.id])}')" class="btn btn-default radius f-14"><i class="Hui-iconfont">&#xe6df;</i></span> 
+                    <span data-toggle="tooltip" data-placement="top" data-title="删除导航" onclick="del(this,'{$vo.id}','{:url(\'Nav/delete\')}')" class="btn btn-default radius f-14"><i class="Hui-iconfont">&#xe609;</i></span> 
+                </td>
+            </tr>
+            {/volist}
+            {/empty}
+            </tbody>
+        </table>
+        
+    </div>
+</div>
+<div class="page-bootstrap">{$page ?? ''}</div>
+{/block}
+{block name="script"}
+<script>
+    $(function () {
+        $("[name='rel']").find("[value='{$Request.param.rel}']").attr("selected", true);
+    })
+</script>
+{/block}
+

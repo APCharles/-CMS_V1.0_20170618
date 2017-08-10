@@ -1,0 +1,147 @@
+﻿{extend name="common/base"/}
+{block name="style"}
+{/block}
+<body> 
+    <!--头部-->
+    {block name="header"}{/block}
+    <!--end头部-->
+
+    <!--内容-->
+    {block name="content"}
+    <div class="cxx-main" id="top">
+<div class="cxx-header" data-am-sticky="{animation: 'slide-top'}" >
+<header class="am-padding-vertical-xs cxx-background-pink">
+    <div class="am-g">
+		<div class="am-u-sm-1 am-text-center drop-down" data-action="down">
+			<i  class="am-icon-bars am-text-xl" style="color:#fff;line-height:30px;"></i>      
+         </div>
+
+        <div class="am-u-sm-10 am-text-center">
+            <form action="{:url('So/index')}" name='soForm' class="am-form am-text-sm">
+                <input id="key" name="wd" type="text" class="cxx-text am-radius am-padding-horizontal-xs cxx-text-white" placeholder="输入关键词搜索" value="">
+                
+            
+        </div>
+        <div class="am-u-sm-1 am-text-left search-btn" style="padding-left: 0rem;">
+            <i class="am-icon-search am-text-xl" style="color:#fff;line-height:30px;"></i>       
+        </div>
+        </form>
+    </div>
+</header>
+<nav id="nav-wrap">
+  
+            <ul>
+                <li class="item {eq name='cid' value=''}on{/eq}"><a href="{:url('Index/index')}"><span style="">全部</span></a></li>
+            	{volist name='cateList' id='vo'}
+
+                <li class="item {eq name='vo.id' value='$cid'}on{/eq}" data-id="{$vo.id}"><a href="{:url('Index/index',['cid'=>$vo.id])}"><span style="">{$vo.name}</span></a></li>
+				{/volist}
+                    
+                
+            </ul>
+            <div id="drop-down"  data-action="down">
+            <div class="drop-down-bg-wrap">
+                <i  class="am-icon-angle-down am-text-xl"></i>
+            </div>
+            
+        </div>
+        
+
+       
+</nav>
+<script type="text/javascript">
+;$(function(){
+    $('#drop-down, .drop-down').click(
+    	function(){
+    		var action = $('#drop-down, .drop-down').attr('data-action');
+    		if(action == 'down'){
+    			$('.drop-down-bg-wrap i').attr({ class: "am-icon-angle-up am-text-xl" });
+    			$('.cxx-header').css({'z-index':'1200'});
+    			$('.cxx-more-cate').slideDown('fast');
+    			$('.cxx-transparent-bg').show();
+    			$('#drop-down, .drop-down').attr('data-action','up');	
+    		}
+    		if(action == 'up'){
+                $('.drop-down-bg-wrap i').attr({ class: "am-icon-angle-down am-text-xl" });
+                $('.cxx-transparent-bg').hide();
+    			$('.cxx-more-cate').slideUp('fast');
+    			$('.cxx-header').css({'z-index':'999'});
+    			$('.cxx-transparent-bg').hide();
+    			$('#drop-down, .drop-down').attr('data-action','down');
+    		}		
+    	}
+    );
+    $('.search-btn').on('click',function(){
+            if($('#key').val()==''){
+                return false;
+            }
+            document.soForm.submit();
+        })
+    $('.cxx-transparent-bg').on('click',function(){
+
+    	$('.cxx-transparent-bg').hide();	
+    });
+});
+</script>
+
+</div>
+
+<!--分类列表-->
+<div class="cxx-more-cate">
+    <ul style="width:100%">	
+    {volist name='cateList' id='vo'}
+    <li data-id='{$vo.id}'><a class="{eq name='vo.id' value='$cid'}am-btn am-btn-default am-round{/eq}" href="{:url('Index/index',['cid'=>$vo.id])}"><span style="">{$vo.name}</span></a></li>
+	{/volist}
+    </ul>
+</div>
+<div class="cxx-transparent-bg"></div>
+
+<!--主题内容-->
+
+
+	<!--轮播广告-->
+    <div data-am-widget="slider" class="am-slider am-slider-a1" data-am-slider='{"directionNav":false}' >
+      <ul class="am-slides">
+      	  {banner name='banner' position="4"}
+          <li>
+                <a target="_blank" href="{$banner.link|nav_url}">
+                <img src="{:get_config('WEB_SITE_URL')}{$banner.img_path}" data-original="{:get_config('WEB_SITE_URL')}{$banner.img_path}" class="lazy">
+                <div class="cxx-slider-font">
+                </div>
+                <div class="cxx-slider-shadow"></div>
+                </a>
+          </li>
+           {/banner}
+          
+      </ul>
+    </div>
+
+	<!--专题列表-->
+    <div class="cxx-circle-nav">
+        <ul class="cxx-circle-nav-list">
+            {banner name='vo' position="5"}
+            <li><a href="{$vo.link|nav_url}" class=""><img src="{:get_config('WEB_SITE_URL')}{$vo.img_path}" title="{$vo.name}"></a><span>{$vo.name}</span></li>
+            {/banner}
+        </ul>
+    </div>
+    <!--商品列表-->
+    <section class="cxx-goods">
+        <ul class="cxx-goods-list">    
+        </ul>
+    </section>
+<div class="cxx-loading"></div>
+
+
+</div>
+<!--end内容-->
+<!--返回顶部-->
+<div data-am-widget="gotop" class="am-gotop-fixed">
+	<div class="am-gotop-icon am-round am-margin-bottom-xs am-text-xs am-vertical-align-middle cxx-page" style="line-height:2rem">
+        <div id='p' class="cxx-this-page">0</div >
+        <div id="pageTotal" class="cxx-total-page">0</div >
+    </div>
+    <a href="#top" title="">
+        <i class="am-gotop-icon am-icon-angle-up am-round" style="line-height:4rem;font-size: 2.4rem;"></i>
+    </a>
+</div>
+{/block}

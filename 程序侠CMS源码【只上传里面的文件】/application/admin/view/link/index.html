@@ -1,0 +1,63 @@
+{extend name="public/base" /}
+{block name="info"}
+<div class="Huialert Huialert-danger">
+    <span>注意：与别的网站做友情链接时，可以设置是否传递权重</span>
+</div>
+{/block}
+{block name="content"}
+{include file='link:actionForm' /}
+<div class="page-container">
+    <div class="content-box"> 
+        <table class="table table-border table-bordered table-hover table-bg" data-url="{:url('Link/quickEdit')}">
+            <thead>
+            <tr class="text-c">
+                <th width="25"><input type="checkbox"></th>
+                <th width="">{:sort_by('序号','id')}</th>
+                <th width="150">{:sort_by('网站名称','name')}</th>
+                <th width="">网站图标</th>
+                <th width="200">网站URL</th>
+                <th width="">传递权重</th>
+                <th width="35">{:sort_by('排序','ordid')}</th>
+                <th width="50">{:sort_by('状态','status')}</th>
+                <th width="100">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {empty name="list"}
+            <tr class="table-empty">
+                <td class="text-c empty-info" colspan="11">
+                    <i class="Hui-iconfont f-30">&#xe6b5;</i> 暂无数据<br>
+                </td>
+            </tr>
+            {else /}
+            {volist name="list" id="vo"}
+            <tr class="text-c">
+                <td><input type="checkbox" name="id[]" value="{$vo.id}"></td>
+                <td>{$vo.id}</td>
+                <td><span data-type="edit" data-field="name" data-id="{$vo.id}">{$vo.name}</span></td>
+                <td>{$vo.img}</td>
+                <td><span data-type="edit" data-field="url" data-id="{$vo.id}">{$vo.url}</span></td>
+                <td>{$vo.rel|show_status=$vo.id,'rel'}</td>
+                <td><span data-type="edit" data-field="sort" data-id="{$vo.id}">{$vo.sort}</span></td>
+                <td>{$vo.status|show_status=$vo.id}</td>
+                <td class="f-14"> 
+                    <span data-toggle="tooltip" data-placement="top" data-title="编辑友情链接" onclick="layer_open('编辑友链','{:url(\'Link/edit\', [\'id\' => $vo.id])}')" class="btn btn-default radius f-14"><i class="Hui-iconfont">&#xe6df;</i></span> 
+                    <span data-toggle="tooltip" data-placement="top" data-title="删除友情链接" onclick="del(this,'{$vo.id}','{:url(\'Link/delete\')}')" class="btn btn-default radius f-14"><i class="Hui-iconfont">&#xe609;</i></span> 
+                </td>
+            </tr>
+            {/volist}
+            {/empty}
+            </tbody>
+        </table>
+        <div class="page-bootstrap">{$page ?? ''}</div>
+    </div>
+</div>
+{/block}
+{block name="script"}
+<script>
+    $(function () {
+        $("[name='rel']").find("[value='{$Request.param.rel}']").attr("selected", true);
+    })
+</script>
+{/block}
+

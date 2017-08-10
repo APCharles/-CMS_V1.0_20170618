@@ -1,0 +1,134 @@
+{extend name="public/base" /}
+{block name="content"}
+{include file="goods:actionForm" /}
+<div class="cl action">
+    <span class="l">
+            <a data-toggle="tooltip" data-placement="top" data-title="新增商品"  class="btn btn-primary  radius-rounded mr-10"  href="javascript:;" onclick="open_window('新增商品','{:url("Goods/add")}')"><i class="Hui-iconfont">&#xe604;</i> 新增</a>
+            <a data-toggle="tooltip" data-placement="top" data-title="恢复商品" href="javascript:;" onclick="resume_all('{:url("Goods/resume")}')" class="btn btn-success radius-rounded mr-10"><i class="Hui-iconfont"></i> 启用</a>
+            <a data-toggle="tooltip" data-placement="top" data-title="禁用商品"  href="javascript:;" onclick="forbid_all('{:url("Goods/forbid")}')" class="btn btn-warning radius-rounded mr-10"><i class="Hui-iconfont"></i> 禁用</a>
+            <a data-toggle="tooltip" data-placement="top" data-title="删除选中商品" href="javascript:;" onclick="del_all('{:url("Goods/delete")}')" class="btn btn-secondary radius-rounded mr-10"><i class="Hui-iconfont"></i> 删除</a>
+            <a data-toggle="tooltip" data-placement="top" data-title="删除过期商品" href="javascript:;" onclick="del_all('{:url("Goods/clearExpire")}')" class="btn btn-success radius-rounded mr-10"><i class="Hui-iconfont"></i> 过期</a> 
+            <a data-toggle="tooltip" data-placement="top" data-title="清空所有商品" href="javascript:;" onclick="del_all('{:url("Goods/clear")}')" class="btn btn-danger radius-rounded mr-10"><i class="Hui-iconfont"></i> 清空</a>       
+    </span>
+    <span class="r">
+            <div class="select-box" style="width:100px">
+
+                <select name="key" class="select">
+                    <option value="">--请选择--</option>
+                    <option value="title" {eq name="Request.param.key" value="title"}selected="selected"{/eq}>商品标题</option>
+                    <option value="goods_id" {eq name="Request.param.key" value="goods_id"}selected="selected"{/eq}>商品ID</option>
+                    <option value="nick" {eq name="Request.param.key" value="nick"}selected="selected"{/eq}>商家旺旺</option>
+                    <option value="sellerId" {eq name="Request.param.key" value="sellerId"}selected="selected"{/eq}>旺旺ID</option> 
+                </select>
+            </div>
+            <input type="text" class="input-text" style="width:250px;margin:0 -5px;" placeholder="关键词" name="value" value="{$Request.param.value}">
+            <button type="submit" class="btn btn-success"><i class="Hui-iconfont"></i> 搜索</button>
+        
+    </span>
+</div>
+</form>
+<div class="page-container">
+<div class="content-box">      
+    <table class="table table-border table-bordered table-hover table-bg" data-url="{:url('Goods/quickEdit')}">
+        <thead>
+        <tr class="text-c">
+            <th width="25"><input type="checkbox"></th>
+            <th width="35">{:sort_by('ID','id')}</th>
+            <th width="80">商品图片</th>
+            <th width="200">商品标题</th>
+            <th width="80">所属分类</th>
+            <th width="">{:sort_by('在售价','discount_price')}</th>
+            <th width="">{:sort_by('券后价','discount_price')}</th>
+            <th width="50">{:sort_by('券金额','discount_price')}</th>
+            <th width="">{:sort_by('商品销量','volume')}</th>
+            <th width="50">{:sort_by('排序','sort')}</th>
+            <th width="50">状态</th>
+            <th width="">{:sort_by('添加时间','create_time')}</th>
+            <th width="120">操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        {empty name="list"}
+        <tr class="table-empty">
+            <td class="text-c empty-info" colspan="20">
+                <i class="Hui-iconfont f-30">&#xe6b5;</i> 暂无数据<br>
+            </td>
+        </tr>
+        {else /}
+        {volist name="list" id="vo"}
+        <tr class="text-c">
+            <td><input type="checkbox" name="id[]" value="{$vo.id}"></td>
+            <td>{$vo.id}</td>
+            <td><a href="http://item.taobao.com/item.htm?id={$vo.goods_id}" target="_blank"><img width="50" width="50" class="J_preview picture-thumb preview" src="{$vo.img}"  data-bimg="{$vo.img}"></a></td>
+            <td><span  data-type="edit" data-field="title" data-id="{$vo.id}">{$vo.title|high_light=$Request.param.title}</span></td>
+            <td>{$cate_list[$vo.cid]}</td>
+            <td>{$vo.price|high_light=$Request.param.price}</td>
+            <td>{$vo.discount_price|high_light=$Request.param.discount_price}</td>
+            <td>{$vo.coupon_price}</td>
+            <td>{$vo.volume}</td>
+            <td style="padding: 0"><span  data-type="edit" data-field="sort" data-id="{$vo.id}">{$vo.sort}</span></td>
+            <td>{$vo.status|show_status=$vo.id}</td>
+            <td>{$vo.create_time|friend_date}</td>
+            <td class="f-14">
+                <span data-toggle="tooltip" data-placement="top" data-title="编辑商品" onclick="open_window('商品编辑','{:url(\'Goods/edit\',[\'id\' => $vo.id])}')" class="btn btn-default size-MINI radius size-S f-14"><i class="Hui-iconfont">&#xe6df;</i></span>
+                <span data-toggle="tooltip" data-placement="top" data-title="删除商品" onclick="del(this,'{$vo.id}','{:url(\'Goods/delete\')}')" class="btn btn-default radius size-S f-14"><i class="Hui-iconfont">&#xe6e2;</i></span>
+            </td>
+        </tr>
+        {/volist}
+        {/empty}
+        </tbody>
+    </table>
+    
+</div>
+</div>
+<div class="page-bootstrap">{$page ?? ''}</div>
+{/block}
+{block name="script"}
+<script type="text/javascript" src="__LIB__/jquery/1.9.1/jquery.form.js"></script> 
+<script type="text/javascript" src="__LIB__/layer/laydate/laydate.js"></script>
+<script>
+$(function(){
+    $('.cate_select').cate_select('请选择');
+    $(".J_preview").preview();
+});        
+</script>
+<script>
+$('.sort-item > li').click(
+    function(){
+        $('.sort-item > li').removeClass('active');
+        $(this).addClass('active');
+        sort =$(this).attr('data-id');
+        $('#sort').val(sort);
+    }
+)
+</script>
+<script type="text/javascript">
+    laydate.skin('molv');
+    laydate({
+        elem: '#start_time',
+        format: 'YYYY-MM-DD hh:mm:ss', // 分隔符可以任意定义，该例子表示只显示年月
+        istime:  true, //是否开启时间选择
+        isclear: true, //是否显示清空
+        istoday: true, //是否显示今天
+        issure: true, //是否显示确认
+        choose: function(datas){
+            console.log(datas);
+        }
+    });
+</script>
+<script type="text/javascript">
+    laydate.skin('molv');
+    laydate({
+        elem: '#end_time',
+        format: 'YYYY-MM-DD hh:mm:ss', // 分隔符可以任意定义，该例子表示只显示年月
+        istime:  true, //是否开启时间选择
+        isclear: true, //是否显示清空
+        istoday: true, //是否显示今天
+        issure: true, //是否显示确认
+        choose: function(datas){
+            console.log(datas);
+        }
+    });
+</script>
+{/block}
+

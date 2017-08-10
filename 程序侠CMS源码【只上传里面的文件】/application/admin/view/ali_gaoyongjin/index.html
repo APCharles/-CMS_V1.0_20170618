@@ -1,0 +1,179 @@
+{extend name="public/base" /}
+{block name="info"}
+<div class="Huialert Huialert-danger">
+    <i class="icon-remove"></i>
+    <span>注意：采集优惠券商品前，先进行筛选，确保下面列表有商品后再进行采集，以免采集为空。</span>
+    <span class="ml-10">不知如何设置？<span><a href="http://item.taobao.com/item.htm" target="_blank">点此查看教程</a></span></span>
+</div>
+{/block}
+{block name="content"}
+{include file="ali_gaoyongjin:actionForm" /}
+<div class="page-container">
+<div class="content-box"> 
+    <table class="table table-border table-bordered table-hover table-bg">
+        <thead>
+        <tr class="text-c">
+            <th width="25"><input type="checkbox"></th>
+            <th width="35">序号</th>
+            <th width="50">图片</th>
+            <th width="200">商品标题</th>
+            <th >优惠券说明</th>
+            <th width="">在售价</th>
+            <th width="">券后价</th>
+            <th width="50">券金额</th>
+            <th width="">销量</th>
+            <th width="50">佣率</th>
+            <th >开始时间</th>
+            <th width="">{:sort_by('结束时间','end_time')}</th>
+            <th width="120">操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        {empty name="list"}
+        <tr class="table-empty">
+            <td class="text-c empty-info" colspan="20">
+                <i class="Hui-iconfont f-30">&#xe6b5;</i> 暂无数据<br>
+            </td>
+        </tr>
+        {else /}
+        {volist name="list" id="vo" key='i'}
+        <tr class="text-c">
+            <td><input type="checkbox" name="id[]" value="{$i}"></td>
+            <td>{$i}</td>
+            <td><div class="img_border"><a href="http://item.taobao.com/item.htm?id={$vo.goods_id}" target="_blank"><img width="50" width="50" class="J_preview picture-thumb preview" src="{$vo.img}" width="50" width="50"  data-bimg="{$vo.img}"></a></div></td>
+            <td class="text-l">{$vo.title}</td>
+            <td class="text-l" >{$vo.coupon_explain}</td>
+            <td>{$vo.price}</td>
+            <td><span style="color:red">{$vo.discount_price}</span></td>
+            <td><span style="color:red">{$vo.coupon_price}</span></td>
+            <td>{$vo.volume}</td>
+            <td><span style="color:red">{$vo.commission_rate}</span></td>
+            <td>{$vo.start_time|date="Y-m-d",###}</td>
+            <td>{$vo.end_time|date="Y-m-d",###}</td>
+            <td class="f-14">
+                <a title="采集" href="javascript:;"  class="btn btn-success size-MINI ml-5">采集</a>
+            </td>
+        </tr>
+        {/volist}
+        {/empty}
+        </tbody>
+    </table>
+    <div class="page-bootstrap">{$page ?? ''}</div>
+</div>
+</div>
+{/block}
+{block name="script"}
+<script type="text/javascript" src="__LIB__/jquery/1.9.1/jquery.form.js"></script> 
+<script type="text/javascript" src="__LIB__/layer/laydate/laydate.js"></script>
+<script type="text/javascript" src="__STATIC__/js/admin.js?8569"></script>
+<script>
+$('.sort-item > li').click(
+    function(){
+        $('.sort-item > li').removeClass('active');
+        $(this).addClass('active');
+        sort =$(this).attr('data-id');
+        $('#sort').val(sort);
+    }
+);
+$('#search').click(
+        function(){
+            collect_url =  "{:Url('AliGaoyongjin/index')}";
+            document.searchform.action = collect_url;
+            document.searchform.method = 'get';
+            document.searchform.submit();
+        }
+);
+$('#auto_collect').click(
+        function(){
+            collect_url =  "{:Url('AliGaoyongjin/autoCollect')}";
+            document.searchform.action = collect_url;
+            document.searchform.method = 'post';
+            $.ajax({
+                type: "POST",
+                url: collect_url,
+                dataType: "json",
+                data: $("#searchform").serialize(),
+                success: complete,
+                
+            });
+            
+            var p = 2;
+            function complete(result){
+                if(result.code == 1){
+                   layer.open({
+                      type: 1 ,
+                      title: result.msg,
+                      skin:'layui-layer-rim',
+                      shade: 0.4,
+                      content: result.data,
+                      yes: function(){
+                        layer.closeAll();
+                      } 
+                    });
+                    
+                    p = 2;
+                    collect_page();
+                } else {
+                    layer.msg(result.msg, {icon: 2, time: 3000});   
+                    
+                }
+            }
+
+            function collect_page(){
+
+                var data = $("#searchform").serialize(),
+                    list = data + '&p='+p;
+                $.getJSON(collect_url, list, function(result){
+                if(result.code == 1){
+                    $('.layui-layer-content').html(result.data);
+                    p++;
+                    collect_page(p);
+                    
+                }else{
+                    layer.closeAll();
+                    layer.msg(result.msg, {icon: 1, time: 3000}); 
+                    
+                }
+            
+                });
+            }
+            
+             
+ });               
+</script>
+<script>
+$(function(){
+    $('.cate_select').cate_select('请选择');
+    $(".J_preview").preview();
+});        
+</script>
+<script type="text/javascript">
+    laydate.skin('molv');
+    laydate({
+        elem: '#start_time',
+        format: 'YYYY-MM-DD hh:mm:ss', // 分隔符可以任意定义，该例子表示只显示年月
+        istime:  true, //是否开启时间选择
+        isclear: true, //是否显示清空
+        istoday: true, //是否显示今天
+        issure: true, //是否显示确认
+        choose: function(datas){
+            console.log(datas);
+        }
+    });
+</script>
+<script type="text/javascript">
+    laydate.skin('molv');
+    laydate({
+        elem: '#end_time',
+        format: 'YYYY-MM-DD hh:mm:ss', // 分隔符可以任意定义，该例子表示只显示年月
+        istime:  true, //是否开启时间选择
+        isclear: true, //是否显示清空
+        istoday: true, //是否显示今天
+        issure: true, //是否显示确认
+        choose: function(datas){
+            console.log(datas);
+        }
+    });
+</script>
+{/block}
+

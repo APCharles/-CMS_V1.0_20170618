@@ -1,0 +1,111 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <title>{$Think.config.chengxuxia.cxxia_product_name}-专业安全的淘宝客网站系统</title>
+    <meta name="keywords" content="{$Think.config.chengxuxia.cxxia_product_name}">
+    <meta name="description" content="{$Think.config.chengxuxia.cxxia_product_name}">
+    <link rel="Bookmark" href="__ROOT__/favicon.ico" >
+    <link rel="Shortcut Icon" href="__ROOT__/favicon.ico" />
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="__LIB__/html5.js"></script>
+    <script type="text/javascript" src="__LIB__/respond.min.js"></script>
+    <script type="text/javascript" src="__LIB__/PIE_IE678.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" type="text/css" href="__STATIC__/h-ui/css/H-ui.min.css" />
+    <link rel="stylesheet" type="text/css" href="__STATIC__/h-ui.admin/css/H-ui.admin.css" />
+    <link rel="stylesheet" type="text/css" href="__LIB__/Hui-iconfont/1.0.7/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="__LIB__/icheck/icheck.css" />
+    <link rel="stylesheet" type="text/css" href="__STATIC__/h-ui.admin/skin/default/skin.css" id="skin" />
+    <link rel="stylesheet" type="text/css" href="__STATIC__/h-ui.admin/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="__STATIC__/css/app.css" />
+    <!--[if IE 6]>
+    <script type="text/javascript" src="__LIB__/DD_belatedPNG_0.0.8a-min.js" ></script>
+    <script>DD_belatedPNG.fix('*');</script>
+    <![endif]-->
+</head>
+<body>
+<div id="ajax_loading" class="ajax_loading" style="display:none"><div class="loading-box"><span class="loding-text">努力提交中...</span></div></div>
+<header class="navbar-wrapper">
+    <div class="navbar navbar-fixed-top">
+        <div class="container-fluid cl"> 
+        <div class="navbr-logo">
+        <a href="javascript:;"><img src="__STATIC__/h-ui.admin/images/logo.png" alt=""></a>
+        </div>
+        </div>
+    </div>
+</header>
+<aside class="Hui-aside">
+    <input runat="server" id="divScrollValue" type="hidden" value="" />
+    <div class="menu_dropdown bk_2">
+        {include file='public/menu' /}
+    </div>
+</aside>
+<nav id="Hui-userbar" class="nav navbar-nav navbar-userbar hidden-xs">
+                <ul class="cl">
+                	<li id="Hui-msg"> <a href="{:get_config('WEB_SITE_URL')}"  target="_blank"><i class="Hui-iconfont mr-5" style="font-size:18px">&#xe644;</i>前往首页</a> </li>
+                	<li id="Hui-msg"> <a href="javascript:;" id="cache"  title="消息"><i class="Hui-iconfont mr-5" style="font-size:18px">&#xe609;</i>清理缓存</a> </li>
+                    <li id="Hui-msg"> <a href="javascript:;" id="refresh" title="刷新"><i class="Hui-iconfont mr-5"></i>刷新页面</a> </li>
+                    <li class="dropDown dropDown_hover"><a href="#" class="dropDown_A"><i class="Hui-iconfont mr-5" style="font-size:18px">&#xe60d;</i>{$Think.session.user_auth.username}<i class="Hui-iconfont">&#xe6d5;</i></a>
+                        <ul class="dropDown-menu menu radius box-shadow">
+                        	<li><a href="javascript:;"><i class="Hui-iconfont">&#xe62b;</i> {$Think.session.user_auth.group}</a></li>
+                            <li><a href="javascript:;" onclick="layer_open('修改密码', '{:url(\'AdminUser/password\')}')"><i class="Hui-iconfont">&#xe63f;</i> 修改密码</a></li>
+                            <li><a href="javascript:;" onclick="logout()"><i class="Hui-iconfont">&#xe6e4;</i> 退出</a></li>
+                        </ul>
+                    </li>
+                    
+                </ul>
+            </nav>
+<div class="dislpayArrow hidden-xs"><a data-toggle="tooltip" data-placement="top" data-title="新增管理员" class="pngfix" href="javascript:;" onClick="displaynavbar(this)"><i class="Hui-iconfont mr-5">&#xe667;</i></a></div>
+<section class="Hui-article-box">
+    <div id="Hui-tabNav" class="Hui-tabNav hidden-xs">
+    	<div class="Hui-tabNav-prev btn-group"><a id="js-tabNav-prev"  href="javascript:;"><i class="Hui-iconfont">&#xe6db;</i></a></div>
+        <div class="Hui-tabNav-wp">
+            <ul id="min_title_list" class="acrossTab cl">
+                <li class="active"><i class="Hui-iconfont mr-5">&#xe603;</i><span title="后台首页" data-href="welcome.html">后台首页 <i class="Hui-iconfont mr-5"></i></span></li>
+            </ul>
+        </div>
+        <div class="Hui-tabNav-next btn-group"><a id="js-tabNav-next" href="javascript:;"><i class="Hui-iconfont">&#xe6e3;</i></a></div>
+        
+    </div>
+    <div id="iframe_box" class="Hui-article">
+        <div class="show_iframe">
+            <div style="display:none" class="loading"></div>
+            <iframe scrolling="yes" frameborder="0" src="{:url('Index/system')}"></iframe>
+        </div>
+    </div>
+</section>
+<script type="text/javascript" src="__LIB__/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="__LIB__/layer/3.0.3/layer.js"></script>
+<script type="text/javascript" src="__STATIC__/h-ui/js/H-ui.js"></script>
+<script type="text/javascript" src="__STATIC__/h-ui.admin/js/H-ui.admin.js"></script>
+<script type="text/javascript" src="__STATIC__/js/app.js"></script>
+<script>
+    $("#cache").click(function(){
+        $.getJSON('{:url("Admin/Cache/index")}',{},function(data){
+            if(data.code===1){
+                layer.msg(data.msg, {icon: 1, time: 1000}); 
+            }else{
+                layer.msg(data.msg, {icon: 2, time: 3000}); 
+            }
+        })
+
+    });
+    $("#refresh").click(function() {
+        var iframeId  = $(".show_iframe:visible iframe").attr('id'),
+            iframeSrc = $(".show_iframe:visible iframe").attr('src');
+            $('#'+iframeId).attr('src', iframeSrc);
+    });
+    function logout() {
+        layer.confirm('您确定要退出登录？',{title:'登出提醒'},function (index) {
+            location.href = '{:url("Login/out")}'
+        })
+    }
+
+</script>
+</body>
+</html>

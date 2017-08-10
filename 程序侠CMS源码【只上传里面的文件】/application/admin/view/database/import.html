@@ -1,0 +1,101 @@
+{extend name="public/base" /}
+{block name="info"}
+<div class="Huialert Huialert-danger">
+    <span class="c-333">注意：</span>数据按照时间日期备份，还原数据是请注意日期
+</div>
+{/block}
+{block name="content"}
+<div class="page-container">
+<div class="content-box">
+
+    <!-- 应用列表 -->
+    <table class="table table-border table-bordered table-hover table-bg">
+            <thead>
+                <tr class="text-c">
+                    <th width="200">备份名称</th>
+                    <th width="80">卷数</th>
+                    <th width="80">压缩</th>
+                    <th width="80">数据大小</th>
+                    <th width="200">备份时间</th>
+                    <th >状态</th>
+                    <th width="120">操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                {empty name="list"}
+                <tr class="table-empty">
+                    <td class="text-c empty-info" colspan="7">
+                        <i class="Hui-iconfont f-30">&#xe6b5;</i> 暂无数据<br>
+                    </td>
+                </tr>
+                {else /}
+                {volist name="list" id="data"}
+                    <tr class="text-c">
+                        <td>{$data.time|date='Ymd-His',###}</td>
+                        <td>{$data.part}</td>
+                        <td>{$data.compress}</td>
+                        <td>{$data.size|format_bytes}</td>
+                        <td>{$key|date='Y-m-d H:i:s',###}</td>
+                        <td>-</td>
+                        <td>
+                            <a data-toggle="tooltip" data-placement="top" data-title="还原备份" class="db-import btn btn-default radius f-16" href="{:url('import?time='.$data['time'])}"><i class="Hui-iconfont">&#xe66b;</i></a>&nbsp;
+                            <a data-toggle="tooltip" data-placement="top" data-title="删除备份"  class="del-import btn btn-default radius f-16" data-href="{:url('Database/del',['time'=>$data['time']])}"><i class="Hui-iconfont">&#xe6e2;</i></a>
+                        </td>
+                    </tr>
+                {/volist}
+                {/empty}
+            </tbody>
+        </table>
+    </div>
+    <!-- /应用列表 -->
+</div>
+{/block}
+
+{block name="script"}
+    <script type="text/javascript">
+        $(".db-import").click(function(){
+            var self = this, code = ".";
+            $.get(self.href, success, "json");
+            window.onbeforeunload = function(){ return "正在还原数据库，请不要关闭！" }
+            return false;
+        
+            function success(data){
+                if(data.code){
+                    if(data.data.gz){
+                        data.msg += code;
+                        if(code.length === 5){
+                            code = ".";
+                        } else {
+                            code += ".";
+                        }
+                    }
+                    $(self).parent().prev().html(data.msg);
+                    if(data.data.part){
+                        $.get(self.href, 
+                            {"part" : data.data.part, "start" : data.data.start}, 
+                            success, 
+                            "json"
+                        );
+                    }  else {
+                        window.onbeforeunload = function(){ return null; }
+                    }
+                } else {
+                    layer.msg(data.msg, {icon: 2, time: 3000});
+                }
+            }
+        });
+        $(".del-import").click(function(){
+            var url = $(this).attr('data-href');
+            $.get(url, success, "json");
+            function success(data){
+                if(data.code){
+                    layer.msg(data.msg, {icon: 1, time: 1000}); 
+                }else{
+                    layer.msg(data.msg, {icon: 2, time: 3000}); 
+                }
+                setTimeout(function(){window.location.reload()},1000);
+            }
+
+        });
+    </script>
+{/block}

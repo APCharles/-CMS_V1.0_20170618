@@ -1,0 +1,21 @@
+<div class="cl action">
+    <span class="l">
+        <a data-toggle="tooltip" data-placement="top" data-title="新增友链" class="btn btn-primary radius-rounded mr-10"  href="javascript:;" onclick="layer_open('新增友链','{:url("link/add")}')"><i class="Hui-iconfont"></i> 新增</a>
+        <a data-toggle="tooltip" data-placement="top" data-title="启用友链" href="javascript:;" onclick="resume_all('{:url("link/resume")}')" class="btn btn-success radius-rounded mr-10"><i class="Hui-iconfont"></i> 启用</a>
+        <a data-toggle="tooltip" data-placement="top" data-title="禁用友链" href="javascript:;" onclick="forbid_all('{:url("link/forbid")}')" class="btn btn-warning radius-rounded mr-10"><i class="Hui-iconfont"></i> 禁用</a>
+        <a data-toggle="tooltip" data-placement="top" data-title="删除友链" href="javascript:;" onclick="del_all('{:url("link/delete")}')" class="btn btn-danger radius-rounded mr-10"><i class="Hui-iconfont"></i> 删除</a>     
+    </span>
+    <span class="r">
+        <form method="get" action="{:url('Link/index')}">
+            <div class="select-box" style="width:100px">
+                <select name="key" class="select">
+                    <option value="">--请选择--</option>
+                    <option value="name" {eq name="Request.param.name" value="name"}selected="selected"{/eq}>网站名称</option>
+                    <option value="url" {eq name="Request.param.key" value="url"}selected="selected"{/eq}>网站URL</option>
+                </select>
+            </div>
+            <input type="text" class="input-text" style="width:250px;margin:0 -5px;" placeholder="关键词" name="value" value="{$Request.param.value}">
+            <button type="submit" class="btn btn-success"><i class="Hui-iconfont"></i> 搜索</button>
+        </form>
+    </span>
+</div>

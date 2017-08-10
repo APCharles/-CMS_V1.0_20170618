@@ -1,0 +1,116 @@
+{include file="common/head"}
+
+<div class="hori-cate-area">
+    <div class="cate-l-1">
+        <div class="wrapper">
+            {volist name="cate" id="c"}
+            <a data-ga-event="一级品类切换:点击:{$c['name']}" class="active" href="{:url('cate/index',array('cid'=>$c['id']))}">{$c['name']}</a>
+            {/volist}
+        </div>
+    </div>
+    <div class="cate-l-2">
+        <div class="wrapper">
+            <p>搜索"{$keywords}"相关结果</p>
+        </div>
+    </div>
+</div>
+<div class="wrapper home-wrapper">
+    <div class="order-area">
+        <ul class="sort-type">
+            <a href="{:url('index',array('st'=>1))}" >综合</a>
+            <a href="{:url('index',array('st'=>2))}">销量</a>
+            <a href="{:url('index',array('st'=>3))}">价格</a>
+            <a href="{:url('index',array('st'=>4))}">优惠额</a>
+            <!--<li data-ga-event="排序_销量:点击:品类页" data-sort="2" class="" value="2">>销量</li>
+            <li data-ga-event="排序_价格:点击:品类页" data-sort="3" class="" value="3">>价格</li>
+            <li data-ga-event="排序_优惠额:点击:品类页" data-sort="4" class="" value="4">>优惠额</li>
+            <li data-ga-event="排序_优惠力度:点击:品类页" data-sort="5" class="" value="5">>优惠力度</li>-->
+        </ul>
+    </div>
+    <div class="zk-list g-zk-list clearfix" id="couponList">
+        {volist name="res" id="r"}
+        <div class="zk-item">
+            <div class="img-area">
+                <a title="{$r['title']}" target="_blank" href="{:url('page/detail',array('id'=>$r['id']))}">
+                    <div data-ga-event="商品_右上角领券:点击:品类页" class="lq">
+                        <div class="lq-t">
+                            <p class="lq-t-d1">领优惠券</p>
+                            <p class="lq-t-d2">
+                                省
+                                <span>
+                                    {$r['coupon_price']}
+                                </span>
+                                元
+                            </p>
+                        </div>
+                        <div class="lq-b">
+                        </div>
+                    </div>
+                    <div class="bottom-info">
+                        <p data-endtime="{$r['end_time']}" class="time-count">
+                            还剩&nbsp;<em>6</em>天<em>5</em>时<em>14</em>分<em>48</em>秒&nbsp;结束
+                        </p>
+                    </div>
+                    <img style="opacity: 1;" src="{$r['img']}" data-ga-event="商品_图片:点击:品类页" class="lazy" data-original="" alt="{$r['title']}">
+                </a>
+            </div>
+            <p class="title-area elli">
+                {switch name="$r['ems']" }
+                {case value="1"}
+                <span class="post-free">
+                    包邮
+                </span>
+                {/case}
+                {/switch}
+                {$r['title']}
+            </p>
+            <div class="raw-price-area">
+                现价：¥{$r['price']}
+                <p class="sold">
+                    已领 {$r['coupon_receive']} 张券
+                </p>
+            </div>
+            <div class="info">
+                <div class="price-area">
+                    <span class="price">
+                        ¥
+                        <em class="number-font">
+                            {$r['discount_price']}
+                        </em>
+                        <i>
+                            <img src="http://localhost/cxxiacms/static/index/images/juanhoujia.jpg">
+                        </i>
+                    </span>
+                </div>
+                <div class="buy-area">
+                    <a data-ga-event="商品_立即领券:点击:品类页" rel="nofollow" target="_blank" href="###">
+                        <span class="coupon-amount">
+                            {switch name="$r['shop_type']" }
+                            {case value="B"}
+                                去淘宝
+                            {/case}
+                            {case value="C"}
+                                去天猫
+                            {/case}
+                            {/switch}
+                        </span>
+                        <span class="btn-title">
+                            火速领券
+                        </span>
+                    </a>
+                </div>
+                <div class="platform-area">
+                    {switch name="$r['shop_type']"}
+                    {case value="B"}
+                    <img src="http://localhost/cxxiacms/static/index/images/platform_taobao.png">淘宝
+                    {/case}F
+                    {case value="C"}
+                    <img src="http://localhost/cxxiacms/static/index/images/platform_tmall.png">天猫
+                    {/case}
+                    {/switch}
+                </div>
+            </div>
+        </div>
+        {/volist}
+    </div>
+{include file="common/foot"}

@@ -1,0 +1,56 @@
+{extend name="public/base" /}
+{block name="info"}
+<div class="Huialert Huialert-danger">
+    <span class="c-333">友情提示：</span>官方版本列表（你可以按需升级，建议按照顺序进行升级），建议在网络不繁忙的时段进行升级
+</div>
+{/block}
+{block name="content"}
+{include file='upgrade:actionForm' /}
+<div class="page-container">
+    <div class="content-box"> 
+        <table class="table table-border table-bordered table-hover table-bg">
+            <thead>
+            <tr class="text-c">
+                <th width="">序号</th>
+                <th width="">版本号</th>
+                <th width="">更新日期</th>
+                <th width="">更新说明</th>
+                <th width="">数据库</th>
+                <th width="100">升级操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {empty name="version_list"}
+            <tr class="table-empty">
+                <td class="text-c empty-info" colspan="11">
+                    <i class="Hui-iconfont f-30">&#xe6b5;</i> 暂无升级<br>
+                </td>
+            </tr>
+            {else /}
+            {volist name="version_list" key='i' id="vo"}
+            <tr class="text-c">
+                <td>{$i}</td>
+                <td>{$vo.version}</td>
+                <td>{$vo.release}</td>
+                <td><a {notempty name="vo.des"}data-toggle="tooltip" data-placement="top" data-title="{$vo.des}"{/notempty} class="c-red" href="{$vo.link}" target="_blank"><i class="Hui-iconfont f-14">&#xe622;</i> 查看详情</a></td>
+                <td>
+                    {eq name='vo.is_sql' value='1'}
+                        <span data-toggle="tooltip" data-placement="top" data-title="需要升级数据" class="f-18 c-success" style="cursor:pointer" ><i class="Hui-iconfont">&#xe6e1;</i></span>
+                    {else/}
+                        <span data-toggle="tooltip" data-placement="top" data-title="不需要升级数据" class="f-18 c-error" style="cursor:pointer" ><i class="Hui-iconfont">&#xe6e0;</i></span> 
+                    {/eq}</td>
+                <td class="f-14"> 
+                    
+                    <span data-toggle="tooltip" data-placement="top" data-title="升级该版本" onclick="open_iframe('自动升级-程序侠','{:url(\'Upgrade/upgrade\', [\'version\' => $vo.release])}')" class="btn {neq name='vo.release' value='$this_version'}disabled{/neq} btn-default radius f-14"><i class="Hui-iconfont">&#xe641;</i></span> 
+                </td>
+            </tr>
+            {/volist}
+            {/empty}
+            </tbody>
+        </table>
+        <div class="page-bootstrap">{$page ?? ''}</div>
+    </div>
+</div>
+{/block}
+
+

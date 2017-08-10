@@ -1,0 +1,80 @@
+<div class="mb-15">
+    <form class="form form-horizontal" id="form" method="post" action="{:\\think\\Request::instance()->baseUrl()}">
+        <input type="hidden" name="id" value="{$vo.id ?? ''}">
+        <div class="mt-15 cl">
+            <label class="form-label col-xs-3 col-sm-3"><span class="c-red">*</span>广告位名称：</label>
+            <div class="formControls col-xs-6 col-sm-6">
+                <select class="select-box" name="type">
+                    <option value="0" {eq name="Request.param.type" value="0"}selected="selected"{/eq}>PC端</option>
+                    <option value="1" {eq name="Request.param.type" value="1"}selected="selected"{/eq}>手机端</option>
+                </select>
+            </div>
+            <div class="col-xs-3 col-sm-3"></div>
+        </div>
+        <div class="mt-15 cl">
+            <label class="form-label col-xs-3 col-sm-3"><span class="c-red">*</span>广告位名称：</label>
+            <div class="formControls col-xs-6 col-sm-6">
+                <input type="text" class="input-text" placeholder="广告位名称" name="name" value="{$vo.name ?? ''}" datatype="*" nullmsg="广告位名称为空">
+            </div>
+            <div class="col-xs-3 col-sm-3"></div>
+        </div>
+        <div class="mt-15 cl">
+            <label class="form-label col-xs-3 col-sm-3"><span class="c-red">*</span>广告位宽度：</label>
+            <div class="formControls col-xs-6 col-sm-6">
+                <input type="text" class="input-text" placeholder="广告位宽度" name="width" value="{$vo.width ?? ''}" datatype="*" nullmsg="请设置宽度">
+            </div>
+            <div class="col-xs-3 col-sm-3"></div>
+        </div>
+        <div class="mt-15 cl">
+            <label class="form-label col-xs-3 col-sm-3"><span class="c-red">*</span>广告位高度：</label>
+            <div class="formControls col-xs-6 col-sm-6">
+                <input type="text" class="input-text" placeholder="广告位高度" name="height" value="{$vo.height ?? ''}" datatype="*" nullmsg="请设置高度">
+            </div>
+            <div class="col-xs-3 col-sm-3"></div>
+        </div>
+        <div class="mt-15 cl">
+            <label class="form-label col-xs-3 col-sm-3">广告位描述：</label>
+            <div class="formControls col-xs-6 col-sm-6">
+                <textarea class="textarea" placeholder="" name="description" onKeyUp="textarealength(this, 100)">{$vo.description ?? ''}</textarea>
+                <p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
+            </div>
+            <div class="col-xs-3 col-sm-3"></div>
+        </div>
+        <div class="mt-15 cl">
+            <label class="form-label col-xs-3 col-sm-3"><span class="c-red">*</span>状态：</label>
+            <div class="formControls col-xs-6 col-sm-6 skin-minimal">
+                <div class="radio-box">
+                    <input type="radio" name="status" id="status-1" value="1">
+                    <label for="status-1">启用</label>
+                </div>
+                <div class="radio-box">
+                    <input type="radio" name="status" id="status-0" value="0">
+                    <label for="status-0">禁用</label>
+                </div>
+            </div>
+            <div class="col-xs-3 col-sm-3"></div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript" src="__LIB__/Validform/5.3.2/Validform.min.js"></script>
+<script type="text/javascript" src="__LIB__/layer/laydate/laydate.js"></script> 
+<script>
+    $(function () {
+        $("[name='status'][value='{$vo.status ?? '1'}']").attr("checked",true);
+
+        $('.skin-minimal input').iCheck({
+            checkboxClass: 'icheckbox-green',
+            radioClass: 'iradio-green',
+            increaseArea: '20%'
+        });
+
+        $("#form").Validform({
+            tiptype:2,
+            ajaxPost:true,
+            showAllError:true,
+            callback:function(ret){
+                ajax_progress(ret);
+            }
+        });
+    })
+</script>

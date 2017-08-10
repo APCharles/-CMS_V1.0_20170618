@@ -1,0 +1,68 @@
+@charset "utf-8";
+/* 蓝色 */
+/*全站默认字体颜色*/
+a{color:#333}a:hover,a:focus,.maincolor,.maincolor a{color:#2bc286}
+.navbar{background:#0CB774;}/*顶部导航*/
+	.navbar-logo,.navbar-logo-m,.navbar-slogan,.navbar-userbar{color:#fff}/*logo 及 用户信息文字颜色*/
+	.navbar-logo:hover,.navbar-logo-m:hover{color:#fff;text-decoration: none}
+	
+.navbar-nav > ul > li, .navbar-nav > ul > li > a{ color:#fff}/*顶部导航文字颜色*/
+.navbar-userbar > ul> > li,.navbar-userbar > ul> > li > a{ color:#fff}
+
+.Hui-aside{}/*侧边栏*/
+	.Hui-aside .menu_dropdown dt{color: #b8c7ce;}/*左侧二级导航菜单*/
+	.Hui-aside .menu_dropdown dt.selected{color: #fff;background: #1e282c;border-left: 3px solid transparent;border-left-color:#0CB774;}
+	.Hui-aside .menu_dropdown dt:hover{color:#fff;}
+	.Hui-aside .menu_dropdown dt:hover [class^="icon-"]{ color:#7e8795}
+	.Hui-aside .menu_dropdown dd{background: #2c3b41;}
+	.Hui-aside .menu_dropdown li a{color: #8aa4af;}
+	.Hui-aside .menu_dropdown li a:hover{color:#fff;}
+	.Hui-aside .menu_dropdown li.current a,.menu_dropdown li.current a:hover{color:#fff;}
+	.Hui-aside .menu_dropdown dt .Hui-iconfont{font-size: 15px;}
+	.Hui-aside .menu_dropdown dt .menu_dropdown-arrow{ color:#fff;}	
+	.dislpayArrow a{width: 24px;height: 24px;font-size: 24px;color: #FFFFFF;}
+.tabBar {border-bottom:none;    background-color:#f8f8f8;}
+.tabBar span{
+	font-weight: 400;
+	background-color:#f8f8f8;
+	height: 40px;
+    line-height: 40px;
+}
+.tabBar span:hover{
+	height: 39px;
+    line-height: 39px;
+	background-color:#e7e7e7;
+	border-top: 2px solid #2bc286;
+}
+.tabBar span.current{
+	color: #555;
+	font-weight: 600;
+	margin-bottom: -1px;
+    background-color: #FEFEFE;
+    border-bottom-color: transparent;
+	border-top: 2px solid #2bc286;
+	border-left: 1px solid #e9e9e9;
+    border-right: 1px solid #e9e9e9;
+    cursor: default;
+}
+
+.tabCon {
+    display: none;
+    padding-top: 15px;
+    padding-bottom: 30px;
+}
+.table tbody tr:nth-child(even) {
+      background-color: #F7FDF4; /*background-color: #F4FDF0;*/
+}
+table th{line-height:26px;height: 25px;}
+table th:hover a{text-decoration : none;}
+thead{background: #F9F9F9;/*background: -webkit-gradient(linear,left top,left bottom,from(#FEFEFE),to(#F5F5F5));background: -moz-linear-gradient(top,#FEFEFE,#F5F5F5);
+    background: -o-linear-gradient(top,#FEFEFE,#F5F5F5);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FEFEFE',endColorstr='#F5F5F5');*/
+    zoom: 1;}
+
+/* jquery.treeTable.collapsible
+ * ------------------------------------------------------------------------- */
+tr td span.expander { background-position: left center; background-repeat: no-repeat; cursor: pointer; padding: 0; zoom: 1; }
+tr.collapsed td span.expander { background-image: url('icon/expand.png'); }
+tr.expanded td span.expander { background-image: url('icon/collapse.png'); }

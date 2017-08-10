@@ -1,0 +1,173 @@
+<div class="mb-15">
+    <form class="form form-horizontal" id="form" method="post" action="{:\\think\\Request::instance()->baseUrl()}">
+        <input type="hidden" name="id" value="{$vo.id ?? ''}">
+        <div class="mt-15 cl">
+            <label class="form-label col-xs-3 col-sm-3"><span class="c-red">*</span>广告位置：</label>
+            <div class="formControls col-xs-6 col-sm-6" id="cate_select">
+                <select name='position' class="select mr-10" style="width: 150px;height: 31px;">
+                {volist name="position" id="list"}
+                    <option value="{$key}" data-size="{$list['width']} * {$list['height']}px" >{$list['name']}</option>
+                {/volist}
+                </select>      
+             </div>
+             <div class="col-xs-3 col-sm-3"></div>
+        </div>
+        <div class="mt-15 cl">
+            <label class="form-label col-xs-3 col-sm-3"><span class="c-red">*</span>广告名称：</label>
+            <div class="formControls col-xs-6 col-sm-6">
+                <input type="text" class="input-text" placeholder="广告名称" name="name" value="{$vo.name ?? ''}" datatype="*" nullmsg="广告名称为空">
+            </div>
+            <div class="col-xs-3 col-sm-3"></div>
+        </div>
+        <div class="mt-15 cl">
+            <label class="form-label col-xs-3 col-sm-3"><span class="c-red">*</span>广告链接：</label>
+            <div class="formControls col-xs-6 col-sm-6">
+                <input type="text" class="input-text" placeholder="广告链接" name="link" value="{$vo.link ?? ''}" datatype="*" nullmsg="广告链接为空">
+            </div>
+            <div class="col-xs-3 col-sm-3"></div>
+        </div>
+        <div class="mt-15 cl hide" id="preview_banner">
+            <label class="form-label col-xs-4 col-sm-3"></label>
+            <div class="formControls col-xs-8 col-sm-6">
+                <img  id="url_banner"  height="30px" >
+            </div>
+        </div>
+        <div class="mt-15 cl"> 
+            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>图片地址：</label>
+            <div class="formControls col-xs-6 col-sm-6"> 
+                <span class="form-group">
+                    <input class="input-text upload-url  hide" type="text"  placeholder="商品图片" name="img_path" value="{$vo.img_path ?? ''}" datatype="*" nullmsg="请上传图片"> 
+                    <input type="file"  id="upload_banner" class="input-file">
+                </span>
+            </div>
+            <div class="col-xs-3 col-sm-3"><span class="label label-success radius" style="padding:4px;">尺寸：<span id='img-size'>250*60px</span></span>
+            </div>
+        </div>
+        <div class="mt-15 cl">
+            <label class="form-label col-xs-3 col-sm-3">广告描述：</label>
+            <div class="formControls col-xs-6 col-sm-6">
+                <textarea class="textarea" placeholder="" name="description" onKeyUp="textarealength(this, 100)">{$vo.description ?? ''}</textarea>
+                <p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
+            </div>
+            <div class="col-xs-3 col-sm-3"></div>
+        </div>
+        <div class="mt-15 cl">
+            <label class="form-label col-xs-3 col-sm-3"><span class="c-red">*</span>开始时间：</label>
+            <div class="formControls col-xs-6 col-sm-6">
+                 <input type="text" class="laydate-icon input-text" style="height:31px"   id="start_time" placeholder="开始时间" name="start_time" value="<?php echo $showtime=date('Y-m-d H:i:s');?>"  datatype="*" nullmsg="请设置开始时间">
+            </div>
+            <div class="col-xs-3 col-sm-3"></div>
+        </div>
+        <div class="mt-15 cl">
+            <label class="form-label col-xs-3 col-sm-3"><span class="c-red">*</span>结束时间：</label>
+            <div class="formControls col-xs-6 col-sm-6">
+                <input type="text" class="input-text laydate-icon" style="height:31px"  id="end_time"  placeholder="结束时间" name="end_time" value="<?php echo $now = date('Y-m-d H:i:s',strtotime('next week')); ?>"  datatype="*" nullmsg="请设置结束时间">
+            </div>
+            <div class="col-xs-3 col-sm-3"></div>
+        </div>
+        <div class="mt-15 cl">
+            <label class="form-label col-xs-3 col-sm-3"><span class="c-red">*</span>状态：</label>
+            <div class="formControls col-xs-6 col-sm-6 skin-minimal">
+                <div class="radio-box">
+                    <input type="radio" name="status" id="status-1" value="1">
+                    <label for="status-1">启用</label>
+                </div>
+                <div class="radio-box">
+                    <input type="radio" name="status" id="status-0" value="0">
+                    <label for="status-0">禁用</label>
+                </div>
+            </div>
+            <div class="col-xs-3 col-sm-3"></div>
+        </div>
+        <div class="mt-15 cl">
+            <label class="form-label col-xs-3 col-sm-3">排序：</label>
+            <div class="formControls col-xs-6 col-sm-6">
+                <input type="text" class="input-text" placeholder="排序" name="sort" value="{$vo.sort ?? ''}" >
+            </div>
+            <div class="col-xs-3 col-sm-3"></div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript" src="__LIB__/Validform/5.3.2/Validform.min.js"></script>
+<script type="text/javascript" src="__LIB__/uploadify/jquery.uploadify.min.js?456"></script> 
+<script>
+    $(function () {
+        $("[name='status'][value='{$vo.status ?? '1'}']").attr("checked", true);
+
+        $('.skin-minimal input').iCheck({
+            checkboxClass: 'icheckbox-green',
+            radioClass: 'iradio-green',
+            increaseArea: '20%'
+        });
+
+        $("#form").Validform({
+            tiptype: 2,
+            ajaxPost: true,
+            showAllError: true,
+        });
+    })
+</script>
+<script>
+	$('select').click(function(){
+        var _this = $(this),
+        data_size = _this.find("option:selected").attr('data-size');
+        $('#img-size').text(data_size);     
+    });
+</script>
+<script type="text/javascript">
+    laydate.skin('molv');
+    laydate({
+        elem: '#start_time',
+        format: 'YYYY-MM-DD hh:mm:ss', // 分隔符可以任意定义，该例子表示只显示年月
+        istime:  true, //是否开启时间选择
+        isclear: true, //是否显示清空
+        istoday: true, //是否显示今天
+        issure: true, //是否显示确认
+        choose: function(datas){
+            console.log(datas);
+        }
+    });
+</script>
+<script type="text/javascript">
+    laydate.skin('molv');
+    laydate({
+        elem: '#end_time',
+        format: 'YYYY-MM-DD hh:mm:ss', // 分隔符可以任意定义，该例子表示只显示年月
+        istime:  true, //是否开启时间选择
+        isclear: true, //是否显示清空
+        istoday: true, //是否显示今天
+        issure: true, //是否显示确认
+        choose: function(datas){
+            console.log(datas);
+        }
+    });
+</script>
+<script type="text/javascript">
+$("#upload_banner").uploadify({
+    "height"          : 30,
+    "swf"             : "__LIB__/uploadify/uploadify.swf",
+    "fileObjName"     : "image",
+    "buttonText"      : "上传图片",
+    "uploader"        : "{:url('Ad/ajaxUploadImg',array('position'=>'banner'))}",
+    "width"           : 100,
+    'removeTimeout'   : 1,
+    'fileTypeExts'    : '*.jpg; *.png; *.gif;',
+    "onUploadSuccess" : uploadBanner,
+    'onFallback' : function() {
+        layer.msg('未检测到兼容版本的Flash', {icon: 2, time: 3000}); 
+    }
+});
+function uploadBanner(file, data){ 
+    var data = $.parseJSON(data);
+    var src = '';
+    if(data.code){
+        src = '__ROOT__/' + data.data
+        $("input[name=img_path]").val(data.data);
+        $("#preview_banner").removeClass('hide');
+        $("#url_banner").attr('src',src);
+
+    } else { 
+        layer.msg(data.msg, {icon: 2, time: 3000}); 
+    }
+}
+</script>

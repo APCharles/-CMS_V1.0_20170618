@@ -1,0 +1,28 @@
+{extend name="common:base" /}
+{block name="title"}系统安装Step1{/block}
+{block name="nav"}
+<li class="am-text-center" ><span class="am-text-success cxx-install-num"><i class="am-icon-info am-text-secondary am-text-lg"></i></span><span class="cxx-install-text">安装协议</span></li>
+<li><span class="cxx-install-num">2</span><span class="cxx-install-text">环境检测</span></li>
+<li><span class="cxx-install-num">3</span><span class="cxx-install-text">参数设置</span</li>
+<li><span class="cxx-install-num">4</span><span class="cxx-install-text">开始安装</span</li>
+<li><span class="cxx-install-num">5</span><span class="cxx-install-text">安装完成</span></li>
+{/block}
+{block name="content"}
+<div class="am-padding">
+    <div class="am-sm-text-left" style="font-size: 14px;color:#333">
+        <p>感谢您选择程序侠淘客CMS淘宝客程序，希望我们的努力能为您提供一个专业、安全、稳定、简单、高效、卓越的轻量级淘宝客程序。</p>
+        <p><b>用户须知：</b></br>
+        1、  本协议是您与之间关于您使用产品及服务的法律协议。本产品是一个对商业项目，未经程序侠官方许可，您不可以随意的进行二次开发，修改和发布。</br>
+        2、  如果你已经购买授权，请保护好你的授权源码，不要外泄，否则会被VIP资格。
+        </p>
+        <p>本服务条款一旦发生变更, 将在程序侠官网上公布修改内容。修改后的服务条款一旦在网站公布即有效代替原来的服务条款。您可随时登陆官网查阅最新版服务条款。如果您选择接受本条款，即表示您同意接受协议各项条件的约束。如果您不同意本服务条款，则不能获得使用本服务的权利。<b style="color:red">您若有违反本条款规定，有权随时中止或终止您对产品的使用资格并保留追究相关法律责任的权利。</b></p>
+
+        <p><b style="color:red">程序侠拥有的全部知识产权，包括商标和著作权。</b>虽然您已获得程序侠官方的授权，但您只有程序的使用权，未经官方许可，禁止修改网站后台我们的链接、LOGO、版权声明！</p>
+       
+    </div>
+    <div class="am-text-center am-margin-top-lg am-padding-top">
+    	 <a type="button" href="{$Request.baseFile}?s=/install/index/step2.html" class="am-btn am-btn-success am-radius">同意并安装</a>
+        <a type="button" href="{:config('WEBSITE_DOMAIN')}" class="am-btn am-btn-primary am-radius">不同意</a>
+    </div>
+</div>
+{/block}

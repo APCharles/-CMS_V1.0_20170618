@@ -1,0 +1,18 @@
+<div class="cl action">
+    <span class="l">
+        <form method="get" action="{:\\think\\Url::build($Request.action)}"">
+            <div class="select-box" style="width:100px">
+                <select name="key" class="select">
+                    <option value="">--请选择--</option>
+                    <option value="id" {eq name="Request.param.id" value="id"}selected="selected"{/eq}>用户ID</option>
+                    <option value="username" {eq name="Request.param.username" value="username"}selected="selected"{/eq}>用户帐号</option>
+                    <option value="gid" {eq name="Request.param.gid" value="gid"}selected="selected"{/eq}>角色</option>
+                    <option value="login_ip" {eq name="Request.param.login_ip" value="login_ip"}selected="selected"{/eq}>登录IP</option>
+                    <option value="login_location" {eq name="Request.param.login_location" value="login_location"}selected="selected"{/eq}>登录地点</option>
+                </select>
+            </div>
+            <input type="text" class="input-text" style="width:250px;margin:0 -5px;" placeholder="关键词" name="value" value="{$Request.param.value}">
+            <button type="submit" class="btn btn-success"><i class="Hui-iconfont"></i> 搜索</button>
+        </form>
+    </span>
+</div>

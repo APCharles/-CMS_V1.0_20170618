@@ -1,0 +1,109 @@
+<div class="filter">
+    <form name="searchform" id='searchform' method="post" action="{:Url('AliGaoyongjin/index')}">
+        <div class="screen-toggle" style="height: auto; overflow: visible;">
+            <div class="sort-list bg-gc cl">
+                <div class="kind"><i class="Hui-iconfont">&#xe675;</i>排序筛选</div>
+                <ul class="sort-item">
+                    <li {eq name="Request.param.sort" value=""}class="active"{/eq} {$Request.param.sort ?? 'class="active"'} data-id ='1' ><a href="javascript:void(0);">默认排序</a></li>
+                    <li {eq name="Request.param.sort" value="1"}class="active"{/eq} data-id ='1'><a href="javascript:void(0);">佣金比率<i class="Hui-iconfont">&#xe674;</i></a></li>
+                    <li {eq name="Request.param.sort" value="7"}class="active"{/eq} data-id ='7'><a href="javascript:void(0);">支出佣金<i class="Hui-iconfont">&#xe674;</i></a></li>
+                    <li {eq name="Request.param.sort" value="9"}class="active"{/eq} data-id ='9'><a href="javascript:void(0);">销量<i class="Hui-iconfont">&#xe674;</i></a></li>
+                    <li {eq name="Request.param.sort" value="5"}class="active"{/eq} data-id ='5'><a href="javascript:void(0);">佣金比率<i class="Hui-iconfont">&#xe674;</i></a></li>
+                    <li {eq name="Request.param.sort" value="3"}class="active"{/eq} data-id ='3'><a href="javascript:void(0);">价格<i class="Hui-iconfont">&#xe674;</i></a></li>
+                    <li {eq name="Request.param.sort" value="4"}class="active"{/eq} data-id ='4'><a href="javascript:void(0);">价格<i class="Hui-iconfont">&#xe679;</i></a></li>                   
+                </ul>
+                <ul class="pagewrapper clearfix mr-10">
+                    <li>
+                        <input type="text" placeholder="请输入关键词" class="input-text" name="keyword" value="{$Request.param.keyword ?? ''}" autocomplete="off" style="height:25px;width:150px;"><i class="Hui-iconfont"  style="margin-left:-20px">&#xe709;</i>
+                    </li>
+                </ul>
+            </div>
+            <div class="sort-bg clearfix">
+                
+                    <input type="hidden"  id="sort" name="sort" value="{$Request.param.sort ?? ''}">
+                    <div class="sort-l">
+                        <span class="sort-head">基本要求：</span>
+                        <ul>
+                            <li>
+                                <label>选择分类：</label>
+                                <select name="cid">
+                                    <option value="">--选择分类--</option>
+                                    {volist name='gaoyong_cat_list' id='cate_list'}
+                                    <option value="{$cate_list.id}" {eq name="Request.param.cid" value="cate_list.id"}selected="selected"{/eq}>{$cate_list.name}</option>
+                                    {/volist}
+                                </select>
+                            </li>
+                            <li>
+                                <input type="checkbox" name="ems" value="1">
+                                <label>包邮</label>
+                            </li>
+                            <li>
+                                <label>价格：</label>
+                                <input type="text" name="price_min" class="input-text" placeholder="￥" value="{$Request.param.price_min ?? ''}"><span>元 - </span><input type="text" name="price_max"   placeholder="￥"class="input-text" value="{$Request.param.price_max ?? ''}"><span>元</span>
+                            </li>
+                            <li>
+                                <label>佣金比例：</label>
+                                <input type="text" name="commission_min" class="input-text" value="{$Request.param.commission_min ?? ''}"><span>% - </span><input type="text" name="commission_max" class="input-text" value="{$Request.param.commission_max ?? ''}"><span>%</span>
+                            </li>
+                            
+                        </ul>
+                    </div>
+                    <div class="sort-l b-top">
+                        <span class="sort-head">商品要求：</span>
+                        <ul>
+                            
+                            <li class="taobao">
+                                <input type="checkbox" name="taobao" value="1">
+                                <label>淘宝</label>
+                            </li>
+                            <li>
+                                <input type="checkbox" name="ems" value="1">
+                                <label>金牌卖家</label>
+                            </li>
+                            <li class="tmall">
+                                <input type="checkbox" name="tmall" value="1">
+                                <label>天猫</label>
+                            </li>
+                            <li>
+                                <input type="checkbox" name="ems" value="1">
+                                <label>天猫旗舰店</label>
+                            </li>
+                            <li>
+                                <input type="checkbox" name="ems" value="1">
+                                <label>店铺优惠券</label>
+                            </li>
+                            <li>
+                                <label>月销量：</label>
+                                <input type="text" name="volume_min" class="input-text" placeholder="0" value="{$Request.param.volume_min ?? ''}"><span>笔以上</span>
+                            </li>
+                            
+                        </ul>
+                    </div>
+                    <div class="sort-l b-top">
+                        <span class="sort-head">采集入库：</span>
+                        <ul>
+                            <li id="cate_select">
+                                <label>入库分类：</label>
+                                <select class="cate_select mr-5" data-pid="0" data-uri="{:url('GoodsCate/ajax_getchilds')}" data-css="mr-5" data-style="" data-selected=''></select>
+                                <input type="hidden"  id="cate_id" name="cate_id" value="">
+                            </li>
+                            <li>
+                                <label>采集页数：</label>
+                                <select name="page" class="picQuality">
+                                <?php for($i=1;$i<=100;$i++){?>
+                                    <option value="<?php echo $i; ?>" {eq name="Request.param.page" value="<?php echo $i;?>"}selected="selected"{/eq}><?php echo $i;?></option>
+
+                                <?php } ?>
+                                </select>
+                            </li>
+                            <li>
+                                <button class="btn btn-primary size-S mr-10" id="search"  type="button" ><i class="Hui-iconfont">&#xe6c9;</i> 确定筛选</button>
+                                <button type="button"  href="javascript:;" class="btn btn-success size-S" id="auto_collect" ><i class="Hui-iconfont">&#xe641;</i> 采集入库</button>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    

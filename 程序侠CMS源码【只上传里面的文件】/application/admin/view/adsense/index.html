@@ -1,0 +1,44 @@
+{extend name="public/base" /}
+{block name="content"}
+<div class="page-container">
+    <div class="content-box"> 
+        <div class="cl">
+            <span class="l">
+                {tp:menu menu="add,forbid,resume,delete,recyclebin" /}
+            </span>
+            <span class="r pt-5 pr-5">
+                {include file="form" /}
+            </span>
+        </div>
+        <table class="table table-border table-bordered table-hover table-bg">
+            <thead>
+            <tr class="text-c">
+                {include file="th" /}
+                <th width="120">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {empty name="list"}
+            <tr class="table-empty">
+                <td class="text-c empty-info" colspan="11">
+                    <i class="Hui-iconfont f-30">&#xe6b5;</i> 暂无数据<br>
+                </td>
+            </tr>
+            {else /}
+            {volist name="list" id="vo"}
+            <tr class="text-c">
+                {include file="td" /}
+                <td class="f-14">
+                {tp:menu menu='sedit' /}
+                {tp:menu menu='sdelete' /}
+                </td>
+            </tr>
+            {/volist}
+            {/empty}
+            </tbody>
+        </table>
+        <div class="page-bootstrap">{$page ?? ''}</div>
+    </div>
+</div>
+{/block}
+

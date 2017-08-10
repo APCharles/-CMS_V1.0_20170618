@@ -1,0 +1,74 @@
+<div class="mb-15">
+    <form class="form form-horizontal" id="form" method="post" action="{:\\think\\Request::instance()->baseUrl()}">
+        <input type="hidden" name="id" value="{$vo.id ?? ''}">
+        <div class="mt-15 cl">
+            <label class="form-label col-xs-3 col-sm-3"><span class="c-red">*</span>帐号：</label>
+            <div class="formControls col-xs-6 col-sm-6">
+                <input type="text" name="username" class="input-text"  value="{$vo.username}">
+            </div>
+            <div class="col-xs-3 col-sm-3"><span class="label label-warning radius"></span></div>
+        </div>
+        <div class="mt-15 cl">
+            <label class="form-label col-xs-3 col-sm-3"><span class="c-red">*</span>角色：</label>
+            <div class="formControls col-xs-6 col-sm-6">
+                <select name="gid" class="select" style="height: 32px;">
+                    <option value="">--请选择--</option>
+                    {volist name='group' id='value'}
+                    <option value="{$value.id}" {eq name="$value.id" value="$vo.gid"}selected="selected"{/eq}>{$value.title}</option>
+                    {/volist}
+                </select>
+            </div>
+            <div class="col-xs-3 col-sm-3"><span class="label label-warning radius">不可更改</span></div>
+        </div>
+        <div class="mt-15 cl">
+            <label class="form-label col-xs-3 col-sm-3">邮箱：</label>
+            <div class="formControls col-xs-6 col-sm-6">
+                <input type="text" class="input-text" value="{$vo.email ?? ''}" placeholder="" name="email" datatype="e" ignore="ignore" errormsg="邮箱格式错误">
+            </div>
+            <div class="col-xs-3 col-sm-3"></div>
+        </div>
+        <div class="mt-15 cl">
+            <label class="form-label col-xs-3 col-sm-3"><span class="c-red">*</span>状态：</label>
+            <div class="formControls col-xs-6 col-sm-6 skin-minimal">
+                <div class="radio-box">
+                    <input type="radio" name="status" id="status-1" value="1" datatype="*" nullmsg="请选择状态">
+                    <label for="status-1">启用</label>
+                </div>
+                <div class="radio-box">
+                    <input type="radio" name="status" id="status-0" value="0">
+                    <label for="status-0">禁用</label>
+                </div>
+            </div>
+            <div class="col-xs-3 col-sm-3"></div>
+        </div>
+        <div class="mt-15 cl">
+            <label class="form-label col-xs-3 col-sm-3">备注：</label>
+            <div class="formControls col-xs-6 col-sm-6">
+                <textarea class="textarea" placeholder="" name="remark" onKeyUp="textarealength(this,100)">{$vo.remark ?? ''}</textarea>
+                <p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
+            </div>
+            <div class="col-xs-3 col-sm-3"></div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript" src="__LIB__/Validform/5.3.2/Validform.min.js"></script>
+<script>
+    $(function () {
+        $("[name='status'][value='{$vo.status ?? '1'}']").attr("checked",true);
+
+        $('.skin-minimal input').iCheck({
+            checkboxClass: 'icheckbox-green',
+            radioClass: 'iradio-green',
+            increaseArea: '20%'
+        });
+
+        $("#form").Validform({
+            tiptype:2,
+            ajaxPost:true,
+            showAllError:true,
+            callback:function(ret){
+                ajax_progress(ret);
+            }
+        });
+    })
+</script>

@@ -1,0 +1,75 @@
+    <div id="couponList" class="zk-list clearfix">
+        {volist name="list" id="vo"}
+        <div class="zk-item">
+            <div class="img-area">
+                
+                    {$vo.start_time|new_goods}
+                    <div class="lq">
+                        <a href="{:url('Click/index',['id'=>$vo.goods_id,'coupon_id'=>$vo.coupon_id])}" target="_blank" rel="nofollow">
+                        <div class="lq-t">
+                            <p class="lq-t-d1">领优惠券</p>
+                            <p class="lq-t-d2">省<span>{$vo['coupon_price']}</span>元</p>
+                        </div>
+                        <div class="lq-b"></div>
+                        </a>
+                    </div>
+                   
+                    <div class="bottom-info">
+                        <p class="time-count" data-endtime="{$vo['end_time']}"><i class="cate-icon">&#xe66b;</i></p>
+                    </div>
+                    <a href="{:url('Goods/index',array('id'=>$vo['goods_id']))}" target="_blank" title="{$vo['title']}">
+                    <img alt="{$vo['title']}" data-original="{$vo['img']}" class="lazy" src="{:get_config('WEB_SITE_URL')}{:get_config('WEB_GOODS_BGIMG')}" style="opacity: 1;">
+                    </a>
+            </div>
+            <p class="title-area elli">
+                
+                <span class="post-free">
+                    包邮
+                </span>
+                
+                {$vo['title']}
+            </p>
+            <div class="raw-price-area">现价：¥{$vo['price']}<p class="sold">已领 {$vo['coupon_receive']} 张券</p></div>
+            <div class="info">
+                <div class="price-area">
+                    <span class="price">
+                        ¥
+                        <em class="number-font">
+                            {$vo['discount_price']}
+                        </em>
+                        <i>
+                        </i>
+                    </span>
+                </div>
+                <div class="buy-area">
+                    <a href="{:url('Click/index',['id'=>$vo.goods_id,'coupon_id'=>$vo.coupon_id])}" target="_blank" rel="nofollow">
+                        <span class="coupon-amount">
+                            {switch name="$vo['shop_type']" }
+                            {case value="B"}
+                                去淘宝
+                            {/case}
+                            {case value="C"}
+                                去天猫
+                            {/case}
+                            {/switch}
+                        </span>
+                        <span class="btn-title">火速领券</span>
+                    </a>
+                </div>
+                <div class="platform-area">
+                    {switch name="$vo['shop_type']"}
+                    {case value="B"}
+                        <img src="__STATIC__/images/platform_taobao.png">淘宝
+                    {/case}F
+                    {case value="C"}
+                    <img src="__STATIC__/images/platform_tmall.png">天猫
+                    {/case}
+                    {/switch}
+                </div>
+            </div>
+        </div>
+        {/volist}
+    </div>
+    <div class="page">
+        {$list->render()}
+    </div>

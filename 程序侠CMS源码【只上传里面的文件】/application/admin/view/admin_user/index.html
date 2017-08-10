@@ -1,0 +1,47 @@
+{extend name="public/base" /}
+{block name="content"}
+{include file='admin_user:actionForm' /}
+<div class="page-container">
+    <table class="table table-border table-bordered table-hover table-bg" data-url="{:url('AdminUser/quickEdit')}">
+        <thead>
+        <tr class="text-c">
+            <th width="25"><input type="checkbox" value="" name=""></th>
+            <th width="50">{:sort_by('ID','id')}</th>
+            <th width="100">用户名</th>
+            <th width="100">角色</th>
+            <th width="150">邮箱</th>
+            <th width="150">{:sort_by('添加时间','create_time')}</th>
+            <th width="150">{:sort_by('最后登录时间','last_login_time')}</th>
+            <th width="60">{:sort_by('登录次数','login_count')}</th>
+            <th width="60">状态</th>
+            <th width="80">备注</th>
+            <th width="150">操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        {volist name="list" id="vo"}
+        <tr class="text-c">
+            <td><input type="checkbox" name="id[]" value="{$vo.id}"></td>
+            <td>{$vo.id}</td>
+            <td><span data-type="edit" data-field="username" data-id="{$vo.id}">{$vo.username}</span></td>
+            <td>{$vo.group.title}</td>
+            <td><span data-type="edit" data-field="email" data-id="{$vo.id}">{$vo.email}</span></td>
+            <td>{$vo.create_time|date='Y-m-d',###}</td>
+            <td>{$vo.last_login_time|date='Y-m-d H:i:s',###}</td>
+            <td>{$vo.login_count}</td>
+            <td>{$vo.status|show_status=$vo.id}</td>
+            <td><span data-type="edit" data-field="remark" data-id="{$vo.id}">{$vo.remark}</span></td>
+            <td class="f-14">
+                
+                <span data-toggle="tooltip" data-placement="top" data-title="编辑用户" onclick="layer_open('编辑用户','{:url(\'AdminUser/edit\', [\'id\' => $vo.id])}')" class="btn btn-default radius f-14"><i class="Hui-iconfont">&#xe6df;</i></span> 
+                <span data-toggle="tooltip" data-placement="top" data-title="修改密码" onclick="layer_open('修改密码','{:url(\'AdminUser/password\', [\'id\' => $vo.id])}')" class="btn btn-default radius f-14"><i class="Hui-iconfont">&#xe63f;</i></span> 
+                <span data-toggle="tooltip" data-placement="top" data-title="删除用户" onclick="del(this,'{$vo.id}','{:url(\'AdminUser/delete\')}')" class="btn btn-default radius f-14"><i class="Hui-iconfont">&#xe609;</i></span> 
+                         
+            </td>
+        </tr>
+        {/volist}
+        </tbody>
+    </table>
+    <div class="page-bootstrap">{$page}</div>
+</div>
+{/block}

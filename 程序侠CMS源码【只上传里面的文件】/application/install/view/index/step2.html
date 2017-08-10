@@ -1,0 +1,118 @@
+{extend name="common:base" /}
+{block name="title"}系统安装Step3{/block}
+{block name="nav"}
+<li ><span class="am-text-success cxx-install-num"><i class="am-icon-check am-text-lg"></i></span><span class="cxx-install-text">安装协议</span></li>
+<li><span class="am-text-success cxx-install-num"><i class="am-icon-info am-text-secondary am-text-lg"></i></span><span class="cxx-install-text">环境检测</span></li>
+<li><span class="cxx-install-num">3</span><span class="cxx-install-text">参数设置</span></li>
+<li><span class="cxx-install-num">4</span><span class="cxx-install-text">开始安装</span></li>
+<li><span class="cxx-install-num">5</span><span class="cxx-install-text">安装完成</span></li>
+{/block}
+{block name="content"}
+<div class="am-padding">
+    <div class="am-text-left" style="font-size: 14px">
+    	<div class="option am-text-default am-text-center">运行环境检查</div>
+        <table class="am-table">
+            <thead>
+            <tr>
+                <th style="width: 33%;">项目</th>
+                <th style="width: 31%;">所需配置</th>
+                <th style="width: 36%;">当前配置</th>
+            </tr>
+            </thead>
+            <tbody>
+            {volist name="checkEnv" id="item"}
+                <tr>
+                    <td>{$item['title']}</td>
+                    <td>{$item['limit']}</td>
+                    <td><i class="{$item['icon']}"></i> {$item['current']}</td>
+                </tr>
+            {/volist}
+            </tbody>
+        </table>
+        <div class="option am-text-default am-text-center">目录、文件权限检查</div>
+        <table class="am-table">
+            <thead>
+            <tr>
+                <th style="width: 33%;">目录/文件</th>
+                <th style="width: 31%;">所需状态</th>
+                <th style="width: 36%;">当前状态</th>
+            </tr>
+            </thead>
+            <tbody>
+            {volist name="checkDirFile" id="item"}
+                <tr>
+                    <td>{$item['name']}</td>
+                    <td>可写</td>
+                    <td><i class="{$item['icon']}"></i> {$item['title']}</td>
+                </tr>
+            {/volist}
+            </tbody>
+        </table>
+        <div class="option am-text-default am-text-center">函数及扩展依赖性</div>
+        <table class="am-table">
+            <thead>
+            <tr>
+                <th style="width: 33%;">名称</th>
+                <th style="width: 31%;">类型</th>
+                <th style="width: 36%;">检查结果</th>
+            </tr>
+            </thead>
+            <tbody>
+            {volist name="checkDB" id="item"}
+            <tr>
+                <td>{$item['name']}</td>
+                <td>
+                    {switch name="item.type"}
+                        {case value="func"}函数{/case}
+                        {case value="ext"}模块{/case}
+                        {default /}扩展
+                    {/switch}
+                    </td>
+                <td><i class="{$item['icon']}"></i> {$item['title']}</td>
+            </tr>
+            {/volist}
+            {volist name="checkOther" id="item"}
+                <tr>
+                    <td>{$item['name']}</td>
+                    <td>
+                    {switch name="item.type"}
+                        {case value="func"}函数{/case}
+                        {case value="ext"}模块{/case}
+                        {default /}扩展
+                    {/switch}
+                    </td>
+                    <td><i class="{$item['icon']}"></i> {$item['title']}</td>
+                </tr>
+            {/volist}
+            </tbody>
+        </table>
+        
+    </div>
+    <div class="am-text-center am-margin-top-lg">
+        <a  id='step2' href="javascript::vid(0)" class="am-btn am-btn-success am-radius">下一步</a>
+        <a  href="{$Request.baseFile}?s=/install/index/index.html"" class="am-btn am-btn-primary am-radius">上一步</a>
+    </div>
+</div>
+{/block}
+{block name="script"}
+<script type="text/javascript">
+$(function (){
+	$('#step2').click(
+        function(){
+			var collect_url =  "{$Request.baseFile}?s=/install/index/step3.html",
+            list = '&p='+1;
+            $.getJSON(collect_url, 'list', function(result){
+				if(result.code == 1){
+					layer.msg(result.msg, {icon: 1, time: 3000}); 
+					location.href = "{$Request.baseFile}?s=/install/index/step3.html";
+				}else{
+					layer.msg(result.msg, {icon: 0, time: 3000});			
+				}
+            
+             });
+            
+             
+ 	});   
+});   
+</script>
+{/block}

@@ -1,0 +1,214 @@
+﻿{extend name="public/base" /}
+{block name="style"}
+<style>
+th,td{font-size: 14px;}
+.table th,.table td {
+    padding-left: 20px;
+}
+.page-container{background-color: #f1efeb;}
+</style>
+{/block}
+{block name="title"}后台首页{/block}
+{block name="content"}
+<div class="page-container">
+<div class="content-box ">
+    <div class="row hide">
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <div class="dashboard-stat blue">
+            <div class="visual">
+                <i class="Hui-iconfont f-60">&#xe60d;</i>
+            </div>
+            <div class="details">
+                <div class="number">
+                    <span data-counter="counterup" data-value="1349">0</span>
+                </div>
+                <div class="desc"> 新增用户数 </div>
+            </div>
+            <a class="more" href="javascript:;">
+                查看更多
+                <i class="Hui-iconfont f-r">&#xe6d7;</i>
+            </a>
+        </div>
+        </div>
+
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <div class="dashboard-stat red">
+            <div class="visual">
+                <i class="Hui-iconfont f-60">&#xe63a;</i>
+            </div>
+            <div class="details">
+                <div class="number">
+                    <span data-counter="counterup" data-value="1349">0</span>
+                </div>
+                <div class="desc"> 新增用户数 </div>
+            </div>
+            <a class="more" href="javascript:;">
+                查看更多
+                <i class="Hui-iconfont f-r">&#xe6d7;</i>
+            </a>
+        </div>
+        </div>
+
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <div class="dashboard-stat green">
+            <div class="visual">
+                <i class="Hui-iconfont f-60">&#xe6b3;</i>
+            </div>
+            <div class="details">
+                <div class="number">
+                    <span data-counter="counterup" data-value="1349">0</span>
+                </div>
+                <div class="desc"> 待审订单 </div>
+            </div>
+            <a class="more" href="javascript:;">
+                查看更多
+                <i class="Hui-iconfont f-r">&#xe6d7;</i>
+            </a>
+        </div>
+        </div>
+
+        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+        <div class="dashboard-stat purple">
+            <div class="visual">
+                <i class="Hui-iconfont f-60">&#xe612;</i>
+            </div>
+            <div class="details">
+                <div class="number">
+                    <span data-counter="counterup" data-value="1349">0</span>
+                </div>
+                <div class="desc"> 待审核晒单 </div>
+            </div>
+            <a class="more" href="javascript:;">
+                查看更多
+                <i class="Hui-iconfont f-r">&#xe6d7;</i>
+            </a>
+        </div>
+        </div>
+
+        
+        
+    </div>
+    <div class="row">
+    <div class="col-xs-8 col-sm-6">
+        <table class="table table-border table-bordered table-bg">
+        <thead>
+        <tr>
+            <th colspan="2" scope="col"><span class="f-14">服务器信息</span></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td width="20%">程序侠版本</td>
+            <td><span id="lbServerName">{$Think.config.chengxuxia.cxxia_version}_{$Think.config.chengxuxia.cxxia_release}</span>{notempty name="lastVersion"}<span class="c-red ml-40"><i class="Hui-iconfont">&#xe641;</i> <a href="{:url('Upgrade/index')}"  target="_self">发现新版本[{$lastVersion}]</a></span>{/notempty}</td>
+        </tr>
+        <tr>
+            <td>操作系统</td>
+            <td>{$Think.const.PHP_OS}</td>
+        </tr>
+        <tr>
+            <td>运行环境</td>
+            <td>{$_SERVER['SERVER_SOFTWARE']}</td>
+        </tr>
+        <tr>
+            <td>PHP版本</td>
+            <td>{$Think.const.PHP_VERSION}</td>
+        </tr>
+        <tr>
+            <td>MYSQL版本</td>
+            <td>{:db()->query('select version() as version')[0]['version']}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    </div>
+    <div class="col-xs-8 col-sm-6">
+
+    <table class="table table-border table-bordered table-bg">
+        <thead>
+        <tr>
+            <th colspan="2" scope="col"><span class="f-14">授权信息</span></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td width="20%">网站域名</td>
+            <td><span id="lbServerName">{$_SERVER['SERVER_NAME']}</span></td>
+        </tr>
+        <tr>
+            <td>服务器IP</td>
+            <td>{:gethostbyname($_SERVER['SERVER_NAME'])}</td>
+        </tr>
+        <tr>
+            <td>是否授权</td>
+            <td>{eq name='authCheck' value='1'}<span class="c-success"><i class="Hui-iconfont">&#xe6e1;</i>程序侠正式授权</span>{else /}<span class="c-red"><i class="Hui-iconfont">&#xe6e0;</i>程序侠未授权</span> {/eq}</td>
+        </tr>
+        <tr>
+            <td>群发权限</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>提示建议</td>
+            <td>
+            淘宝API： {eq name='taobaoStatus' value='1'}<span class="c-success mr-10"><i class="Hui-iconfont">&#xe6e1;</i></span>{else /}<span class="c-red mr-10"><i class="Hui-iconfont">&#xe6e0;</i> <a href="http://bbs.chengxuxia.com/thread-1274-1-1.html"  target="_blank">查看教程</a></span> {/eq}
+            程序侠API： {eq name='chengxuxiaStatus' value='1'}<span class="c-success mr-10"><i class="Hui-iconfont">&#xe6e1;</i></span>{else /}<span class="c-red mr-10"><i class="Hui-iconfont">&#xe6e0;</i> <a href="http://bbs.chengxuxia.com/thread-1272-1-1.html"  target="_blank">查看教程</a></span> {/eq}
+            高佣金PID： {notempty name='couponId'}<span class="c-success mr-10"><i class="Hui-iconfont">&#xe6e1;</i></span>{else /}<span class="c-red mr-10"><i class="Hui-iconfont">&#xe6e0;</i> <a href="http://bbs.chengxuxia.com/thread-1275-1-1.html"  target="_blank">查看教程</a></span>{/notempty}
+            淘点金： {notempty name='taodinjin'}<span class="c-success mr-10"><span class="c-success"><i class="Hui-iconfont">&#xe6e1;</i></span>{else /}<span class="c-red "><i class="Hui-iconfont">&#xe6e0;</i> <a href="http://bbs.chengxuxia.com/thread-1275-1-1.html"  target="_blank">查看教程</a></span> {/notempty}
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    </div>
+    </div>
+    <div class="row cl">
+    <div class="col-xs-8 col-sm-6 mt-20">
+        <table class="table table-border table-bordered table-bg">
+        <thead>
+        <tr>
+            <th colspan="2" scope="col"><span class="f-14">官方动态</span></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><script type="text/javascript" src="http://bbs.chengxuxia.com/api.php?mod=js&bid=21"></script></td>
+        </tr>
+        </tbody>
+    </table>
+
+    </div>
+    <div class="col-xs-8 col-sm-6 mt-20">
+
+    <table class="table table-border table-bordered table-bg">
+        <thead>
+        <tr>
+            <th colspan="2" scope="col"><span class="f-14">团队信息</span></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>产品名称</td>
+            <td>{:config('chengxuxia.cxxia_product_name')}</td>
+        </tr>
+        <tr>
+            <td width="20%">官方网址</td>
+            <td><a class="c-primary"  href="{$Think.config.chengxuxia.cxxia_product_url}" target="_blank" >www.chengxuxia.com</a></td>
+        </tr>
+        <tr>
+            <td>官方论坛</td>
+            <td><a class="c-success"  href="{$Think.config.chengxuxia.cxxia_product_bbs}" target="_blank">bbs.chengxuxia.com</a></td>
+        </tr>
+        <tr>
+            <td>BUG反馈</td>
+            <td><a class="c-primary"  href="http://bbs.chengxuxia.com/forum-62-1.html" target="_blank">点击提交</a></td>
+        </tr>
+        <tr>
+            <td>技术支持</td>
+            <td><a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=573907419&site=程序侠后台&menu=yes"><img border="0" src="http://wpa.qq.com/pa?p=2:421199319:51" alt="点击这里给我发消息" title="点击这里给我发消息"/></a> &nbsp;<a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=1003753171&site=程序侠后台&menu=yes"><img border="0" src="http://wpa.qq.com/pa?p=2:421199319:51" alt="点击这里给我发消息" title="点击这里给我发消息"/></a> &nbsp;<a target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=3b86834c9f63a2fee46c7e57b5239eb4f25fff6d623e8a3e04ad3c469da87cf9"><img border="0" src="http://pub.idqqimg.com/wpa/images/group.png" alt="程序侠淘客VIP群" title="程序侠淘客VIP群"></td>
+        </tr>
+        
+        </tbody>
+    </table>
+</div>
+</div>
+</div>
+</div>
+{/block}

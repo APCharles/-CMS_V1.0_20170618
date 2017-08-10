@@ -1,0 +1,425 @@
+{extend name="public/base" /}
+{block name="style"}
+<style>
+    .content-box .form{border: 1px solid #e9e9e9;    padding-bottom: 20px;}
+    .content-box .tabBar{border-bottom: 1px solid #e9e9e9;}
+</style>
+{/block}
+{block name="content"}
+<div class="page-container">
+<div class="content-box">
+    <form class="form form-horizontal" id="form" method="post" action="{:\\think\\Request::instance()->baseUrl()}">
+        <input type="hidden" name="id" value="{$vo.id ?? ''}">
+        <div id="tab-system" class="HuiTab">
+            <div class="tabBar cl"><span>商品信息</span><span>优惠券信息</span><span>SEO设置</span></div>
+            <div class="tabCon">
+                <div class="row cl">
+                    <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>商品地址：</label>
+                    <div class="formControls col-xs-6 col-sm-6">
+                        <input type="text" class="input-text" placeholder="商品地址" name="goods_url" style="padding-right:128px;" value="{$vo.goods_url ?? ''}" >
+                        <a href="javascript:void();" class="btn btn-success" style="position: absolute;right: 15px;top: 0px;z-index: 999;" id="get_goods_detail"><i class="Hui-iconfont">&#xe641;</i> 获取商品信息</a>
+                        
+                    </div>
+                    <div class="col-xs-3 col-sm-3"></div>
+                </div>
+                <div class="row cl">
+                    <label class="form-label col-xs-2 col-sm-2">商品分类：</label>
+                    <div class="formControls col-xs-6 col-sm-6 " id="cate_select">
+                        <select class="cate_select select mr-10" style="width: 110px;height: 31px;" data-pid="0" data-uri="{:url('GoodsCate/ajax_getchilds', array('type'=>0))}" data-css="select mr-10" data-style="width: 110px;height: 31px;" data-selected=''></select>
+                        <input type="hidden"  id="cate_id" placeholder="商品分类" name="cid" value="{$vo.cid ?? ''}"  datatype="*" nullmsg="请选择商品分类">
+                    </div>
+                    <div class="col-xs-3 col-sm-3"></div>
+                </div>
+                <div class="row cl">
+                    <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>商品名称：</label>
+                    <div class="formControls col-xs-6 col-sm-6">
+                        <input type="text" class="input-text" placeholder="商品名称" name="title" value="{$vo.title ?? ''}"  datatype="*" nullmsg="商品名称不能为空">
+                    </div>
+                    <div class="col-xs-3 col-sm-3"></div>
+                </div>
+                <div class="row cl">
+                    <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>商品ID：</label>
+                    <div class="formControls col-xs-6 col-sm-6">
+                        <input type="text" class="input-text" placeholder="商品ID" name="goods_id" value="{$vo.goods_id ?? ''}"  datatype="*" nullmsg="商品ID不能为空">
+                    </div>
+                    <div class="col-xs-3 col-sm-3"></div>
+                </div>
+                <div class="row cl hide" id="img_url">
+                    <label class="form-label col-xs-2 col-sm-2"></label>
+                    <div class="formControls col-xs-6 col-sm-6">
+                        <img  height="150px" >
+                    </div>
+                </div>
+                <div class="row cl"> 
+                    <label class="form-label col-xs-2 col-sm-2">图片地址：</label>
+                    <div class="formControls col-xs-6 col-sm-6"> 
+                        <span class="form-group">
+                            <input class="input-text upload-url hide" type="text"   placeholder="商品图片" name="img" value="{$vo.img ?? ''}">                       
+                            <input type="file"  id="upload_img" class="input-file">
+                                </span>
+                    </div>
+                    <div class="col-xs-3 col-sm-3"><span class="label label-success radius" style="padding:4px;">图片尺寸：<span id='img-size'>300px × 300px</span></span>
+                    </div>
+                </div>
+                <div class="row cl">
+                    <label class="form-label col-xs-2 col-sm-2">推广链接：</label>
+                    <div class="formControls col-xs-6 col-sm-6">
+                        <input type="text" class="input-text" placeholder="推广链接" name="click_url" value="{$vo.click_url ?? ''}" >
+                    </div>
+                    <div class="col-xs-3 col-sm-3"></div>
+                </div>
+                <div class="row cl">
+                    <label class="form-label col-xs-2 col-sm-2">淘口令：</label>
+                    <div class="formControls col-xs-6 col-sm-6">
+                        <input type="text" class="input-text" placeholder="淘口令" name="taokouling" value="{$vo.taokouling ?? ''}" >
+                    </div>
+                    <div class="col-xs-3 col-sm-3"></div>
+                </div>
+                <div class="row cl">
+                    <label class="form-label col-xs-2 col-sm-2">商品简介：</label>
+                    <div class="formControls col-xs-6 col-sm-6">
+                        <textarea class="textarea" placeholder="说点什么...最少输入10个字符" name="intro" onKeyUp="textarealength(this, 100)">{$vo.intro ?? ''}</textarea>
+                        <p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
+                    </div>
+                    <div class="col-xs-3 col-sm-3"></div>
+                </div>
+                <div class="row cl">
+                    <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>商品原价：</label>
+                    <div class="formControls col-xs-6 col-sm-6">
+                        <input type="text" class="input-text" placeholder="商品原价" name="price" value="{$vo.price ?? ''}"  datatype="*" nullmsg="商品原价不能为空">
+                    </div>
+                    <div class="col-xs-3 col-sm-3"></div>
+                </div>
+                <div class="row cl">
+                    <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>折扣价格：</label>
+                    <div class="formControls col-xs-6 col-sm-6">
+                        <input type="text" class="input-text" placeholder="折扣价格" name="discount_price" value="{$vo.discount_price ?? ''}"  datatype="*" nullmsg="商品折扣价不能为空">
+                    </div>
+                    <div class="col-xs-3 col-sm-3"></div>
+                </div>
+                <div class="row cl">
+                    <label class="form-label col-xs-2 col-sm-2">折扣率：</label>
+                    <div class="formControls col-xs-6 col-sm-6">
+                        <input type="text" class="input-text" placeholder="折扣率" name="discount_rate" value="{$vo.discount_rate ?? ''}" >
+                    </div>
+                    <div class="col-xs-3 col-sm-3"></div>
+                </div>
+                <div class="row cl">
+                    <label class="form-label col-xs-2 col-sm-2">商品销量：</label>
+                    <div class="formControls col-xs-6 col-sm-6">
+                        <input type="text" class="input-text" placeholder="商品销量" name="volume" value="{$vo.volume ?? ''}" >
+                    </div>
+                    <div class="col-xs-3 col-sm-3"></div>
+                </div>
+                <div class="row cl">
+                    <label class="form-label col-xs-2 col-sm-2">是否包邮：</label>
+                    <div class="formControls col-xs-6 col-sm-6 skin-minimal">
+                        <div class="radio-box">
+                            <input type="radio" name="ems" id="ems-0" value="0">
+                            <label for="ems-0">否</label>
+                        </div>
+                        <div class="radio-box">
+                            <input type="radio" name="ems" id="ems-1" value="1">
+                            <label for="ems-1">是</label>
+                        </div>
+                    </div>
+                    <div class="col-xs-3 col-sm-3"></div>
+                </div>
+                <div class="row cl">
+                    <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>店铺类型：</label>
+                    <div class="formControls col-xs-6 col-sm-6">
+                        <div class="select-box">
+                            <select name="shop_type" class="select" datatype="*" nullmsg="请选择店铺类型">
+                                <option value="">所有</option>
+                                <option value="B">天猫</option>
+                                <option value="C">淘宝</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-xs-3 col-sm-3"></div>
+                </div>
+                <div class="row cl">
+                    <label class="form-label col-xs-2 col-sm-2">卖家旺旺：</label>
+                    <div class="formControls col-xs-6 col-sm-6">
+                        <input type="text" class="input-text" placeholder="卖家旺旺" name="nick" value="{$vo.nick ?? ''}" >
+                    </div>
+                    <div class="col-xs-3 col-sm-3"></div>
+                </div>
+                <div class="row cl">
+                    <label class="form-label col-xs-2 col-sm-2">卖家ID：</label>
+                    <div class="formControls col-xs-6 col-sm-6">
+                        <input type="text" class="input-text" placeholder="卖家ID" name="sellerId" value="{$vo.sellerId ?? ''}" >
+                    </div>
+                    <div class="col-xs-3 col-sm-3"></div>
+                </div>
+                <div class="row cl">
+                    <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>开始时间：</label>
+                    <div class="formControls col-xs-6 col-sm-6">
+                        <input type="text" class="laydate-icon input-text" style="height:31px"   id="start_time" placeholder="开始时间" name="start_time" value="<?php echo $showtime=date('Y-m-d H:i:s');?>"  datatype="*" nullmsg="请设置开始时间">
+                    </div>
+                    <div class="col-xs-3 col-sm-3"></div>
+                </div>
+                <div class="row cl">
+                    <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>结束时间：</label>
+                    <div class="formControls col-xs-6 col-sm-6">
+                        <input type="text" class="input-text laydate-icon" style="height:31px"  id="end_time"  placeholder="结束时间" name="end_time" value="<?php echo $now = date('Y-m-d H:i:s',strtotime('next week')); ?>"  datatype="*" nullmsg="请设置结束时间">
+                    </div>
+                    <div class="col-xs-3 col-sm-3"></div>
+                </div>
+                <div class="row cl">
+                    <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>商品状态：</label>
+                    <div class="formControls col-xs-6 col-sm-6 skin-minimal">
+                        <div class="radio-box">
+                            <input type="radio" name="status" id="status-1" value="1" datatype="*" nullmsg="请选择商品状态">
+                            <label for="status-1">启用</label>
+                        </div>
+                        <div class="radio-box">
+                            <input type="radio" name="status" id="status-0" value="0" datatype="*" nullmsg="请选择商品状态">
+                            <label for="status-0">关闭</label>
+                        </div>
+                    </div>
+                    <div class="col-xs-3 col-sm-3"></div>
+                </div> 
+                <div class="row cl">
+                    <label class="form-label col-xs-2 col-sm-2">商品排序：</label>
+                    <div class="formControls col-xs-6 col-sm-6">
+                        <input type="text" class="input-text" placeholder="商品排序" name="sort" value="{$vo.sort ?? '999'}" >
+                    </div>
+                    <div class="col-xs-3 col-sm-3"></div>
+                </div>
+                <div class="row cl hide">
+                    <label class="form-label col-xs-2 col-sm-2">商品详情：</label>
+                    <div class="formControls col-xs-9 col-sm-9">
+                        <script name="content" id="content" type="text/plain" style="width:100%;height:400px;">{$vo.content ?? ''}</script>
+                    </div>
+                </div>
+                
+                
+            </div>
+            <div class="tabCon">
+                <div class="row cl">
+                    <label class="form-label col-xs-2 col-sm-2">优惠券价格：</label>
+                    <div class="formControls col-xs-6 col-sm-6">
+                        <input type="text" class="input-text" placeholder="优惠券价格" name="coupon_price" value="{$vo.coupon_price ?? ''}" >
+                    </div>
+                    <div class="col-xs-3 col-sm-3"></div>
+                </div>
+                <div class="row cl">
+                    <label class="form-label col-xs-2 col-sm-2">优惠券地址：</label>
+                    <div class="formControls col-xs-6 col-sm-6">
+                        <input type="text" class="input-text" placeholder="优惠券地址" name="coupon_url" value="{$vo.coupon_url ?? ''}" >
+                    </div>
+                    <div class="col-xs-3 col-sm-3"></div>
+                </div>
+                <div class="row cl">
+                    <label class="form-label col-xs-2 col-sm-2">优惠券id：</label>
+                    <div class="formControls col-xs-6 col-sm-6">
+                        <input type="text" class="input-text" placeholder="优惠券id" name="coupon_url" value="{$vo.coupon_id ?? ''}" >
+                    </div>
+                    <div class="col-xs-3 col-sm-3"></div>
+                </div>
+                <div class="row cl">
+                    <label class="form-label col-xs-2 col-sm-2">券已领取数量：</label>
+                    <div class="formControls col-xs-6 col-sm-6">
+                        <input type="text" class="input-text" placeholder="券已领取数量" name="coupon_receive" value="{$vo.coupon_receive ?? ''}" >
+                    </div>
+                    <div class="col-xs-3 col-sm-3"></div>
+                </div>
+                <div class="row cl">
+                    <label class="form-label col-xs-2 col-sm-2">券剩余数量：</label>
+                    <div class="formControls col-xs-6 col-sm-6">
+                        <input type="text" class="input-text" placeholder="券剩余数量" name="coupon_surplus" value="{$vo.coupon_surplus ?? ''}" >
+                    </div>
+                    <div class="col-xs-3 col-sm-3"></div>
+                </div>
+                <div class="row cl">
+                    <label class="form-label col-xs-2 col-sm-2">优惠券总数量：</label>
+                    <div class="formControls col-xs-6 col-sm-6">
+                        <input type="text" class="input-text" placeholder="优惠券总数" name="coupon_total" value="{$vo.coupon_total ?? ''}" >
+                    </div>
+                    <div class="col-xs-3 col-sm-3"></div>
+                </div>
+                <div class="row cl">
+                    <label class="form-label col-xs-2 col-sm-2">优惠券说明：</label>
+                    <div class="formControls col-xs-6 col-sm-6">
+                        <textarea class="textarea" placeholder="" name="coupon_explain" onKeyUp="textarealength(this, 200)">{$vo.coupon_explain ?? ''}</textarea>
+                        <p class="textarea-numberbar"><em class="textarea-length">0</em>/100</p>
+                    </div>
+                    <div class="col-xs-3 col-sm-3"></div>
+                </div>
+                
+            </div>
+            <div class="tabCon">
+                <div class="row cl">
+                    <label class="form-label col-xs-2 col-sm-2">标题：</label>
+                    <div class="formControls col-xs-6 col-sm-6">
+                        <input type="text" class="input-text" placeholder="标题" name="seo_title" value="{$vo.seo_title ?? ''}" >
+                    </div>
+                    <div class="col-xs-3 col-sm-3"></div>
+                </div>
+                <div class="row cl">
+                    <label class="form-label col-xs-2 col-sm-2">关键词：</label>
+                    <div class="formControls col-xs-6 col-sm-6">
+                        <input type="text" class="input-text" placeholder="关键词" name="seo_keys" value="{$vo.seo_keys ?? ''}" >
+                    </div>
+                    <div class="col-xs-3 col-sm-3"><span class="label label-success radius" style="padding:4px;">关键词之间用英文 , 分隔</span></div>
+                </div>
+
+                <div class="row cl">
+                    <label class="form-label col-xs-2 col-sm-2">商品描述：</label>
+                    <div class="formControls col-xs-6 col-sm-6">
+                        <textarea class="textarea" placeholder="" name="seo_desc" onKeyUp="textarealength(this, 50)">{$vo.seo_desc ?? ''}</textarea>
+                        <p class="textarea-numberbar"><em class="textarea-length">0</em>/50</p>
+                    </div>
+                    <div class="col-xs-3 col-sm-3"></div>
+                </div>
+
+            </div>
+        </div>
+        <div class="row cl">
+            <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
+                <button type="submit" class="btn btn-success radius-rounded">&nbsp;<i class="Hui-iconfont"></i>&nbsp;提交&nbsp;</button>
+                <button type="button" class="btn btn-default radius-rounded ml-20" onclick="layer_close();">&nbsp;<i class="Hui-iconfont"></i> 取消&nbsp;</button>
+            </div>
+        </div>
+    </form>
+</div>
+</div>
+{/block}
+{block name="script"}
+<script type="text/javascript" src="__LIB__/Validform/5.3.2/Validform.min.js"></script>
+<script>window.UEDITOR_HOME_URL = '__LIB__/ueditor/1.4.3/'</script>
+<script type="text/javascript" charset="utf-8" src="__LIB__/ueditor/1.4.3/ueditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="__LIB__/ueditor/1.4.3/ueditor.all.min.js"> </script>
+<script type="text/javascript" charset="utf-8" src="__LIB__/ueditor/1.4.3/lang/zh-cn/zh-cn.js"></script>
+<script type="text/javascript" src="__LIB__/uploadify/jquery.uploadify.min.js?456"></script> 
+<script type="text/javascript" src="__LIB__/layer/laydate/laydate.js"></script> 
+<script type="text/javascript" src="__STATIC__/js/admin.js?456"></script>
+<script>
+    $(function () {
+        $("[name='status'][value='{$vo.status ?? '1'}']").attr("checked", true);
+        $("[name='ems'][value='{$vo.ems ?? '0'}']").attr("checked", true);
+        $("[name='shop_type']").find("[value='{$vo.shop_type ?? ''}']").attr("selected", true);
+
+        $('.skin-minimal input').iCheck({
+            checkboxClass: 'icheckbox-blue',
+            radioClass: 'iradio-blue',
+            increaseArea: '20%'
+        });
+        $.Huitab("#tab-system .tabBar span","#tab-system .tabCon","current","click","0");
+        $("#form").Validform({
+            tiptype: 2,
+            ajaxPost: true,
+            showAllError: true,
+            callback: function (ret){
+                ajax_progress(ret);
+            }
+        });
+    })
+</script>
+<script type="text/javascript"> 
+    var ue = UE.getEditor('content');
+    $('.cate_select').cate_select('请选择');
+    $('#get_goods_detail').click(function() {  
+        var link = $("input[name=goods_url]").val();
+        $.getJSON('{:url("Goods/ajaxGetItem")}',{link:link},function(data){
+                if(data.code===1)
+                {
+                    var info=data.data;                 
+                    $("select[name=shop_type]").val(info['shop_type']);
+                    $('input[name=goods_id]').val(info['num_iid']);
+                    $("input[name=img]").val(info['img']);
+                    $("input[name=title]").val(info['title']);
+                    if(info['img']){
+                        $("#img_url").removeClass('hide');
+                        $("#img_url img").attr('src',info['img']);
+                    }
+                    
+                    $("input[name=ems]").val(info['ems']);
+                    $("input[name=volume]").val(info['volume']);
+                    $("input[name=discount_rate]").val(info['discount_rate']);
+                    $("input[name=price]").val(info['price']);
+                    $("input[name=discount_price]").val(info['discount_rate']);
+                    $("input[name=nick]").val(info['nick']);
+                    $("input[name=sellerId]").val(info['sellerId']);
+                    $("#content").val(info['desc']);
+                    $("textarea[name=intro]").val(info['intro']);
+                    layer.msg('获取成功', {icon: 1, time: 1000});                                       
+            
+                }else{
+                    layer.msg(data.msg, {icon: 2, time: 3000});
+                }
+        });  
+        
+    });
+</script>
+<script>
+    $(function () {
+        var ue = UE.getEditor('editor',{
+            serverUrl:'{:\\think\\Url::build("Ueditor/index")}'
+        });
+        var converter = new showdown.Converter(),
+                text      = $("#markdown_tpl").html();
+        $("#markdown").html(converter.makeHtml(text));
+    })
+</script>
+<script type="text/javascript">
+$("#upload_img").uploadify({
+    "height"          : 30,
+    "swf"             : "__LIB__/uploadify/uploadify.swf",
+    "fileObjName"     : "image",
+    "buttonText"      : "上传图片",
+    "uploader"        : "{:url('goods/ajaxUploadImg',array('position'=>'goods'))}",
+    "width"           : 100,
+    'removeTimeout'   : 1,
+    'fileTypeExts'    : '*.jpg; *.png; *.gif;',
+    "onUploadSuccess" : uploadImg,
+    'onFallback' : function() {
+        layer.msg('未检测到兼容版本的Flash', {icon: 2, time: 3000}); 
+    }
+});
+function uploadImg(file, data){ 
+    var data = $.parseJSON(data);
+    var src = '';
+    if(data.code){
+        src = '__ROOT__/' + data.data
+        $("input[name=img]").val(data.data);
+        $("#img_url").removeClass('hide');
+        $("#img_url img").attr('src',src);
+
+    } else { 
+        layer.msg(data.msg, {icon: 2, time: 3000}); 
+    }
+}
+</script>
+<script type="text/javascript">
+    laydate.skin('molv');
+    laydate({
+        elem: '#start_time',
+        format: 'YYYY-MM-DD hh:mm:ss', // 分隔符可以任意定义，该例子表示只显示年月
+        istime:  true, //是否开启时间选择
+        isclear: true, //是否显示清空
+        istoday: true, //是否显示今天
+        issure: true, //是否显示确认
+        festival: true,//是否显示节日
+        choose: function(datas){
+            console.log(datas);
+        }
+    });
+</script>
+<script type="text/javascript">
+    laydate.skin('molv');
+    laydate({
+        elem: '#end_time',
+        format: 'YYYY-MM-DD hh:mm:ss', // 分隔符可以任意定义，该例子表示只显示年月
+        istime:  true, //是否开启时间选择
+        isclear: true, //是否显示清空
+        istoday: true, //是否显示今天
+        issure: true, //是否显示确认
+        festival: true,//是否显示节日
+        choose: function(datas){
+            console.log(datas);
+        }
+    });
+</script>
+{/block}

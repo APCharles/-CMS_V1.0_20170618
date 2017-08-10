@@ -1,0 +1,88 @@
+{include file="common/head"}
+<div class="tab-area-plh">
+        <div class="tab-area">
+            <div class="wrapper">
+                <div class="cate-area">
+                    <a class="cate-item jxtj {eq name='alias' value='index'}active{/eq}" href="{:get_config('WEB_SITE_URL')}">
+                        <span class="cate-rec">精选推荐</span>
+                    </a>
+                    {nav name='nav'}
+                    <a href="{$nav.link|nav_url}" class="cate-item {eq name='nav.alias' value='$alias'}active{/eq}">
+                        {$nav['name']}
+                    </a>
+                    {/nav}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="cate-box">
+<div class="tab-area">
+    <div class="wrapper hori-cate-area">
+        <div class="cate-l-1">
+            <div class="wrapper">
+                <a href="{:url('Live/index')}" class=""><i class="cate-icon">&#xe609;</i> 全部分类</a>
+                {volist name="cate" id="vo"}
+                <a  class="{eq name='vo.id' value='$cid'}active{/eq}" href="{:url('Live/index',['cid'=>$vo['id']])}">
+                    <i class="cate-icon">{$vo['icon']}</i> {$vo['name']}
+                </a>
+                {/volist}
+            </div>
+        </div>
+    </div>
+    <div class="wrapper">
+        <div class="order-area">
+            <ul class="sort-type">
+                <li style="padding-left: 15px;"><i class="cate-icon" style="font-size:14px">&#xe682;</i> 排序筛选</li>
+                <li data-sort="default" class="{eq name='sort' value='default'}active{/eq}">默认 <i class="cate-icon" style="font-size:14px">&#xe607;</i></li>
+                <li data-sort="volume" class="{eq name='sort' value='volume'}active{/eq}">销量 <i class="cate-icon" style="font-size:14px">&#xe607;</i></li>
+                <li data-sort="price" class="{eq name='sort' value='price'}active{/eq}">价格 <i class="cate-icon" style="font-size:14px">&#xe607;</i></li>
+                <li data-sort="quan" class="{eq name='sort' value='quan'}active{/eq}">券额 <i class="cate-icon" style="font-size:14px">&#xe607;</i></li>
+                <li data-sort="surplus" class="{eq name='sort' value='surplus'}active{/eq}">剩余 <i class="cate-icon" style="font-size:14px">&#xe607;</i></li>
+            </ul>
+            <ul class="price-filter">
+                <li data-price="5" class="{eq name='price' value='5'}active{/eq}"><span><i></i></span>5元券</li>
+                <li data-price="10" class="{eq name='price' value='10'}active{/eq}"><span><i></i></span>10元券</li>
+                <li data-price="20" class="{eq name='price' value='20'}active{/eq}"><span><i></i></span>20元券</li>
+                <li data-price="50" class="{eq name='price' value='50'}active{/eq}"><span><i></i></span>50元券</li>
+                <li data-price="80" class="{eq name='price' value='80'}active{/eq}"><span><i></i></span>80元券</li>
+            </ul>
+        </div>
+    </div>
+</div>
+</div>
+<script type="text/javascript">
+    $(function(){
+        $(document).on('scroll',function(){
+            var _top = $(document).scrollTop();
+            if(_top >= 180){
+                $('.tab-area').addClass('fixed');
+            }else{
+                $('.tab-area').removeClass('fixed');
+            }
+        });
+
+ });
+</script>
+<div class="wrapper live">
+    {include file="common:goodsList"}
+    <div class="update-count" data-last-id="{$lastId}" style="display:none;">
+        <a href="{:url('Live/index')}">有&nbsp;<span id="live-num"></span>&nbsp;张新券&nbsp;点此更新</a>
+    </div>
+</div>
+{include file="common:foot"}
+<script type="text/javascript">
+setInterval(function(){
+    var url = "{:url('live/ajaxLiveGoodsRequest')}",
+        lastId = $('.update-count').attr('data-last-id');
+    $.getJSON(url,{lastId:lastId},function(result){
+        if(result.code){
+            if($('.update-count').is(':hidden')){
+                $('.live').css('margin-top','80px');
+                $('.update-count').show();
+            }
+            $('#live-num').html(result.data);
+        }
+    });
+},60000);
+</script>

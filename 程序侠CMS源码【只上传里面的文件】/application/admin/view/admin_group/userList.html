@@ -1,0 +1,18 @@
+<div class="mb-15">
+        <table class="table table-border table-bordered table-hover table-bg">
+            <thead>
+            <tr class="text-c">
+                <th width="150">用户名</th>
+                <th width="150">姓名</th>
+            </tr>
+            </thead>
+            <tbody>
+            {volist name="list" id="vo"}
+            <tr class="text-c">
+                <td>{$vo.username}</td>
+                <td>{$group}</td>
+            </tr>
+            {/volist}
+            </tbody>
+        </table>
+</div>

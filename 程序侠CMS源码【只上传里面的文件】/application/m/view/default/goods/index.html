@@ -1,0 +1,220 @@
+﻿{extend name="common/base"/}
+{block name="style"}
+{/block}
+<body> 
+<!--头部-->{block name="header"}{/block}<!--end头部-->
+
+<!--主体内容-->
+{block name="content"}
+<div class="cxx-main" id="top">
+	<!--主体内容-->
+    <div class="cxx-top-menu">
+        <a href="javascript:void(0);" onClick="$('.scroll-wrapper').empty();history.go(-1);" class="cxx-go-back am-margin-top-sm am-margin-left-sm am-fl">
+            <i class="am-icon-chevron-left am-text-center am-vertical-align-middle" style="width:35px"></i>
+        </a>
+        <a href="{:url('Index/index')}" class="cxx-go-back am-margin-top-sm am-margin-right-sm am-fr">
+        <i class="am-icon-home am-text-center am-vertical-align-middle" style="width:35px"></i>
+        </a>
+    </div>
+	<div>
+	<ul  class="am-gallery am-avg-sm-1 am-gallery-default am-padding-0 am-no-layout">
+    	<li class="am-padding-0">
+        	<div class="am-gallery-item">
+                        <a href="{$goods.img}">
+                            <img src="{$goods.img}" data-am-pureviewed="1">                        
+                        </a>
+                    </div>
+                </li>
+	</ul>
+    <div class="cxx-background-white am-padding-xs am-padding-top-sm clear">
+    	<div class="cxx-price am-text-sm am-u-sm-6 am-text-right">券后价<span class="am-text-xl am-margin-left-xs cxx-text-pink">￥{$goods.discount_price}</span></div>
+        <div class="price ftA rt am-u-sm-6 am-text-left" style=" line-height: 1.6rem;border-left: solid .1rem #E6E4E4;">
+                                <span class="cxx-text-aaa" style="font-size: 1.2rem;"><del>￥<em style="font-style: normal;font-size: 1.3rem;">{$goods.price}</em></del></span><br>
+                                <span class="cxx-text-aaa" style="font-size: 1.2rem;"><em style="font-style: normal;font-size: 1.3rem;">{$goods.volume}</em>个人购买</span>
+       </div>
+    </div>
+    <div class="am-text-center cxx-background-white am-padding-xs am-padding-bottom-sm cxx-text-black">{$goods.title}</div>
+    <div class="cxx-background-white am-padding-horizontal-xs am-padding-vertical-sm am-text-sm" style="border-top: .1rem dashed #eeeeee;">
+                <i class="cxx-text-pink am-icon-star-o am-padding-horizontal-xs"></i><strong>推荐理由</strong>
+                <br>
+                <div class="am-margin-top-xs am-margin-left-xs cxx-text-grey">{$goods.intro}</div>
+            </div>
+      </div>
+
+		<!--图文详情-->
+		<div class="am-panel-group am-margin-vertical-sm">
+            <div class="am-panel am-padding-horizontal-xs">
+                <div class="am-panel-hd am-padding-left-0 am-padding-right-0 am-padding-vertical-xs ">
+                    <h4 class="am-panel-title am-collapsed am-text-sm" data-am-collapse="{parent: '#accordion', target: '#product-details'}" data-goodsId="{$goods.goods_id}">
+                       <i class="cxx-text-pink am-icon-picture-o am-padding-horizontal-xs"></i>商品图文详情<span class="am-text-xs cxx-text-pink">（点击展开）</span>
+                        <i class="am-fr am-icon-sm am-icon-angle-right cxx-text-grey" id="change_icon"></i>
+                    </h4>
+                </div>
+                <div id="product-details" class="am-panel-collapse am-collapse" style="height: 0px;">
+                    <div class="am-panel-bd am-padding-0" style="border-top: 0">
+                        <div class="am-tab-panel am-fade am-in am-active" id="content"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+		<!--猜你喜欢的-->
+        
+        <div class="cxx-goods-like clear">
+        	<div class="am-text-sm am-margin-vertical-xs am-padding-horizontal-xs">
+        		<span><i class="cxx-text-pink am-icon-heart-o am-padding-horizontal-xs"></i><strong>猜您喜欢</strong></span>
+                <a  href="{:url('index/cat',['id' => $goods['cid']])}" target="_self" class="coupon">
+                <span class="am-fr am-text-xs cxx-text-grey">查看更多<i class="am-fr am-icon-sm am-icon-angle-right" id="change_icon"></i></span>
+                </a>
+            </div>
+        	<section class="goods">
+        	<ul class="goods-list-box list_box clear">
+            	{volist name="likeGoods" id="vo"}
+            	<li>
+              		<a class="goods-a" href="{:url('goods/index',['id' => $vo['goods_id']])}" target="_self">
+						<img class="lazy" src="{:get_config('WEB_SITE_URL')}{:get_config('WEB_GOODS_BGIMG')}" data-original="{$vo.img}">
+              		</a>
+			  		<a href="{:url('goods/index',['id' => $vo['goods_id']])}" target="_self">
+						<h3>{$vo.title}</h3>
+			  		</a>
+					<div class="list-price">
+                    	<a href="{:url('goods/index',['id' => $vo['goods_id']])}" target="_self">
+                        	<span class="cxx-text-pink" style="font-size:14px"><i>券后 ￥</i>{$vo.discount_price}</span>
+                    	</a>
+                    	<a  href="{:url('Goods/index',['id' => $vo['goods_id']])}" target="_self" class="coupon">
+                        	<span class="am-text-xs am-padding-top-xs am-fr" style="color:#999">销量{$vo.volume}</span>
+                    	</a>
+					</div>
+					<div class="lingquan">
+						<a  href="{:url('goods/index',['id' => $vo['goods_id']])}" class="coupon"><span style="">{$vo.coupon_price}元券</span></a>
+					</div>
+				</li>
+                {/volist}
+               
+            </ul>
+            </section>
+        </div>
+<!--底部导航-->
+		<div class="cxx-footer-menu cxx-background-white clear">
+            <ul class="am-avg-sm-3">
+                <li class="am-text-center">
+                	<a href="{:url('Index/index')}" class="am-padding-vertical-sm am-block cxx-text-grey">
+                    	<i class="am-icon-home am-text-center am-vertical-align-middle"></i>
+                        <span class="am-text-xs am-text-center am-vertical-align-middle">首页</span>
+                     </a>
+                 </li>
+
+                  <li class="am-text-center">
+                                 <a class="cxx-goods-browser am-padding-vertical-sm am-block  cxx-text-white" href="{:url('Click/index')}?id={$goods.goods_id}&couponId={$goods.coupon_id}&title={$goods.title}&img={$goods.img}&couponPrice={$goods.coupon_price}&discountPrice={$goods.discount_price}">
+                                        <i class="am-icon-internet-explorer am-text-center am-vertical-align-middle"></i>
+                                        <span class="am-text-xs am-text-center am-vertical-align-middle">浏览器打开</span>
+                                    </a>                           
+                   </li>
+                   <li class="am-text-center">
+                     <a class="cxx-goods-taokouling am-padding-vertical-sm am-block  cxx-text-white" href="javascript:void(0)" data-id="{$goods.goods_id}" data-activityId="{$goods.coupon_id}" data-title="{$goods.title}" data-img="{$goods.img}" data-couponPrice="{$goods.coupon_price}" data-discountPrice="{$goods.discount_price}">
+                        <i class="am-icon-weixin am-text-center am-vertical-align-middle"></i>
+                        <span class="am-text-xs am-text-center am-vertical-align-middle">淘口令购买</span>
+                     </a>
+                   </li>
+            </ul>
+        </div>
+
+</div>
+<!--end内容-->
+  
+<!--返回顶部-->
+<div data-am-widget="gotop" class="am-gotop-fixed" style="bottom:65px;">
+    <a href="#top" title="">
+        <i class="am-gotop-icon am-icon-angle-up am-round" style="line-height:40px;"></i>
+    </a>
+</div>
+{/block}
+{block name="script"}
+<script src="__STATIC__/js/clipboard.min.js"></script>
+<script type="text/javascript">
+$(function() {
+	$("img.lazy").lazyload();
+	$('.am-panel-title').on('click', function() {
+		var goodsId = $(this).attr('data-goodsId'),
+		    url = '{:url("AjaxRequest/goodsDesc")}';
+		$.getJSON(url,{goodsId:goodsId},function(data){
+			if(data.status == 200){
+				$('#content').append(data.content);			}
+						
+		});
+	
+	});
+	
+});
+</script>  
+<script type="text/javascript">
+$(function() {
+	$('.cxx-goods-taokouling').on('click', function() {
+		var id = $(this).attr('data-id'),
+            activityId = $(this).attr('data-activityId'),
+            title = $(this).attr('data-title'),
+            img = $(this).attr('data-img'),
+            couponPrice = $(this).attr('data-couponPrice'),
+            discountPrice = $(this).attr('data-discountPrice'),
+            url = '{:url("AjaxRequest/goodsDetails")}';
+		$.getJSON(url,{id:id,couponId:activityId,title:title,img:img,couponPrice:couponPrice,discountPrice:discountPrice},function(data){
+			if(data.code){
+				var goods = data.data, str = '';
+				str += '<div class="am-modal am-modal-alert cxx-modal" tabindex="-1"><div class="am-modal-dialog cxx-background-white">';
+				str += '<div class="taologo btndh" style="background-image:url(' + goods.img + ')"></div>';
+				str += '<div class="am-modal-bd  am-padding-top"><div class="taocon"><div class="taotitle am-padding-sm"><div class="cxx-tkl-detail">';
+            	str += '<ul class="am-list am-text-left">';
+				str += '<li><b>【商品】</b>' + goods.title + '元</li>';
+                str += '<li style="color:#ff464e"><b>【券额】</b> ' + goods.coupon_price + '元</li>';
+                str += '<li style="color:#ff464e"><b>【券后价】</b> ' + goods.discount_price + '元</li>';
+                str += '</ul></div>';
+        		str += '<div class="popwcontent" id="taocontent">';
+        		str += '<textarea style="border:0;undefined" class="copybox share" id="copy_key_android_nb" data-taowords="复制框内整段文，打开【手机淘宝】即可【领取优惠券】并购买' + goods.taokouling + '">【下单链接】 一键复制，打开【手机淘宝】即可【领取优惠券】并购买' + goods.taokouling + '</textarea></div>';
+        		str += '</div></div></div>';
+  				str += '<div class="am-modal-footer"><span class="am-modal-btn cxx-text-pink cxx-goods-copy"  data-am-modal-confirm="false">一键复制</span> <span class="am-modal-btn cxx-text-pink" data-am-modal-cancel>关闭窗口</span></div></div></div>';
+				str += '<div class="am-dimmer am-active" data-am-dimmer="" style="display: block;"></div>';
+				
+				$('body').append(str);
+		
+				$('.cxx-modal').modal({target: 'cxx-modal',closeOnConfirm: false, closeViaDimmer: 0,width:300, dimmer:false});
+				
+				var $confirm = $('.cxx-modal');
+				var $confirmBtn = $confirm.find('[data-am-modal-confirm]');
+				var $cancelBtn = $confirm.find('[data-am-modal-cancel]');
+				$confirmBtn.off('click.confirm.modal.amui').on('click', function() {
+					 
+					 var clipboard = new Clipboard('.cxx-goods-copy', {
+        				target: function() {
+            				return document.querySelector('.copybox');
+        				}
+    				});
+    
+    				clipboard.on('success', function(e){
+						e.trigger.innerHTML='<div class="am-text-success"><i class="am-icon-check-circle am-margin-right-xs"></i>复制成功</div>';
+						e.clearSelection();
+						cxxia.tips({msg:'复制成功', icon:'', time:1000});
+					});
+					
+					clipboard.on('error', function(e) {
+						cxxia.tips({msg:'由于您的浏览器不兼容或当前网速较慢，复制失败，请手动复制或更', icon:'', time:5000});
+					});
+					
+	
+				});
+	
+				$cancelBtn.off('click.cancel.modal.amui').on('click', function() {
+							$confirmBtn.html('一键复制');
+							$('.cxx-modal, .am-dimmer.am-active').remove();
+							$('body').removeAttr('class').removeAttr('style');
+														
+				});
+			}else{
+                cxxia.tips({msg:data.msg, icon:'', time:1000});
+            }
+						
+		});
+	
+	})
+});
+
+</script>  
+{/block}

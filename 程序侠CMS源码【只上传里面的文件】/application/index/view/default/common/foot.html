@@ -1,0 +1,138 @@
+<div class="footer">
+    <div class="footer-top">
+        <div class="wrapper">
+            <div class="yl">
+                <p style="padding-top: 8px;" class="head">友情链接:</p>
+                <div class="yl-links">
+                    {link name='link'}
+                    <a href="{$link.url}" {eq name='link.rel' value='0'} rel="nofollow" {/eq} target="_blank">{$link.name}</a>
+                    {/link}
+                    
+                </div>
+            </div>
+
+            <div class="logo-slogan">
+                <div class="qr-code">
+                    <a title="{:get_config('WEB_SITE_NAME')}" href="{:get_config('WEB_SITE_URL')}">
+                        <img alt="{:get_config('WEB_SITE_NAME')}" src="{:get_config('WEB_SITE_URL')}{:get_config('WEB_WEIXIN_IMG')}">
+                    </a>
+                </div>
+                <div class="txt">
+                    <div class="logo">{:get_config('WEB_SITE_NAME')}</div>
+                    <p class="s1">聪明的人，都会省钱</p>
+                    <p class="s2">购物省钱神器</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="display:none">
+        <form name="filterForm" action="{:\\think\\Request::instance()->baseUrl()}" method="get">
+            <input type="text" name="page"  value ="{$page ?? '1'}">
+            <input type="text" name="sort"  value ="{$sort ?? 'new'}">
+            <input type="text" name="price" value="{$price ?? ''}">
+            <input type="text" name="wd"    value="{$Request.param.wd ?? ''}">
+        <input type="submit">
+        </form>
+    </div>
+    <div class="footer-bootom">
+        <div class="wrapper">
+            <p>{:get_config('WEB_SITE_NAME')}  {:get_config('WEB_SITE_ICP')}　　Copyright {:get_config('WEB_SITE_COPRIGHT')}  All Rights Reserved</p>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+;$(function(){
+    $('.sort-type li').each(function(){
+        $(this).bind('click', function(){
+            $('input[name=sort]').val($(this).attr('data-sort'));
+            if($('.price-filter li').hasClass('active')){
+                $('input[name=price]').val($('.price-filter').find('.active').attr('data-price'));
+            }
+            document.filterForm.submit();
+        });
+    });
+
+    $('.price-filter li').each(function(){
+        $(this).bind('click', function(){
+            $('input[name=price]').val($(this).attr('data-price'));
+            if($('.sort-type li').hasClass('active')){
+                $('input[name=sort]').val($('.sort-type').find('.active').attr('data-sort'));
+            }
+            document.filterForm.submit();
+        });
+    });
+    
+    $('#keyword').bind('input propertychange', function() {
+        var ajaxUrl = "{:url('AjaxRequest/suggest')}",
+            keyword = $(this).val();
+        $.getJSON(ajaxUrl,{keyword:keyword},function(result){
+            if (result.code == 1) {
+                if (keyword) {
+                    $('.suggest').addClass("dropdown");
+                    $(".suggest").html(result.data);
+                    $("#suggest ul li a").each(function() {
+                        $(this).on('click', function(){
+                            var  q = $(this).attr('data-keyword');
+                            $('#keyword').val(q);
+                            $('.suggest').removeClass("dropdown");
+                        });
+                                        
+                    });
+                }
+            }
+        }) 
+    });
+
+    $("body").on('click',function() {
+        $('.dropdown-menu').remove();
+    });
+
+    $('.search-btn').on('click',function(){
+        document.soForm.submit();
+    })
+  
+    $(document).on('scroll',function(){
+        var _top = $(document).scrollTop();
+            if(_top >= 400){
+            $('#backToTop').show();
+        }else{
+            $('#backToTop').hide();
+        }
+    });
+    
+    $("#backToTop").click(function(){   
+        if ($('html').scrollTop()) {  
+                $('html').animate({ scrollTop: 0 }, 1000);  
+                return false;  
+        }  
+        $('body').animate({ scrollTop: 0 }, 1000);  
+        return false;              
+    });    
+});
+</script>
+<script type="text/javascript" src="__STATIC__/js/swiper3.1.0.min.js"></script>
+<script type="text/javascript">
+$(function(){
+    var sw = new Swiper('.banner-area',{
+        autoplay: 3000,
+        loop:true,
+        pagination: '.swiper-pager'
+    });
+});
+</script>
+<div style="margin-left: 590px;" class="side-fixed-menu">
+    <div id="backToTop" class="menu-item" style="display:none">
+        <i class=" cate-icon">&#xe76d;</i>
+        <p>返回顶部</p>
+    </div>
+    <a target="_blank" href="{:url('History/index')}"><div class="menu-item" id="toHis"><i class=" cate-icon" style="font-size:22px;">&#xe62d;</i><p>浏览记录</p></div></a>
+   
+</div>
+</div>
+<div style="display:none">
+{:get_config('WEB_SITE_STATISTICS','site_config', true)}
+{:get_config('WEB_SITE_TDJ','site_config', true)}
+</div>
+
+</body>
+</html>

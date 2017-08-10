@@ -1,0 +1,35 @@
+{extend name="public/base" /}
+{block name="content"}
+{include file='login_log:form' /}
+<div class="page-container">
+    <table class="table table-border table-bordered table-hover table-bg">
+        <thead>
+        <tr class="text-c">
+            <th width="25"><input type="checkbox" value="" name=""></th>
+            <th width="">{:sort_by('用户ID','uid')}</th>
+            <th width="">{:sort_by('用户帐号','username')}</th>
+            <th width="">所属角色</th>
+            <th width="">登录IP</th>
+            <th width="">浏览器</th>
+            <th width="">操作系统</th>
+            <th width="">登录时间</th>
+        </tr>
+        </thead>
+        <tbody>
+        {volist name="list" id="vo"}
+        <tr class="text-c">
+            <td><input type="checkbox" name="id[]" value="{$vo.id}"></td>
+            <td>{$vo.uid|high_light=$Request.param.uid}</td>
+            <td>{$vo.user.username|high_light=$Request.param.username}</td>
+            <td>{$vo.user.group.title|high_light=$Request.param.group}</td>
+            <td>{$vo.login_ip}</td>
+            <td>{$vo.login_browser}</td>
+            <td>{$vo.login_os}</td>
+            <td>{$vo.login_time}</td>
+        </tr>
+        {/volist}
+        </tbody>
+    </table>
+</div>
+<div class="page-bootstrap">{$page ?? ''}</div>
+{/block}

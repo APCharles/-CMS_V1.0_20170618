@@ -1,0 +1,64 @@
+<div class="footer">
+    <div class="footer-top">
+        <div class="wrapper">
+            <div class="yl">
+                <p style="padding-top: 8px;" class="head">友情链接:</p>
+                <div class="yl-links">
+                    {link name='link'}
+                    <a href="{$link.url}" {eq name='link.rel' value='0'} rel="nofollow" {/eq} target="_blank">{$link.name}</a>
+                    {/link}
+                    
+                </div>
+            </div>
+
+            <div class="logo-slogan">
+                <div class="qr-code">
+                    <a title="{:get_config('WEB_SITE_NAME')}" href="{:get_config('WEB_SITE_URL')}">
+                        <img alt="{:get_config('WEB_SITE_NAME')}" src="{:get_config('WEB_SITE_URL')}{:get_config('WEB_WEIXIN_IMG')}">
+                    </a>
+                </div>
+                <div class="txt">
+                    <div class="logo">{:get_config('WEB_SITE_NAME')}</div>
+                    <p class="s1">聪明的人，都会省钱</p>
+                    <p class="s2">购物省钱神器</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bootom">
+        <div class="wrapper">
+            <p>{:get_config('WEB_SITE_NAME')}  {:get_config('WEB_SITE_ICP')}　　Copyright {:get_config('WEB_SITE_COPRIGHT')}  All Rights Reserved</p>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="__STATIC__/js/swiper3.1.0.min.js"></script>
+<script type="text/javascript">
+$(function(){
+    var sw = new Swiper('.banner-area',{
+        autoplay: 3000,
+        loop:true,
+        pagination: '.swiper-pager'
+    });
+
+    Cxxia.sideFixedMenu($('.home-wrapper'));
+
+});
+</script>
+
+<div style="margin-left: 590px;" class="side-fixed-menu">
+    <div style="" id="backToTop" class="menu-item">
+        <i class="back-to-top"></i>
+        <p>返回顶部</p>
+    </div>
+    <a href="###" target="_blank">
+        <div id="toHis" class="menu-item">
+            <i class="history"></i>
+            <p>浏览记录</p>
+        </div>
+    </a>
+</div> </a>
+</div>
+<div style="display:none">{:get_config('WEB_SITE_STATISTICS')}</div>
+{:get_config('WEB_SITE_TDJ')}
+</body>
+</html>

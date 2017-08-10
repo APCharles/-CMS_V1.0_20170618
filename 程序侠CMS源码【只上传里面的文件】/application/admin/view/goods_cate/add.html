@@ -1,0 +1,131 @@
+<div class="mb-15">
+    <form class="form form-horizontal" id="form" method="post" action="{:\\think\\Request::instance()->baseUrl()}">
+        <input type="hidden" name="id" value="{$vo.id ?? ''}">
+    <div id="tab-system" class="HuiTab">
+		<div class="tabBar cl"><span>基本设置</span><span>SEO设置</span></div>
+        <div class="tabCon">
+        	<div class="mt-15 cl">
+                <label class="form-label col-xs-3 col-sm-3">上级分类：</label>
+                <div class="formControls col-xs-6 col-sm-6 " id="cate_select">
+                	<select class="cate_select select mr-10" style="width: 110px;height: 31px;" data-pid="0" data-uri="{:url('GoodsCate/ajax_getchilds')}" data-css="select mr-10" data-style="width: 110px;height: 31px;" data-selected='{empty name="$vo.spid"}{$spid ?? "0"}{else /}{$vo.spid ?? "0"}{/empty}'></select>
+					<input type="hidden" name="pid" id="cate_id" />
+                </div>
+                <div class="col-xs-3 col-sm-3"></div>
+            </div>
+            
+            <div class="mt-15 cl">
+                <label class="form-label col-xs-3 col-sm-3">分类名称：</label>
+                <div class="formControls col-xs-6 col-sm-6">
+                    <input type="text" class="input-text" placeholder="分类名称" name="name" value="{$vo.name ?? ''}" >
+                </div>
+                <div class="col-xs-3 col-sm-3"></div>
+            </div>
+            <div class="mt-15 cl hide">
+                <label class="form-label col-xs-3 col-sm-3">分类图标：</label>
+                <div class="formControls col-xs-6 col-sm-6">
+                    <input type="text" class="input-text" placeholder="分类图标" name="icon" value="{$vo.icon ?? ''}" >
+                </div>
+                <div class="col-xs-3 col-sm-3"></div>
+            </div>
+            <div class="mt-15 cl">
+                <label class="form-label col-xs-3 col-sm-3">排序方式：</label>
+                <div class="formControls col-xs-6 col-sm-6">
+                    <select name="order" class="select mr-10" style="height: 31px;">
+                        <option value="volume desc">销量从高到低</option>
+                        <option value="volume asc">销量从低到高</option>
+                        <optgroup label="──────"></optgroup>
+                        <option value="coupon_price desc">价格从高到低</option>
+                        <option value="coupon_price asc">价格从低到高</option>
+                        <optgroup label="──────"></optgroup>
+                        <option value="coupon_rate  desc">折扣从高到低</option>
+                        <option value="coupon_rate  asc">折扣从低到高</option>
+                        <optgroup label="──────"></optgroup>
+                        <option value="id  desc">按添加时间排前</option>
+                        <option value="id  asc">按添加时间排后</option>
+                        <optgroup label="──────"></optgroup>
+                        <option value="coupon_start_time  desc">按活动开始时间排前</option>
+                        <option value="coupon_start_time  asc">按活动开始时间排后</option>
+                        <optgroup label="──────"></optgroup>
+                        <option value="rand()">随机排序</option>
+                    </select>
+                </div>
+                <div class="col-xs-3 col-sm-3"></div>
+            </div>
+            <div class="mt-15 cl">
+                <label class="form-label col-xs-3 col-sm-3">店铺类型：</label>
+                <div class="formControls col-xs-6 col-sm-6">
+                <select name="shop_type" class="select mr-10" style="height: 31px;">
+                    <option value="">所有</option>
+                    <option value="B">天猫</option>
+                    <option value="C">淘宝</option>
+                </select>
+                </div>
+                <div class="col-xs-3 col-sm-3"></div>
+            </div>
+            <div class="mt-15 cl">
+                <label class="form-label col-xs-3 col-sm-3">排序：</label>
+                <div class="formControls col-xs-6 col-sm-6">
+                    <input type="text" class="input-text" placeholder="排序" name="sort" value="99" >
+                </div>
+                <div class="col-xs-3 col-sm-3"></div>
+            </div>
+            <div class="mt-15 cl">
+                <label class="form-label col-xs-3 col-sm-3">状态：</label>
+                <div class="formControls col-xs-6 col-sm-6 skin-minimal">
+                    <div class="radio-box">
+                        <input type="radio" name="status" id="status-1" checked="checked" value="1">
+                        <label for="status-1">启用</label>
+                    </div>
+                    <div class="radio-box">
+                        <input type="radio" name="status" id="status-0" value="0">
+                        <label for="status-0">禁用</label>
+                    </div>
+                </div>
+                <div class="col-xs-3 col-sm-3"></div>
+            </div>
+         </div>
+         <div class="tabCon">
+            <div class="mt-15 cl">
+                <label class="form-label col-xs-3 col-sm-3">标题：</label>
+                <div class="formControls col-xs-6 col-sm-6">
+                    <input type="text" class="input-text" placeholder="分类名称" name="seo_title" value="{$vo.seo_title ?? ''}" >
+                </div>
+                <div class="col-xs-3 col-sm-3"></div>
+            </div>
+            <div class="mt-15 cl">
+                <label class="form-label col-xs-3 col-sm-3">关键词：</label>
+                <div class="formControls col-xs-6 col-sm-6">
+                    <input type="text" class="input-text" placeholder="备注" name="seo_keys" value="{$vo.seo_keys ?? ''}" >
+                </div>
+                <div class="col-xs-3 col-sm-3"><span class="label label-success radius" style="padding:4px;">关键词用 , 分隔</span></div>
+            </div>
+            <div class="mt-15 cl">
+                <label class="form-label col-xs-3 col-sm-3">描述：</label>
+                <div class="formControls col-xs-6 col-sm-6">
+                    <textarea class="textarea"  name="seo_desc" >{$vo.seo_desc ?? ''}</textarea>
+                </div>
+                <div class="col-xs-3 col-sm-3"></div>
+            </div>
+            
+         </div>
+    </div>
+    </form>
+</div>
+<script type="text/javascript" src="__LIB__/Validform/5.3.2/Validform.min.js"></script>
+<script>
+    $(function () {
+        $("[name='status'][value='{$vo.status ?? ''}']").attr("checked", true);
+
+        $('.skin-minimal input').iCheck({
+            checkboxClass: 'icheckbox-green',
+            radioClass: 'iradio-green',
+            increaseArea: '20%'
+        });
+        $.Huitab("#tab-system .tabBar span","#tab-system .tabCon","current","click","0");
+        
+    })
+</script>
+<script type="text/javascript" src="__STATIC__/js/admin.js"></script>
+<script type="text/javascript">
+$('.cate_select').cate_select();
+</script>

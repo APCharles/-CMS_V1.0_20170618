@@ -1,0 +1,42 @@
+{extend name="public/base" /}
+{block name="content"}
+<div class="cl action">
+    <span class="l">
+            <a data-toggle="tooltip" data-placement="top" data-title="新增分类" class="btn btn-primary radius-rounded mr-10" href="javascript:;" onclick="layer_open('添加分类','{:url(\"GoodsCate/add\")}')"><i class="Hui-iconfont">&#xe604;</i> 新增</a>
+            <a data-toggle="tooltip" data-placement="top" data-title="启用分类" href="javascript:;" onclick="resume_all('{:url(\"GoodsCate/resume\")}')" class="btn btn-success radius-rounded mr-10"><i class="Hui-iconfont"></i> 启用</a>
+            <a data-toggle="tooltip" data-placement="top" data-title="禁用分类" href="javascript:;" onclick="forbid_all('{:url(\"GoodsCate/forbid\")}')" class="btn btn-warning radius-rounded mr-10"><i class="Hui-iconfont"></i> 禁用</a>
+            <a data-toggle="tooltip" data-placement="top" data-title="删除分类" href="javascript:;" onclick="del_all('{:url(\"GoodsCate/delete\")}')" class="btn btn-danger radius-rounded mr-10"><i class="Hui-iconfont"></i> 删除</a>      
+        </span>
+</div>
+<div class="page-container">
+<div class="content-box">
+    <table class="table table-border table-bordered table-hover table-bg" id="cate_tree" data-url="{:url('GoodsCate/quickEdit')}">
+        <thead>
+        <tr class="text-c">
+            <th width="25"><input type="checkbox"></th>
+            <th width="80">{:sort_by('ID','id')}</th>
+            <th width="">分类名称</th>
+            <th width="">首页显示</th>
+            <th width="80">{:sort_by('排序','sort')}</th>
+            <th width="100">状态</th>
+            <th width="180">操作</th>
+        </tr>
+        </thead>
+        <tbody>
+            {$list}
+        </tbody>
+    </table>
+    <div class="page-bootstrap">{$page ?? ''}</div>
+</div>
+</div>
+{/block}
+{block name="script"}
+<script type="text/javascript" src="__LIB__/jquery/1.9.1/jquery.treetable.js?123"></script>
+<script>
+$(function(){
+    initialState:'expanded'
+    $("#cate_tree").treeTable({indent:20,treeColumn:2});
+});        
+</script> 
+{/block}
+

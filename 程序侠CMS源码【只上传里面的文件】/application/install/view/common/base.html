@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+    <title></title>
+    <meta name="keywords" content="" />
+    <meta name="description" content="}" /> 
+   	<link rel="stylesheet" href="__AUI__/css/amazeui.min.css">
+   	<link rel="stylesheet" href="__STATIC__/css/base.css">
+   	<link rel="stylesheet" href="__STATIC__/css/iF.step.css">
+    <!--[if (gte IE 9)|!(IE)]><!--> 
+	<script src="__AUI__/js/jquery.min.js"></script>
+	<!--<![endif]-->
+    {block name="css"}{/block}
+    {block name="style"}{/block}
+</head>
+<body>
+<div class="cxx-top">
+	<div style="width: 650px;padding-top:50px;margin: 0 auto; color:#fff;" class="am-text-center">
+        <a href="http://www.chengxuxia.com/" target="_blank"><img src="__STATIC__/images/logo.png" width="240"></a>
+    </div>
+	<div style="width: 650px;padding-top: 40px;padding-left: 20px;margin: 0 auto; color:#fff;"  class="am-text-center">
+    	<ul class="am-avg-sm-5 am-text-lg am-text-center">
+		{block name="nav"}{/block}
+        </ul>
+    </div>
+</div>
+<div class="cxx-content">
+    <!--内容-->
+    {block name="content"}{/block}
+</div>
+<div style="text-align:center;" class="am-margin-vertical-xl">
+    <div class="am-text-primary" style="color:#666"><a style="color:#666" href="http://www.chengxuxia.com/" target="_blank">程序侠官网</a> | <a style="color:#666" href="http://bbs.chengxuxia.com/" target="_blank">程序侠论坛</a></div>
+    <div class="am-margin-top-sm am-text-primary"><a style="color:#999" href="http://www.chengxuxia.com/" target="_blank">程序侠-专业、安全、稳定的淘宝客系统 Copyright © 2017 - 2020</a></div>
+</div>
+<script src="__AUI__/js/amazeui.min.js"></script>
+<script type="text/javascript" src="__LIB__/Layer/layer.js"></script>
+<script type="text/javascript">
+$(function (){;
+	var windowHeight =  $(window).height(),
+		contentHeight =  $('.cxx-content').height()/2,
+		topHeight = windowHeight/2;
+		
+	$(".cxx-top").height(topHeight);
+	
+	if(topHeight>210){
+		marightTop = topHeight - 210;
+		$('.cxx-content').attr('style','margin-top:-'+marightTop+'px;');
+	}
+})
+</script>
+{block name="script"}{/block}
+</body>
+</html>

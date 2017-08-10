@@ -1,0 +1,107 @@
+﻿{extend name="common/base"/}
+{block name="style"}
+{/block}
+<body> 
+    <!--头部-->
+    {block name="header"}{/block}
+    <!--end头部-->
+
+    <!--内容-->
+    {block name="content"}
+    <div class="cxx-main" id="top">
+<div class="cxx-header" data-am-sticky="{animation: 'slide-top'}" >
+<header class="am-padding-vertical-xs cxx-background-pink">
+    <div class="am-g">
+        <div class="am-u-sm-1 am-text-center" onclick="$('.scroll-wrapper').empty();history.go(-1);">
+            <i  class="am-icon-angle-left am-text-xl" style="color:#fff;line-height:30px;"></i>      
+         </div>
+
+        <div class="am-u-sm-10  am-text-center am-text-lg" style="color:#fff;line-height:30px;">20元封顶</div>
+        <div class="am-u-sm-1 am-text-center" style="padding-left: 0rem;">
+            <a href="{:url('Index/index')}" >
+            <i  class="am-icon-home am-text-xl" style="color:#fff;line-height:30px;"></i>
+            </a>       
+        </div>
+    </div>
+</header>
+<nav id="nav-wrap">
+  
+            <ul>
+                <li class="item {empty name='cid'}on{/empty}"><a href="{:url('Ershi/index')}"><span style="">全部</span></a></li>
+            	{volist name='cateList' id='vo'}
+
+                <li class="item {eq name='vo.id' value='$cid'}on{/eq}" data-id="{$vo.id}"><a href="{:url('Ershi/index',['cid'=>$vo.id])}"><span style="">{$vo.name}</span></a></li>
+				{/volist}
+                    
+                
+            </ul>
+            <div id="drop-down"  data-action="down">
+            <div class="drop-down-bg-wrap">
+                <i  class="am-icon-angle-down am-text-xl"></i>
+            </div>
+            
+        </div>
+        
+
+       
+</nav>
+<script type="text/javascript">
+$('#drop-down').click(
+	function(){
+		var action = $(this).attr('data-action');
+		if(action == 'down'){
+			$('.drop-down-bg-wrap i').attr({ class: "am-icon-angle-up am-text-xl" });
+			$('.cxx-header').css({'z-index':'1200'});
+			$('.cxx-more-cate').slideDown('fast');
+			$('.cxx-transparent-bg').show();
+			$(this).attr('data-action','up');	
+		}
+		if(action == 'up'){
+            $('.cxx-transparent-bg').hide();
+			$('.cxx-more-cate').slideUp('fast');
+			$('.cxx-header').css({'z-index':'999'});
+			$('.cxx-transparent-bg').hide();
+			$(this).attr('data-action','down');
+		}		
+	}
+);
+$('.cxx-transparent-bg').on('click',function(){
+
+	$('.cxx-transparent-bg').hide();	
+});
+
+</script>
+
+</div>
+
+<!--分类列表-->
+<div class="cxx-more-cate">
+    <ul style="width:100%">	
+    {volist name='cateList' id='vo'}
+    <li data-id='{$vo.id}'><a class="{eq name='vo.id' value='$cid'}am-btn am-btn-default am-round{/eq}" href="{:url('Index/index',['cid'=>$vo.id])}"><span style="">{$vo.name}</span></a></li>
+	{/volist}
+    </ul>
+</div>
+<div class="cxx-transparent-bg"></div>
+
+<!--主题内容-->
+
+    <!--商品列表-->
+    <section class="cxx-goods">
+        <ul class="cxx-goods-list">    
+        </ul>
+    </section>
+    <div class="cxx-loading"></div>
+</div>
+<!--end内容-->
+<!--返回顶部-->
+<div data-am-widget="gotop" class="am-gotop-fixed">
+	<div class="am-gotop-icon am-round am-margin-bottom-xs am-text-xs am-vertical-align-middle cxx-page" style="line-height:2rem">
+        <div id='p' class="cxx-this-page">0</div >
+        <div id="pageTotal" class="cxx-total-page">0</div >
+    </div>
+    <a href="#top" title="">
+        <i class="am-gotop-icon am-icon-angle-up am-round" style="line-height:4rem;font-size: 2.4rem;"></i>
+    </a>
+</div>
+{/block}

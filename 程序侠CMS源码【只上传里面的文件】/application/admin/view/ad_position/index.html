@@ -1,0 +1,58 @@
+{extend name="public/base" /}
+{block name="content"}
+{include file='ad_position:actionForm' /}
+<div class="page-container">
+    <div class="content-box"> 
+        <table class="table table-border table-bordered table-hover table-bg" data-url="{:url('AdPosition/quickEdit')}">
+            <thead>
+            <tr class="text-c">
+                <th width="25"><input type="checkbox"></th>
+                <th width="50">{:sort_by('广告位ID','id')}</th>
+                <th width="70">{:sort_by('终端类型','type')}</th>
+                <th width="200">{:sort_by('广告位名称','name')}</th>
+                <th width="70">{:sort_by('广告位宽度','width')}</th>
+                <th width="70">{:sort_by('广告位高度','height')}</th>
+                <th width="260">{:sort_by('广告位描述','description')}</th>
+                <th width="50">{:sort_by('状态','status')}</th>
+                <th width="120">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {empty name="list"}
+            <tr class="table-empty">
+                <td class="text-c empty-info" colspan="8">
+                    <i class="Hui-iconfont f-30">&#xe6b5;</i> 暂无数据<br>
+                </td>
+            </tr>
+            {else /}
+            {volist name="list" id="vo"}
+            <tr class="text-c">
+                <td><input type="checkbox" name="id[]" value="{$vo.id}"></td>
+                <td>{$vo.id}</td>
+                <td class="c-red">
+                    {switch name="vo.type"}
+                        {case value="0"}PC端{/case}
+                        {case value="1"}手机端{/case}
+                        {case value="3"}APP端{/case}
+                    {/switch}
+                </td>
+                <td><span data-type="edit" data-field="name" data-id="{$vo.id}">{$vo.name}</span></td>
+                <td><span data-type="edit" data-field="width" data-id="{$vo.id}">{$vo.width}</span></td>
+                <td><span data-type="edit" data-field="height" data-id="{$vo.id}">{$vo.height}</span></td>
+                <td><span data-type="edit" data-field="description" data-id="{$vo.id}">{$vo.description}</span></td>
+                <td>{$vo.status|show_status=$vo.id}</td>
+                <td class="f-14">
+                    <span data-toggle="tooltip" data-placement="top" data-title="编辑广告位" onclick="layer_open('编辑广告位','{:url(\'AdPosition/edit\', [\'id\' => $vo.id])}')" class="btn btn-default radius f-14"><i class="Hui-iconfont">&#xe6df;</i></span> 
+                    <span data-toggle="tooltip" data-placement="top" data-title="删除广告位" onclick="del(this,'{$vo.id}','{:url(\'AdPosition/delete\')}')" class="btn btn-default radius f-14"><i class="Hui-iconfont">&#xe609;</i></span> 
+                         
+                </td>
+            </tr>
+            {/volist}
+            {/empty}
+            </tbody>
+        </table>
+        <div class="page-bootstrap">{$page ?? ''}</div>
+    </div>
+</div>
+{/block}
+

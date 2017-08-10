@@ -1,0 +1,155 @@
+{extend name="public/base" /}
+{block name="content"}
+<div class="cl action">
+    <span class="l">
+            <a data-toggle="tooltip" data-placement="top" data-title="备份数据"  id="export" class="btn btn-success  radius-rounded mr-5"  href="javascript:;" autocomplete="off"><i class="Hui-iconfont">&#xe6b5;</i> 立即备份</a>
+            <a data-toggle="tooltip" data-placement="top" data-title="优化表" id="optimize" href="{:url('Database/optimize')}" class="btn btn-warning  radius-rounded mr-5"><i class="Hui-iconfont">&#xe6e1;</i> 优化表</a>
+            <a data-toggle="tooltip" data-placement="top" data-title="修复表" id="repair"  href="{:url('Database/repair')}" class="btn btn-secondary radius-rounded mr-5"><i class="Hui-iconfont">&#xe6f7;</i> 修复表</a>
+                 
+    </span>
+</div>
+<div class="page-container">
+<div class="content-box">
+    <!-- 应用列表 -->
+    <table class="table table-border table-bordered table-hover table-bg">
+        <form id="export-form" method="post" action="{:url('Database/export')}">
+            <thead>
+                <tr class="text-c">
+                        <th width="48"><input class="check-all" checked="chedked" type="checkbox" value=""></th>
+                        <th>表名</th>
+                        <th width="120">数据量</th>
+                        <th width="120">数据大小</th>
+                        <th width="160">创建时间</th>
+                        <th width="160">备份状态</th>
+                        <th width="120">操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                {volist name="list" id="table"}
+                    <tr class="text-c">
+                        <td class="num">
+                        <input class="ids" checked="chedked" type="checkbox" name="tables[]" value="{$table.name}">
+                        </td>
+                        <td>{$table.name}</td>
+                        <td>{$table.rows}</td>
+                        <td>{$table.data_length|format_bytes}</td>
+                        <td>{$table.create_time}</td>
+                        <td id="{$table.name}">未备份</td>
+                        <td>
+                                <span data-toggle="tooltip" data-placement="top" data-title="优化表" class="one_optimize btn btn-default radius f-16" data-url="{:url('optimize?tables='.$table['name'])}"><i class="Hui-iconfont">&#xe676;</i></span>
+                                <span data-toggle="tooltip" data-placement="top" data-title="修复表" class="one_repair btn btn-default radius f-16" data-url="{:url('repair?tables='.$table['name'])}"><i class="Hui-iconfont">&#xe62e;</i></span>
+                            </td>
+                        </tr>
+                    {/volist}
+                </tbody>
+            </table>
+        </form>
+    </div>
+    <!-- /应用列表 -->
+</div>
+{/block}
+
+{block name="script"}
+<script type="text/javascript">
+$(".one_optimize").click(function(){
+        url = $(this).attr('data-url');
+        $.getJSON(url,{},function(data){
+            if(data.code){
+                layer.msg(data.msg, {icon: 1, time: 1000}); 
+            }else{
+                layer.msg(data.msg, {icon: 2, time: 3000}); 
+            }
+        })
+
+});
+$(".one_repair").click(function(){
+        url = $(this).attr('data-url');
+        $.getJSON(url,{},function(data){
+            if(data.code){
+                layer.msg(data.msg, {icon: 1, time: 1000}); 
+            }else{
+                layer.msg(data.msg, {icon: 2, time: 3000}); 
+            }
+        })
+
+});
+</script>
+<script type="text/javascript">
+    (function($){
+        var $form = $("#export-form"), $export = $("#export"), tables="{}"
+            $optimize = $("#optimize"), $repair = $("#repair");
+
+        $optimize.add($repair).click(function(){
+            $.post(this.href, $form.serialize(), function(data){
+                if(data.code){
+                    layer.msg(data.msg, {icon: 1, time: 1000}); 
+                } else {
+                    layer.msg(data.msg, {icon: 2, time: 2000}); 
+                }
+                setTimeout(function(){
+	                $('#top-alert').find('button').click();
+	                $(that).removeClass('disabled').prop('disabled',false);
+	            },1500);
+            }, "json");
+            return false;
+        });
+
+        $export.click(function(){
+            $export.parent().children().addClass("disabled");
+            $export.html("正在发送备份请求...");
+            $.post(
+                $form.attr("action"),
+                $form.serialize(),
+                function(data){
+                    if(data.code){
+                        tables = data.data.tables;
+                        $export.html(data.msg + "开始备份，请不要关闭本页面！");
+                        backup(data.data.tab);
+                        window.onbeforeunload = function(){ return "正在备份数据库，请不要关闭！" }
+                    } else {
+                        layer.msg(data.msg, {icon: 2, time: 2000}); 
+                        $export.parent().children().removeClass("disabled");
+                        $export.html("立即备份");
+                        setTimeout(function(){
+        	                $('#top-alert').find('button').click();
+        	                $(that).removeClass('disabled').prop('disabled',false);
+        	            },1500);
+                    }
+                },
+                "json"
+            );
+            return false;
+        });
+
+        function backup(tab, code){
+            code && showmsg(tab.id, "开始备份...(0%)");
+            $.get($form.attr("action"), tab, function(data){
+                if(data.code){
+                    showmsg(tab.id, data.msg);
+
+                    if(!$.isPlainObject(data.data.tab)){
+                        $export.parent().children().removeClass("disabled");
+                        $export.html('<span class=\'f-18\'><i class=\'Hui-iconfont\'>&#xe6e1;</i></span> 备份完成，点击重新备份');
+                        window.onbeforeunload = function(){ return null }
+                        return;
+                    }
+                    backup(data.data.tab, tab.id != data.data.tab.id);
+                } else {
+                    layer.msg(data.msg, {icon: 2, time: 2000}); 
+                    $export.parent().children().removeClass("disabled");
+                    $export.html("立即备份");
+                    setTimeout(function(){
+    	                $('#top-alert').find('button').click();
+    	                $(that).removeClass('disabled').prop('disabled',false);
+    	            },1500);
+                }
+            }, "json");
+
+        }
+
+        function showmsg(id, msg){
+            $("#" + tables[id]).html(msg);
+        }
+    })(jQuery);
+</script>
+{/block}

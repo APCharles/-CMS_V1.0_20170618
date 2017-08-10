@@ -1,0 +1,30 @@
+{extend name="common:base" /}
+{block name="title"}系统安装Step4{/block}
+{block name="nav"}
+<li ><span class="am-text-success cxx-install-num"><i class="am-icon-check am-text-lg"></i></span><span class="cxx-install-text">安装协议</span></li>
+<li><span class="am-text-success cxx-install-num"><i class="am-icon-check am-text-lg"></i></span><span class="cxx-install-text">环境检测</span></li>
+<li><span class="am-text-success cxx-install-num"><i class="am-icon-check am-text-lg"></i></span><span class="cxx-install-text">参数设置</span></li>
+<li><span class="am-text-success cxx-install-num"><i class="am-icon-check am-text-lg"></i></span><span class="cxx-install-text">开始安装</span></li>
+<li><span class="am-text-success cxx-install-num"><i class="am-icon-check am-text-lg"></i></span><span class="cxx-install-text">安装完成</span></li>
+{/block}
+{block name="content"}
+<div class="am-padding">
+    <div class="am-text-success am-text-xl"><i class="am-icon-check-circle am-text-xxl"></i> 恭喜您，{:config('install_website_name')} 安装完成！</div>
+    <div>
+        <div class="am-padding-vertical-lg ">
+            <h4 align="center" class="am-text-default">{:config('install_website_name')}提示您：您的系统已经成功安装，为了系统安全，请删除Install模块！</h4>
+        </div>
+        <a type="button" href="http://{:$_SERVER['HTTP_HOST']}" class="am-btn am-btn-success am-radius am-margin-right" target="_blank">网站首页</a>
+        <a type="button" href="{:url('admin/Index/index')}" class="am-btn am-btn-primary am-radius">网站后台</a>
+    </div>
+</div>
+{/block}
+{block name="script"}
+
+<script type="text/javascript">
+$(function (){;
+	var contentHeight =  $('.cxx-content').height()/2;
+	$('.cxx-content').attr('style','margin-top:-'+contentHeight+'px;');
+})
+</script>
+{/block}

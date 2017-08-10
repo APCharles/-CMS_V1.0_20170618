@@ -1,0 +1,14 @@
+{volist name="menu" id="vo"}
+<dl>
+    <dt><i class="Hui-iconfont mr-5">{$vo.icon|htmlspecialchars_decode|default='&#xe616;'}</i> {$vo.title}<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+    <dd>
+        <ul>
+            {volist name="vo['children']" id="list"}
+            {if condition="isset($vo['children'])"}
+            <li><a _href="{:url($list['name'])}" data-title="{$list['title']}" data-icon="{$list.icon}" href="javascript:;"><i class="Hui-iconfont mr-5">{$list.icon|htmlspecialchars_decode}</i> {$list.title}</a></li>
+            {/if}
+            {/volist}  
+        </ul>
+    </dd>
+</dl>
+{/volist}

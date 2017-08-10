@@ -1,0 +1,291 @@
+﻿{extend name="common/base"/}
+{block name="style"}
+{/block}
+<body> 
+    <!--头部-->
+    {block name="header"}{/block}
+    <!--end头部-->
+
+    <!--内容-->
+    {block name="content"}
+    <div class="cxx-main" id="top">
+<div class="cxx-header" data-am-sticky="{animation: 'slide-top'}">
+<header class="am-padding-vertical-xs cxx-background-pink">
+    <div class="am-g">
+		<div class="am-u-sm-2 am-text-center">
+			<a href="/index/index.html"><img class="cxx-header-logo" src="http://img.fqapps.com/FoZnAAM8OR4oW4hSzcszT96fm9iA-50x50" style="top:0"></a>        
+         </div>
+
+        <div class="am-u-sm-8 am-padding-0">
+            <form action="/index/index/sort/8" class="am-form am-text-sm">
+                <input id="key" name="key" type="text" class="cxx-text am-radius am-padding-horizontal-xs cxx-text-white" placeholder="输入关键词搜索" value="">
+                <i class="am-icon-search am-vertical-align-middle cxx-text-sm" onClick="search();"></i>
+            </form>
+        </div>
+
+        <div class="am-u-sm-2 am-text-center">
+            <div class="am-inline-block  cxx-text-sm " data-am-modal="{target:'#qrcode-large'}">
+         		<i class="icon-yaoqing2 iconfont cxx-text-white" style="font-size:24px; line-height:1.4"></i>
+            </div>
+        </div>
+
+    </div>
+</header>
+<nav id="nav-wrap">
+  
+            <ul>
+            	{volist name='cateList' id='vo'}
+                <li class="item " data-id="{$vo.id}"><a href="/mz/catelist/wireless1002"><span style="">{$vo.name}</span></a></li>
+				{/volist}
+                    
+                
+            </ul>
+            <div id="drop-down"  data-action="down">
+            <div class="drop-down-bg-wrap">
+                <i  class="am-icon-angle-down am-text-xl"></i>
+            </div>
+            
+        </div>
+        
+
+       
+</nav>
+<script type="text/javascript">
+$('#drop-down').click(
+	function(){
+		var action = $(this).attr('data-action');
+		if(action == 'down'){
+			$('.drop-down-bg-wrap i').attr({ class: "am-icon-angle-up am-text-xl" });
+			$('.cxx-header').css({'z-index':'1200'});
+			$('.cxx-more-cate').slideDown('fast');
+			$('body').append('<div class="am-dimmer am-active" data-am-dimmer="" style="display: block;"></div>');
+			$(this).attr('data-action','up');	
+		}
+		if(action == 'up'){
+			$('.drop-down-bg-wrap i').attr({ class: "am-icon-angle-down am-text-xl" });
+			$('.cxx-more-cate').slideUp('fast');
+			$('.cxx-header').css({'z-index':'999'});
+			$('.am-dimmer.am-active').remove();
+			$(this).attr('data-action','down');
+		}
+		
+		
+	}
+);
+$('.am-dimmer.am-active').on('click',function(){
+
+	$('.am-dimmer.am-active').hide();	
+});
+</script>
+
+</div>
+
+<!--分类列表-->
+<div class="cxx-more-cate">
+    <ul style="width:100%">	
+    {volist name='cateList' id='vo'}
+    <li data-id='{$vo.id}'>{$vo.name}</li>
+	{/volist}
+    </ul>
+</div>
+<div class="cxx-transparent-bg"></div>
+
+<!--主题内容-->
+
+
+	<!--轮播广告-->
+    <div data-am-widget="slider" class="am-slider am-slider-a1" data-am-slider='{"directionNav":false}' >
+      <ul class="am-slides">
+      	  {banner name='banner' position="4"}
+          <li>
+                <img src="{:get_config('WEB_SITE_URL')}{$banner.img_path}">
+                <div class="cxx-slider-font">
+                    <span class="cxx-slider-emoji"> (╭￣3￣)╭♡   </span>
+                    <span>“大白”有望成为现实：充气机器人研究取得进展</span>
+                </div>
+                <div class="cxx-slider-shadow"></div>
+          </li>
+           {/banner}
+          
+      </ul>
+    </div>
+
+	<!--专题列表-->
+    <div class="cxx-circle-nav">
+        <ul class="cxx-circle-nav-list">
+            <li><a href="" class=""><img src="http://s2.juancdn.com/bao/160905/9/0/57cd1455151ad1f6428b45bf_80x80.png?iopcmd=convert&amp;Q=88&amp;dst=png"></a><span>新鲜事</span></li>
+            <li><a href="" class=""><img src="http://s2.juancdn.com/bao/160905/0/a/57cd1466151ad1cf368b4621_80x80.png?iopcmd=convert&amp;Q=88&amp;dst=png"></a><span>趣闻</span></li>
+            <li><a href="" class=""><img src="http://s2.juancdn.com/bao/160905/4/8/57cd14a2151ad1e1348b4633_80x80.png?iopcmd=convert&amp;Q=88&amp;dst=png"></a><span>阅读</span></li>
+            <li><a href="" class=""><img src="http://s2.juancdn.com/bao/160905/7/4/57cd14a7151ad1ab408b45ab_80x80.png?iopcmd=convert&amp;Q=88&amp;dst=png"></a><span>专题</span></li>
+        </ul>
+    </div>
+    
+    <!--商品列表-->
+    <section class="cxx-goods">
+        <ul class="cxx-goods-list">
+              
+        </ul>
+    </section>
+<div class="cxx-loading"></div>
+
+<script>
+var p = 1;
+var cid = $('#cid').val();
+var minPrice =  $('#minPrice').val();
+var maxPrice =  $('#maxPrice').val();
+function getGoodList(){
+	$(".cxx-loading").show().html('<span class="am-text-sm"><i class="am-icon-spinner am-icon-pulse am-margin-right-xs"></i>商品正在赶来的路上，请稍后</span>');
+	$.ajax({
+	    type : "post",
+	    url : "{:url('index/ajaxGetGoodsList')}",
+	    data : {
+	    	p:p,
+	    },
+        dataType : "json",		
+	    success : function(data){
+	    	if(data.status==200){
+						var listArray = data.goodsList;
+						var content = '';
+						for(var i=0; i<listArray.length; i++){
+							var mainWith = $('.cxx-main').width();
+							var goodsListWith = $('.cxx-goods-list').width();
+							var goodsLeftWith = 120;
+							var goodsRighttWith = goodsListWith - goodsLeftWith - 20;
+							var list = listArray[i];
+							if(!list.goodsUrl){
+								var goodsUrl ="{:url('Goods/index')}"+ "?id="+ list.goods_id;
+							}
+							
+							var couponPercent = Math.round(list['coupon_receive']/list['coupon_total']*100);
+							content += '<li class="am-margin-top cxx-prize" ><div class="cxx-goods-box am-padding-xs"><div class="am-inline-block">';
+							content += '<a href="' + goodsUrl + '">';
+							content += '<img src="{:get_config('WEB_SITE_URL')}{:get_config('WEB_GOODS_BGIMG')}" data-original="' + list['img'] + '" class="cxx-image lazy"></a></div>';
+    						content += '<div class="am-g am-fr" style="width:65%; height:10rem;"><div class="am-u-sm-8 am-padding-left-0 am-padding-right-sm" style="border-right: .1rem dashed #eeeeee;"><span class="line-clamp am-text-sm am-margin-bottom-xs">' + list['title']+'</span>';
+							content += '<div class="am-cf am-margin-bottom-xs" style="line-height:2.3rem"><span class="cxx-text-pink">￥<em>' + list['discount_price'] + '</em></span>';
+    						content += '<span class="am-text-xs cxx-color-gray am-margin-left-xs am-padding-top-xs" style="text-decoration:line-through">￥' + list['price'] +'</span></div>';
+    						content += '<div class="am-cf" style="line-height:1.3rem"><span class="am-text-xs cxx-text-light-grey am-fl">已抢购' + couponPercent + '%</span><span class="am-text-xs cxx-text-light-grey am-fr">剩余' + list['coupon_surplus'] + '</span></div>';
+    						content += '<div class="cxx-process-bar am-fl"><span style="width: ' + couponPercent + '%"></span></div></div>';
+    						content += '<div class="am-text-center am-u-sm-4 am-padding-0" style="line-height:1.2"><div class="am-vertical-align-middle"   style="margin-top:-9px;"><div class="am-round top-found am-inline-block am-text-center"></div><div>';
+							content += '<span class="am-text-sm">￥</span><span class="am-text-xl">' + list['coupon_price'] + '</span></div><span class="am-text-xs" style="color:rgba(0,0,0,0.5);">优惠券</span><br><a href="javascript:void(0);" data-id="'+list['goods_id'] + '" class="cxx-goods-buy am-text-sm cxx-text-pink am-radius am-block am-padding-xs am-margin-top-sm">领券购买</a><div class="am-round bottom-found am-inline-block am-text-center"></div></div></div></div></div></li>';
+							
+
+						}
+						
+                        $(".cxx-goods-list").append(content);                       
+						$(".cxx-loading").fadeOut('fast');	
+							
+	                    p++;
+						$("#p").text(data.p);
+						$("#pageTotal").text(data.pageTotal);
+						$("img.lazy").lazyload();
+		    }else if(data.status==300){
+				
+	    		$(".cxx-loading").show().html('<span class="am-text-sm"><i class="am-margin-right-xs"></i>' + data.info + '</span>');
+
+	    	}else{
+				
+				$(".cxx-loading").show().html('<span class="am-text-sm"><i class="am-margin-right-xs"></i>' + data.info + '</span>');
+				
+			}
+	    },
+	});
+	    
+
+}
+getGoodList();
+$(window).scroll(function () {
+	var scrollTop = $(this).scrollTop();
+	var scrollHeight = $(document).height();
+	var windowHeight = $(this).height();
+	if (scrollTop + windowHeight == scrollHeight) {
+	setTimeout(getGoodList(),1000);
+	}
+});
+
+$('.goToGoods').on('click',function(){
+	var id = $(this).arrt('data-id');
+	
+})
+
+</script>
+
+</div>
+<!--end内容-->
+<!--返回顶部-->
+<div data-am-widget="gotop" class="am-gotop-fixed">
+	<div class="am-gotop-icon am-round am-margin-bottom-xs am-text-xs am-vertical-align-middle cxx-page" style="line-height:20px">
+        <div id='p' class="cxx-this-page">0</div >
+        <div id="pageTotal" class="cxx-total-page">0</div >
+    </div>
+    <a href="#top" title="">
+        <i class="am-gotop-icon am-icon-angle-up am-round" style="line-height:40px;"></i>
+    </a>
+</div>
+{/block}
+{block name="script"}
+<script src="__STATIC__/js/clipboard.min.js"></script>
+<script>
+$(function() {
+	$('.cxx-goods-list').off('click').on('click','.cxx-goods-buy', function() {
+		var id = $(this).attr('data-id');
+		$.getJSON('{:url("Index/ajaxGetGoodsDetails")}',{id:id},function(data){
+			if(data.status == 200){
+				var goods = data.goods, str = '';
+				str += '<div class="am-modal am-modal-alert cxx-modal" tabindex="-1"><div class="am-modal-dialog cxx-background-white">';
+				str += '<div class="taologo btndh" style="background-image:url(' + goods.img + ')"></div>';
+				str += '<div class="am-modal-bd  am-padding-top"><div class="taocon"><div class="taotitle am-padding-sm"><div class="cxx-tkl-detail">';
+            	str += '<ul class="am-list am-text-left">';
+				str += '<li>【商品】' + goods.title + '元</li>';
+                str += '<li>【原价】 ' + goods.price + '元</li>';
+                str += '<li>【券额】 ' + goods.coupon_price + '元</li>';
+                str += '<li>【券后价】 ' + goods.discount_price + '元</li>';
+                str += '</ul></div>';
+        		str += '<div class="popwcontent" id="taocontent">';
+        		str += '<textarea style="border:0;undefined" class="copybox share" id="copy_key_android_nb" data-taowords="复制框内整段文，打开【手机淘宝】即可【领取优惠券】并购买' + goods.taokouling + '">【下单链接】 复制框内整段文，[商品]打开【手机淘宝】即可【领取优惠券】并购买' + goods.taokouling + '"</textarea></div>';
+        		str += '</div></div></div>';
+  				str += '<div class="am-modal-footer"><span class="am-modal-btn cxx-text-pink cxx-goods-copy"  data-am-modal-confirm="false">一键复制</span> <span class="am-modal-btn cxx-text-pink" data-am-modal-cancel>关闭窗口</span></div></div></div>';
+				str += '<div class="am-dimmer am-active" data-am-dimmer="" style="display: block;"></div>';
+				
+				$('body').append(str);
+		
+				$('.cxx-modal').modal({target: 'cxx-modal',closeOnConfirm: false, closeViaDimmer: 0,width:350, dimmer:false});
+				
+				var $confirm = $('.cxx-modal');
+				var $confirmBtn = $confirm.find('[data-am-modal-confirm]');
+				var $cancelBtn = $confirm.find('[data-am-modal-cancel]');
+				$confirmBtn.off('click.confirm.modal.amui').on('click', function() {
+					 
+					 var clipboard = new Clipboard('.cxx-goods-copy', {
+        				target: function() {
+            				return document.querySelector('.copybox');
+        				}
+    				});
+    
+    				clipboard.on('success', function(e){
+						e.trigger.innerHTML='<div class="am-text-success"><i class="am-icon-check-circle am-margin-right-xs"></i>复制成功</div>';
+						e.clearSelection();
+						cxxLayer.tips({msg:'复制成功', icon:'', time:1000});
+					});
+					
+					clipboard.on('error', function(e) {
+						cxxLayer.tips({msg:'由于您的浏览器不兼容或当前网速较慢，复制失败，请手动复制或更', icon:'', time:5000});
+					});
+					
+	
+				});
+	
+				$cancelBtn.off('click.cancel.modal.amui').on('click', function() {
+							$confirmBtn.html('一键复制');
+							$('.cxx-modal, .am-dimmer.am-active').remove();
+							$('body').removeAttr('class').removeAttr('style');
+														
+				});
+			}
+						
+		});
+	
+	})
+});
+
+</script>  
+{/block}

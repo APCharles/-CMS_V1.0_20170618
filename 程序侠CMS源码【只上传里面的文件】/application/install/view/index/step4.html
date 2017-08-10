@@ -1,0 +1,40 @@
+{extend name="common:base" /}
+{block name="title"}系统安装Step4{/block}
+{block name="nav"}
+<li ><span class="am-text-success cxx-install-num"><i class="am-icon-check am-text-lg"></i></span><span class="cxx-install-text">安装协议</span></li>
+<li><span class="am-text-success cxx-install-num"><i class="am-icon-check am-text-lg"></i></span><span class="cxx-install-text">环境检测</span></li>
+<li><span class="am-text-success cxx-install-num"><i class="am-icon-check am-text-lg"></i></span><span class="cxx-install-text">参数设置</span></li>
+<li><span class="am-text-success cxx-install-num"><i class="am-icon-info am-text-secondary am-text-lg"></i></span><span class="cxx-install-text">开始安装</span></li>
+<li><span class="cxx-install-num">5</span><span class="cxx-install-text">安装完成</span></li>
+{/block}
+{block name="content"}
+<style>
+    .install-database {
+        height: 500px;
+        max-height: 500px;
+        overflow-y: scroll;
+		-webkit-font-smoothing: antialiased;
+    	-moz-osx-font-smoothing: grayscale;
+    }
+</style>
+<div class="am-padding">
+    <div class="panel-body" style="font-size: 14px">
+        <div id="show-list" class="install-database">
+        </div>
+        <script type="text/javascript">
+            var list   = document.getElementById('show-list');
+            function showMsg(msg, classname){
+                var li = document.createElement('p');
+                li.innerHTML = msg;
+                classname && li.setAttribute('class', 'am-margin-vertical-sm');
+                list.appendChild(li);
+                document.scrollTop += 30;
+            }
+        </script>
+       
+    </div>
+    <div class="am-text-center am-margin-top-lg am-padding-top">
+    	  <button type="button" class="am-btn am-btn-success am-radius" disabled="disabled"><i class="am-icon-spinner am-icon-spin"></i> 正在安装，请稍后...</button>
+    </div>
+</div>
+{/block}

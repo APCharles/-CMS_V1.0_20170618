@@ -1,0 +1,128 @@
+{extend name="public/base" /}
+{block name="content"}
+<div class="cl action">
+    <span class="l">
+            <a data-toggle="tooltip" data-placement="top" data-title="检测商品"  class="btn btn-success  radius-rounded mr-10"  href="javascript:;" id="auto_collect"><i class="Hui-iconfont">&#xe604;</i> 商品检测</a>
+            <a data-toggle="tooltip" data-placement="top" data-title="删除选中"  href="javascript:;" onclick="del_all('{:url("Goods/delete")}')" class="btn btn-warning radius-rounded mr-10"><i class="Hui-iconfont"></i> 删除选中</a>
+            <a data-toggle="tooltip" data-placement="top" data-title="全部删除" href="javascript:;" onclick="del_all('{:url("GoodsCheck/clearExpire")}')" class="btn btn-danger radius-rounded mr-10"><i class="Hui-iconfont"></i> 全部删除</a>       
+        </span>
+</div>
+<div class="page-container">
+<div class="content-box">      
+    <table class="table table-border table-bordered table-hover table-bg" data-url="{:url('Goods/quickEdit')}">
+        <thead>
+        <tr class="text-c">
+            <th width="25"><input type="checkbox"></th>
+            <th width="35">{:sort_by('ID','id')}</th>
+            <th width="80">商品图片</th>
+            <th width="200">商品标题</th>
+            <th width="80">所属分类</th>
+            <th width="">{:sort_by('在售价','discount_price')}</th>
+            <th width="">{:sort_by('券后价','discount_price')}</th>
+            <th width="50">{:sort_by('券金额','discount_price')}</th>
+            <th width="">{:sort_by('商品销量','volume')}</th>
+            <th width="50">{:sort_by('排序','sort')}</th>
+            <th width="50">状态</th>
+            <th width="">{:sort_by('结束时间','end_time')}</th>
+            <th width="120">操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        {empty name="list"}
+        <tr class="table-empty">
+            <td class="text-c empty-info" colspan="20">
+                <i class="Hui-iconfont f-30">&#xe6b5;</i> 暂无数据<br>
+            </td>
+        </tr>
+        {else /}
+        {volist name="list" id="vo"}
+        <tr class="text-c">
+            <td><input type="checkbox" name="id[]" value="{$vo.id}"></td>
+            <td>{$vo.id}</td>
+            <td><a href="http://item.taobao.com/item.htm?id={$vo.goods_id}" target="_blank"><img width="50" width="50" class="J_preview picture-thumb preview" src="{$vo.img}"  data-bimg="{$vo.img}"></a></td>
+            <td><span  data-type="edit" data-field="title" data-id="{$vo.id}">{$vo.title|high_light=$Request.param.title}</span></td>
+            <td>{$cate_list[$vo.cid]}</td>
+            <td>{$vo.price|high_light=$Request.param.price}</td>
+            <td>{$vo.discount_price|high_light=$Request.param.discount_price}</td>
+            <td>{$vo.coupon_price}</td>
+            <td>{$vo.volume}</td>
+            <td style="padding: 0"><span  data-type="edit" data-field="sort" data-id="{$vo.id}">{$vo.sort}</span></td>
+            <td>{$vo.status|show_status=$vo.id}</td>
+            <td>{$vo.end_time|date="Y-m-d",###}</td>
+            <td class="f-14">
+                <span data-toggle="tooltip" data-placement="top" data-title="编辑商品" onclick="open_window('商品编辑','{:url(\'Goods/edit\',[\'id\' => $vo.id])}')" class="btn btn-default size-MINI radius size-S f-14"><i class="Hui-iconfont">&#xe6df;</i></span>
+                <span data-toggle="tooltip" data-placement="top" data-title="删除商品" onclick="del(this,'{$vo.id}','{:url(\'Goods/delete\')}')" class="btn btn-default radius size-S f-14"><i class="Hui-iconfont">&#xe6e2;</i></span>
+            </td>
+        </tr>
+        {/volist}
+        {/empty}
+        </tbody>
+    </table>
+    
+</div>
+</div>
+<div class="page-bootstrap">{$page ?? ''}</div>
+{/block}
+{block name="script"}
+<script type="text/javascript" src="__LIB__/jquery/1.9.1/jquery.form.js"></script> 
+<script>
+$(function(){
+    $(".J_preview").preview();
+});        
+</script>
+<script>
+$('#auto_collect').click(
+        function(){
+            collect_url =  "{:Url('GoodsCheck/check')}";
+            $.ajax({
+                type: "POST",
+                url: collect_url,
+                dataType: "json",
+                data: {p:1},
+                success: complete,
+                
+            });
+            
+            var p = 2;
+            function complete(result){
+                if(result.code == 1){
+                   layer.open({
+                      type: 1 ,
+                      title: result.msg,
+                      skin:'layui-layer-rim',
+                      shade: 0.4,
+                      content: result.data,
+                      yes: function(){
+                        layer.closeAll();
+                      } 
+                    });
+                    collect_page();
+                    
+                } else {
+                    layer.msg(result.msg, {icon: 2, time: 3000});   
+                    
+                }
+            }
+
+            function collect_page(){
+                
+                $.getJSON(collect_url, {p:p}, function(result){
+                if(result.code == 1){
+                    $('.layui-layer-content').html(result.data);
+                    p++;
+                    collect_page(p);
+                    
+                }else{
+                    layer.closeAll();
+                    layer.msg(result.msg, {icon: 1, time: 3000}); 
+                    
+                }
+            
+                });
+            }
+            
+             
+ });
+</script>
+{/block}
+

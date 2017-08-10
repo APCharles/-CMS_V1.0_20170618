@@ -1,0 +1,71 @@
+{extend name="public/base" /}
+{block name="content"}
+{include file='ad:actionForm' /}
+<div class="page-container">
+    <div class="content-box"> 
+        <table class="table table-border table-bordered table-hover table-bg" data-url="{:url('Ad/quickEdit')}">
+            <thead>
+            <tr class="text-c">
+                <th width="25"><input type="checkbox"></th>
+                <th width="120">终端类型</th>
+                <th width="120">广告名称</th>
+                <th width="120">广告描述</th>
+                <th width="">广告位置</th>
+                <th width="100">广告链接</th>
+                <th width="">缩略图片</th>
+                <th width="">开始时间</th>
+                <th width="">结束时间</th>
+                <th width="">状态</th>
+                <th width="35">排序</th>
+                <th width="120">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {empty name="list"}
+            <tr class="table-empty">
+                <td class="text-c empty-info" colspan="12">
+                    <i class="Hui-iconfont f-30">&#xe6b5;</i> 暂无数据<br>
+                </td>
+            </tr>
+            {else /}
+            {volist name="list" id="vo"}
+            <tr class="text-c">
+                <td><input type="checkbox" name="id[]" value="{$vo.id}"></td>
+                <td class="c-red">
+                    {switch name="position[$vo.position]['type']"}
+                        {case value="0"}PC端{/case}
+                        {case value="1"}手机端{/case}
+                        {case value="3"}APP端{/case}
+                    {/switch}
+                </td>
+                <td><span data-type="edit" data-field="name" data-id="{$vo.id}">{$vo.name}</span></td>
+                <td><span data-type="edit" data-field="description" data-id="{$vo.id}">{$vo.description}</span></td>
+                <td>{$position[$vo.position]['name']}</td>
+                <td><span data-type="edit" data-field="link" data-id="{$vo.id}">{$vo.link}</span></td>
+                <td><a href="{$vo.link}"><img src="__ROOT__{$vo.img_path}" height="30px;" class="J_preview picture-thumb preview" data-bimg="__ROOT__{$vo.img_path}"></a></td>
+                <td>{$vo.start_time|date="Y-m-d",###}</td>
+                <td>{$vo.end_time|date="Y-m-d",###}</td>
+                <td>{$vo.status|show_status=$vo.id}</td>
+                <td style="padding: 0"><span data-type="edit" data-field="sort" data-id="{$vo.id}">{$vo.sort}</span></td>
+                <td class="f-14">
+                    <span data-toggle="tooltip" data-placement="top" data-title="编辑广告" onclick="layer_open('编辑广告','{:url(\'Ad/edit\', [\'id\' => $vo.id])}')" class="btn btn-default radius f-14"><i class="Hui-iconfont">&#xe6df;</i></span> 
+                    <span data-toggle="tooltip" data-placement="top" data-title="删除广告" onclick="del(this,'{$vo.id}','{:url(\'Ad/delete\')}')" class="btn btn-default radius f-14"><i class="Hui-iconfont">&#xe609;</i></span> 
+                </td>
+            </tr>
+            {/volist}
+            {/empty}
+            </tbody>
+        </table>
+        <div class="page-bootstrap">{$page ?? ''}</div>
+    </div>
+</div>
+{/block}
+{block name="script"}
+<script>
+$(function(){
+    $('.cate_select').cate_select('请选择');
+    $(".J_preview").preview();
+});        
+</script>
+{/block}
+

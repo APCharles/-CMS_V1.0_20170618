@@ -1,0 +1,25 @@
+{include file="common/head"}
+<div class="tab-area-plh">
+        <div class="tab-area">
+            <div class="wrapper">
+                <div class="cate-area">
+                    <a class="cate-item jxtj {eq name='alias' value='index'}active{/eq}" href="{:get_config('WEB_SITE_URL')}">
+                        <span class="cate-rec">精选推荐</span>
+                    </a>
+                    {nav name='nav'}
+                    <a href="{$nav.link|nav_url}" class="cate-item {eq name='nav.alias' value='$alias'}active{/eq}">
+                        {$nav['name']}
+                    </a>
+                    {/nav}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="wrapper  collection-wrapper">
+	<div class="rel-zk-area">
+    <p class="head" style="margin-bottom:20px;"><span>最近浏览</span></p>
+    {include file="common:goodsList"}
+    </div>
+</div>
+{include file="common:foot"}

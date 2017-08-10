@@ -1,0 +1,42 @@
+{extend name="public/base" /}
+{block name="content"}
+{include file='admin_group:actionForm' /}
+<div class="page-container">
+<div class="content-box">
+    <table class="table table-border table-bordered table-hover table-bg" data-url="{:url('AdminGroup/quickEdit')}">
+        <thead>
+        <tr class="text-c">
+            <th width="25"><input type="checkbox" value="" name=""></th>
+            <th width="40">{:sort_by('ID','id')}</th>
+            <th width="200">角色名称</th>
+            <th width="60">{:sort_by('排序','sort')}</th>
+            <th width="200">备注</th>
+            <th width="60">{:sort_by('状态','status')}</th>
+            <th width="100">操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        {volist name="list" id="vo"}
+        <tr class="text-c">
+            <td><input type="checkbox" name="id[]" value="{$vo.id}"></td>
+            <td>{$vo.id}</td>
+            <td><span data-type="edit" data-field="title" data-id="{$vo.id}">{$vo.title}</span></td>
+            <td><span data-type="edit" data-field="sort" data-id="{$vo.id}">{$vo.sort}</span></td>
+            <td><span data-type="edit" data-field="remark" data-id="{$vo.id}">{$vo.remark}</span></td>
+            <td>{$vo.status|show_status=$vo.id}</td>
+            <td class="f-14">
+                
+                <span data-toggle="tooltip" data-placement="top" data-title="编辑角色" onclick="layer_open('编辑角色','{:url(\'AdminGroup/edit\', [\'id\' => $vo.id])}')" class="btn btn-default radius f-14"><i class="Hui-iconfont">&#xe6df;</i></span> 
+                <span data-toggle="tooltip" data-placement="top" data-title="用户列表" onclick="layer_open('用户列表','{:url(\'AdminGroup/userList\', [\'id\' => $vo.id])}')" class="btn btn-default radius f-14"><i class="Hui-iconfont">&#xe62b;</i></span> 
+                <span data-toggle="tooltip" data-placement="top" data-title="角色授权" onclick="layer_open('角色授权','{:url(\'AdminGroup/auth\', [\'id\' => $vo.id])}')" class="btn btn-default radius f-14"><i class="Hui-iconfont">&#xe63f;</i></span>
+                <span data-toggle="tooltip" data-placement="top" data-title="删除角色" onclick="del(this,'{$vo.id}','{:url(\'AdminGroup/delete\')}')" class="btn btn-default radius f-14"><i class="Hui-iconfont">&#xe609;</i></span> 
+                         
+            </td>
+        </tr>
+        {/volist}
+        </tbody>
+    </table>
+    <div class="page-bootstrap">{$page}</div>
+</div>
+</div>
+{/block}

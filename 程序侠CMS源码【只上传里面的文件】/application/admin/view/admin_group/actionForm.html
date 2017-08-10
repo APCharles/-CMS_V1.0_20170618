@@ -1,0 +1,21 @@
+<div class="cl action">
+    <span class="l">
+        <a data-toggle="tooltip" data-placement="top" data-title="新增角色" class="btn btn-primary radius-rounded mr-10"  href="javascript:;" onclick="layer_open('新增角色','{:url("AdminGroup/add")}')"><i class="Hui-iconfont">&#xe604;</i> 新增</a>
+        <a data-toggle="tooltip" data-placement="top" data-title="启用角色" href="javascript:;" onclick="resume_all('{:url("AdminGroup/resume")}')" class="btn btn-success radius-rounded mr-10"><i class="Hui-iconfont"></i> 启用</a>
+        <a data-toggle="tooltip" data-placement="top" data-title="禁用角色" href="javascript:;" onclick="forbid_all('{:url("AdminGroup/forbid")}')" class="btn btn-warning radius-rounded mr-10"><i class="Hui-iconfont"></i> 禁用</a>
+        <a data-toggle="tooltip" data-placement="top" data-title="删除角色" href="javascript:;" onclick="del_all('{:url("AdminGroup/delete")}')" class="btn btn-danger radius-rounded mr-10"><i class="Hui-iconfont"></i> 删除</a>     
+    </span>
+    <span class="r">
+        <form method="get" action="{:\\think\\Url::build($Request.action)}"">
+            <div class="select-box" style="width:100px">
+                <select name="key" class="select">
+                    <option value="">--请选择--</option>
+                    <option value="title" {eq name="Request.param.key" value="title"}selected="selected"{/eq}>角色</option>
+                    <option value="remark" {eq name="Request.param.key" value="remark"}selected="selected"{/eq}>备注</option>
+                </select>
+            </div>
+            <input type="text" class="input-text" style="width:250px;margin:0 -5px;" placeholder="关键词" name="value" value="{$Request.param.value}">
+            <button type="submit" class="btn btn-success"><i class="Hui-iconfont"></i> 搜索</button>
+        </form>
+    </span>
+</div>
